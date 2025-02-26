@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>63095927389-5gbekb6u8ngmnc0tl81ut1f039na620e.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.63095927389-5gbekb6u8ngmnc0tl81ut1f039na620e</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBgkj60VBQiFN4STuEASrRYulqlroUzxJs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>63095927389</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>co.plantacare.mobile</string>
+	<key>PROJECT_ID</key>
+	<string>planta-care-br</string>
+	<key>STORAGE_BUCKET</key>
+	<string>planta-care-br.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:63095927389:ios:0cd60a8e8bc68dc60b13b4</string>
+</dict>
+</plist>

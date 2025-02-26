@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "63095927389",
+    "project_id": "planta-care-br",
+    "storage_bucket": "planta-care-br.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63095927389:android:a43fec4edb8169810b13b4",
+        "android_client_info": {
+          "package_name": "co.plantacare.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63095927389-taqqd73egi0ujvo3ssg9396q82danfha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBixInE0TSkmWtHdnwmwKDkfu5WapEUh7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63095927389-taqqd73egi0ujvo3ssg9396q82danfha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
