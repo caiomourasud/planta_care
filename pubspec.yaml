@@ -34,7 +34,8 @@ flutter:
     - assets/icon/
     - assets/svg/
 
-  # fonts:
-  #   - family: Poppins
-  #     fonts:
-  #       - asset: assets/fonts/Poppins-Regular.ttf
+  fonts:
+    - family: Urbanist
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/urbanist/Urbanist-VariableFont_wght.ttf
