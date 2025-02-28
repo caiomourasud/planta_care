@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
+import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
 
 class GetStartedPage extends StatelessWidget {
@@ -93,12 +94,7 @@ class GetStartedPage extends StatelessWidget {
                       ),
                     ),
                     onSwipe: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Swipped'),
-                          backgroundColor: Color(0xFF81b434),
-                        ),
-                      );
+                      context.goNamed('/login');
                     },
                   )
                 ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
-import 'package:planta_care/pages/auth/get_started_page.dart';
+import 'package:planta_care/routes/app_router.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -24,7 +24,7 @@ class _AppWidgetState extends State<AppWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Planta Care',
       debugShowCheckedModeBanner: false,
       supportedLocales: _localization.supportedLocales,
@@ -44,7 +44,8 @@ class _AppWidgetState extends State<AppWidget> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const GetStartedPage(),
+      routerConfig: AppRouter.router,
+      // home: const GetStartedPage(),
     );
   }
 }
