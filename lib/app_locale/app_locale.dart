@@ -19,15 +19,27 @@ mixin AppLocale {
     ),
   ];
 
-  static const String title = 'title';
+  static const String keepYourPlantsAlive = 'keepYourPlantsAlive';
+  static const String keepYourPlantsAliveDescription =
+      'keepYourPlantsAliveDescription';
+  static const String getStartedWithPlanta = 'getStartedWithPlanta';
 
   static const Map<String, dynamic> en = {
-    title: 'Localization',
+    keepYourPlantsAlive: 'Keep your plants alive',
+    keepYourPlantsAliveDescription:
+        'Keep your plants alive by watering, providing sunlight, and checking for pests.',
+    getStartedWithPlanta: 'Get Started With Planta',
   };
   static const Map<String, dynamic> es = {
-    title: 'Localización',
+    keepYourPlantsAlive: 'Mantén tus plantas vivas',
+    keepYourPlantsAliveDescription:
+        'Mantén tus plantas vivas regando, dándole luz solar y revisando por insectos.',
+    getStartedWithPlanta: 'Comienza con Planta',
   };
   static const Map<String, dynamic> br = {
-    title: 'Localização',
+    keepYourPlantsAlive: 'Mantenha suas plantas vivas',
+    keepYourPlantsAliveDescription:
+        'Mantenha suas plantas vivas regando, dando luz solar e verificando por insetos.',
+    getStartedWithPlanta: 'Comece com Planta',
   };
 }
