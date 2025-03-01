@@ -13,12 +13,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
+        elevation: 0,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: Column(
-        children: [
-          Text('Home Page'),
-        ],
-      ),
+      body: const Center(child: Text('Home Page')),
     );
   }
 }

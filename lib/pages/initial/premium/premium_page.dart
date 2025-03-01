@@ -13,6 +13,9 @@ class _PremiumPageState extends State<PremiumPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Premium'),
+        elevation: 0,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: const Center(
         child: Text('Premium'),

@@ -13,6 +13,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Diagnosis Page'),
+        elevation: 0,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: const Center(
         child: Text('Diagnosis Page'),

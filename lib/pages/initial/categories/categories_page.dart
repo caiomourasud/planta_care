@@ -13,12 +13,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories Page'),
+        elevation: 0,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: Column(
-        children: [
-          Text('Categories Page'),
-        ],
-      ),
+      body: const Center(child: Text('Categories Page')),
     );
   }
 }

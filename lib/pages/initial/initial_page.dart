@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:planta_care/pages/initial/components/planta_bottom_navigtion_bar.dart';
 
-class InitialPage extends StatefulWidget {
-  const InitialPage({super.key});
+class InitialPage extends StatelessWidget {
+  const InitialPage({
+    required this.navigationShell,
+    super.key,
+  });
 
-  @override
-  State<InitialPage> createState() => _InitialPageState();
-}
+  final StatefulNavigationShell navigationShell;
 
-class _InitialPageState extends State<InitialPage> {
+  void _goBranch(int index) {
+    navigationShell.goBranch(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Initial Page'),
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          Text('Initial Page'),
+          navigationShell,
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: PlantaBottomNavigationBar(
+              onPressed: _goBranch,
+              currentIndex: navigationShell.currentIndex,
+            ),
+          ),
         ],
       ),
     );

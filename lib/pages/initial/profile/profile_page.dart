@@ -13,12 +13,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
+        elevation: 0,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: Column(
-        children: [
-          Text('Profile Page'),
-        ],
-      ),
+      body: const Center(child: Text('Profile Page')),
     );
   }
 }

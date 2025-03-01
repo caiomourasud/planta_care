@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/logo_text_planta.dart';
-import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/pages/auth/components/auth_module.dart';
 
 class SignInPage extends StatefulWidget {
@@ -13,7 +12,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool _isSigningIn = false;
+  // bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,23 +69,24 @@ class _SignInPageState extends State<SignInPage> {
                     bottom: true,
                     child: AuthModule(
                       type: AuthModuleType.signIn,
-                      isLoading: _isSigningIn,
+                      // isLoading: _isSigningIn,
                       onContinuePressed: (email, password) async {
-                        setState(() {
-                          _isSigningIn = true;
-                        });
-                        final userCredential =
-                            await Auth.signInWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                        );
-                        if (userCredential != null && context.mounted) {
-                          print(userCredential);
-                          // context.goNamed('/');
-                        }
-                        setState(() {
-                          _isSigningIn = false;
-                        });
+                        // setState(() {
+                        //   _isSigningIn = true;
+                        // });
+                        // final userCredential =
+                        //     await Auth.signInWithEmailAndPassword(
+                        //   email: email,
+                        //   password: password,
+                        // );
+                        // if (userCredential != null && context.mounted) {
+                        //   print(userCredential);
+                        //   // context.goNamed('/');
+                        // }
+                        // setState(() {
+                        //   _isSigningIn = false;
+                        // });
+                        context.go('/home');
                       },
                     ),
                   ),
