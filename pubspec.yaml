@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^2.0.17
 
   flutter_swipe_button: ^2.1.3
+  flutter_keyboard_visibility: ^6.0.0
 
   flutter_localization: ^0.3.1
 

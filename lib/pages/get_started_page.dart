@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
+import 'package:planta_care/components/logo_text_planta.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -11,29 +11,10 @@ class GetStartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-        title: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                'assets/svg/icon.svg',
-                width: 32.0,
-                height: 32.0,
-                semanticsLabel: 'Planta Care',
-              ),
-              Text(
-                'Planta',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ],
-          ),
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withAlpha(0),
+        title: const Center(child: LogoTextPlanta()),
       ),
       body: Stack(
         alignment: Alignment.center,
@@ -73,14 +54,17 @@ class GetStartedPage extends StatelessWidget {
                     AppLocale.keepYourPlantsAliveDescription.getString(context),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.outline,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(120),
                         ),
                   ),
                   const SizedBox(height: 52.0),
                   SwipeButton(
                     height: 64.0,
                     width: MediaQuery.sizeOf(context).width * 0.65,
-                    activeTrackColor: const Color(0xFF81b434),
+                    activeTrackColor: Theme.of(context).colorScheme.primary,
                     thumbPadding: const EdgeInsets.all(4.0),
                     activeThumbColor: Theme.of(context).colorScheme.surface,
                     child: Padding(

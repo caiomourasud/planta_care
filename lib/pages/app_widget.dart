@@ -41,11 +41,21 @@ class _AppWidgetState extends State<AppWidget> {
       },
       theme: ThemeData(
         fontFamily: 'Urbanist',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: const Color(0xFFEBF1F1),
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFF81b434),
+        ),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        fontFamily: 'Urbanist',
+        scaffoldBackgroundColor: const Color(0xFF2A2B2B),
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFF81b434),
+        ),
         useMaterial3: true,
       ),
       routerConfig: AppRouter.router,
-      // home: const GetStartedPage(),
     );
   }
 }
