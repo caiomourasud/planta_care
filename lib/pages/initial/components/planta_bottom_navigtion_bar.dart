@@ -56,7 +56,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(64.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withAlpha(40),
+            color: Theme.of(context).shadowColor.withAlpha(40),
             spreadRadius: 4,
             blurRadius: 10,
           ),

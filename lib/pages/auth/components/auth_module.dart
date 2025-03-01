@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:planta_care/app_locale/app_locale.dart';
 import 'package:planta_care/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/components/divider_with_text.dart';
@@ -57,8 +59,7 @@ class _AuthModuleState extends State<AuthModule> {
         ),
         const SizedBox(height: 12.0),
         Text(
-          'Keep your plants alive by watering, '
-          'providing sunlight and checking for pests.',
+          AppLocale.keepYourPlantsAliveDescription.getString(context),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
               ),
@@ -69,7 +70,7 @@ class _AuthModuleState extends State<AuthModule> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Your email address',
+                AppLocale.yourEmailAddress.getString(context),
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -86,14 +87,14 @@ class _AuthModuleState extends State<AuthModule> {
                 hintText: 'supportplanta@gmail.com',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Email is required';
+                    return AppLocale.emailIsRequired.getString(context);
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 24.0),
               Text(
-                'Choose your password',
+                AppLocale.chooseYourPassword.getString(context),
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -107,13 +108,14 @@ class _AuthModuleState extends State<AuthModule> {
                 textInputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.none,
                 obscureText: true,
-                hintText: 'Min 6 characters',
+                hintText: AppLocale.min6Characters.getString(context),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Password is required';
+                    return AppLocale.passwordIsRequired.getString(context);
                   }
                   if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
+                    return AppLocale.passwordMustBeAtLeast6Characters
+                        .getString(context);
                   }
                   return null;
                 },
@@ -124,7 +126,7 @@ class _AuthModuleState extends State<AuthModule> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Confirm your password',
+                      AppLocale.confirmYourPassword.getString(context),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -138,13 +140,16 @@ class _AuthModuleState extends State<AuthModule> {
                       textInputAction: TextInputAction.done,
                       textCapitalization: TextCapitalization.none,
                       obscureText: true,
-                      hintText: 'Confirm your password',
+                      hintText:
+                          AppLocale.confirmYourPassword.getString(context),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Password is required';
+                          return AppLocale.passwordIsRequired
+                              .getString(context);
                         }
                         if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
+                          return AppLocale.passwordMustBeAtLeast6Characters
+                              .getString(context);
                         }
                         return null;
                       },
@@ -165,7 +170,7 @@ class _AuthModuleState extends State<AuthModule> {
             );
           },
           child: Text(
-            'Continue',
+            AppLocale.continueButton.getString(context),
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onPrimary,
@@ -179,7 +184,7 @@ class _AuthModuleState extends State<AuthModule> {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Don't have an account ",
+                    text: AppLocale.dontHaveAnAccount.getString(context),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context)
                               .colorScheme
@@ -193,7 +198,7 @@ class _AuthModuleState extends State<AuthModule> {
                       child: Opacity(
                         opacity: widget.isLoading ? 0.5 : 1.0,
                         child: InteractiveText(
-                          text: 'Sign up',
+                          text: AppLocale.signUp.getString(context),
                           onTap: () => context.pushNamed('/sign-up'),
                         ),
                       ),
@@ -207,7 +212,7 @@ class _AuthModuleState extends State<AuthModule> {
         if (widget.type == AuthModuleType.signIn)
           Column(
             children: [
-              const DividerWithText(text: 'Or Sign up with'),
+              DividerWithText(text: AppLocale.orSignUpWith.getString(context)),
               const SizedBox(height: 32.0),
               IgnorePointer(
                 ignoring: widget.isLoading,
@@ -227,7 +232,7 @@ class _AuthModuleState extends State<AuthModule> {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            'Sign up with google',
+                            AppLocale.signInWithGoogle.getString(context),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -260,7 +265,7 @@ class _AuthModuleState extends State<AuthModule> {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            'Sign up with facebook',
+                            AppLocale.signInWithFacebook.getString(context),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
