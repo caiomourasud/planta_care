@@ -27,10 +27,13 @@ class PlantaLanguages {
 }
 
 mixin AppLocale {
+  // Get Started
   static const String keepYourPlantsAlive = 'keepYourPlantsAlive';
   static const String keepYourPlantsAliveDescription =
       'keepYourPlantsAliveDescription';
   static const String getStartedWithPlanta = 'getStartedWithPlanta';
+
+  // Sign In and Sign Up
   static const String yourEmailAddress = 'yourEmailAddress';
   static const String chooseYourPassword = 'chooseYourPassword';
   static const String confirmYourPassword = 'confirmYourPassword';
@@ -48,87 +51,87 @@ mixin AppLocale {
   static const String orSignUpWith = 'orSignUpWith';
 
   static const Map<String, PlantaLanguages> localizedStrings = {
-    'keepYourPlantsAlive': PlantaLanguages(
+    keepYourPlantsAlive: PlantaLanguages(
       en: 'Keep your plants alive',
       es: 'Mantén tus plantas vivas',
       br: 'Mantenha suas plantas vivas',
     ),
-    'keepYourPlantsAliveDescription': PlantaLanguages(
+    keepYourPlantsAliveDescription: PlantaLanguages(
       en: 'Keep your plants alive by watering, providing sunlight, and checking for pests.',
       es: 'Mantén tus plantas vivas regando, dándole luz solar y revisando por insectos.',
       br: 'Mantenha suas plantas vivas regando, dando luz solar e verificando por insetos.',
     ),
-    'getStartedWithPlanta': PlantaLanguages(
+    getStartedWithPlanta: PlantaLanguages(
       en: 'Get Started With Planta',
       es: 'Comienza con Planta',
       br: 'Comece com Planta',
     ),
-    'yourEmailAddress': PlantaLanguages(
+    yourEmailAddress: PlantaLanguages(
       en: 'Your email address',
       es: 'Tu dirección de correo electrónico',
       br: 'Seu endereço de e-mail',
     ),
-    'chooseYourPassword': PlantaLanguages(
+    chooseYourPassword: PlantaLanguages(
       en: 'Choose your password',
       es: 'Elige tu contraseña',
       br: 'Escolha sua senha',
     ),
-    'confirmYourPassword': PlantaLanguages(
+    confirmYourPassword: PlantaLanguages(
       en: 'Confirm your password',
       es: 'Confirma tu contraseña',
       br: 'Confirme sua senha',
     ),
-    'signIn': PlantaLanguages(
+    signIn: PlantaLanguages(
       en: 'Sign In',
       es: 'Iniciar sesión',
       br: 'Entrar',
     ),
-    'signUp': PlantaLanguages(
+    signUp: PlantaLanguages(
       en: 'Sign Up',
       es: 'Registrarse',
       br: 'Registrar',
     ),
-    'signInWithGoogle': PlantaLanguages(
+    signInWithGoogle: PlantaLanguages(
       en: 'Sign In with Google',
       es: 'Iniciar sesión con Google',
       br: 'Entrar com Google',
     ),
-    'signInWithFacebook': PlantaLanguages(
+    signInWithFacebook: PlantaLanguages(
       en: 'Sign In with Facebook',
       es: 'Iniciar sesión con Facebook',
       br: 'Entrar com Facebook',
     ),
-    'min6Characters': PlantaLanguages(
+    min6Characters: PlantaLanguages(
       en: 'Min 6 characters',
       es: 'Mínimo 6 caracteres',
       br: 'Mínimo 6 caracteres',
     ),
-    'emailIsRequired': PlantaLanguages(
+    emailIsRequired: PlantaLanguages(
       en: 'Email is required',
       es: 'El correo electrónico es requerido',
       br: 'O e-mail é obrigatório',
     ),
-    'passwordIsRequired': PlantaLanguages(
+    passwordIsRequired: PlantaLanguages(
       en: 'Password is required',
       es: 'La contraseña es requerida',
       br: 'A senha é obrigatória',
     ),
-    'passwordMustBeAtLeast6Characters': PlantaLanguages(
+    passwordMustBeAtLeast6Characters: PlantaLanguages(
       en: 'Password must be at least 6 characters',
       es: 'La contraseña debe tener al menos 6 caracteres',
       br: 'A senha deve ter pelo menos 6 caracteres',
     ),
-    'continueButton': PlantaLanguages(
+    continueButton: PlantaLanguages(
       en: 'Continue',
       es: 'Continuar',
       br: 'Continuar',
     ),
-    'dontHaveAnAccount': PlantaLanguages(
+    dontHaveAnAccount: PlantaLanguages(
       en: "Don't have an account ",
       es: "No tienes una cuenta ",
       br: "Não tem uma conta ",
     ),
-    'orSignUpWith': PlantaLanguages(
+    orSignUpWith: PlantaLanguages(
       en: 'Or Sign up with',
       es: 'O regístrate con',
       br: 'Ou registre-se com',

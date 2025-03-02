@@ -4,6 +4,7 @@ import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
 import 'package:planta_care/components/logo_text_planta.dart';
+import 'package:planta_care/components/scaffold_elevated_container.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -21,13 +22,8 @@ class GetStartedPage extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
+            child: ScaffoldElevatedContainer(
               height: MediaQuery.sizeOf(context).height * 0.45,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(32.0),
-              ),
             ),
           ),
           SafeArea(
