@@ -199,7 +199,7 @@ class _AuthModuleState extends State<AuthModule> {
                         opacity: widget.isLoading ? 0.5 : 1.0,
                         child: InteractiveText(
                           text: AppLocale.signUp.getString(context),
-                          onTap: () => context.pushNamed('/sign-up'),
+                          onTap: () => context.push('/sign-up'),
                         ),
                       ),
                     ),

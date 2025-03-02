@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/pages/initial/components/planta_bottom_navigtion_bar.dart';
 
-class InitialPage extends StatelessWidget {
+class InitialPage extends StatefulWidget {
   const InitialPage({
     required this.navigationShell,
     super.key,
@@ -10,8 +11,25 @@ class InitialPage extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  @override
+  State<InitialPage> createState() => _InitialPageState();
+}
+
+class _InitialPageState extends State<InitialPage> {
   void _goBranch(int index) {
-    navigationShell.goBranch(index);
+    widget.navigationShell.goBranch(index);
+  }
+
+  @override
+  void initState() {
+    Auth.listenAuthState().onData((user) {
+      if (user == null && mounted) {
+        context.go('/');
+      } else if (user != null && mounted) {
+        context.go('/home');
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -19,14 +37,14 @@ class InitialPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          navigationShell,
+          widget.navigationShell,
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: PlantaBottomNavigationBar(
               onPressed: _goBranch,
-              currentIndex: navigationShell.currentIndex,
+              currentIndex: widget.navigationShell.currentIndex,
             ),
           ),
         ],

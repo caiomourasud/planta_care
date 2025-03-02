@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/pages/get_started_page.dart';
+import 'package:planta_care/pages/auth/get_started_page.dart';
 import 'package:planta_care/pages/auth/sign_up_page/sign_up_page.dart';
 import 'package:planta_care/pages/auth/sign_in_page/sign_in_page.dart';
 import 'package:planta_care/pages/initial/categories/categories_page.dart';
@@ -9,6 +9,7 @@ import 'package:planta_care/pages/initial/home/home_page.dart';
 import 'package:planta_care/pages/initial/initial_page.dart';
 import 'package:planta_care/pages/initial/premium/premium_page.dart';
 import 'package:planta_care/pages/initial/profile/profile_page.dart';
+import 'package:planta_care/routes/guards/auth_guard.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -27,6 +28,38 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     routes: <RouteBase>[
+      GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state) {
+          return const GetStartedPage();
+        },
+        routes: <RouteBase>[
+          // GoRoute(
+          //   path: 'get-started',
+          //   name: '/get-started',
+          //   builder: (BuildContext context, GoRouterState state) {
+          //     return const GetStartedPage();
+          //   },
+          //   redirect: const AuthGuard().isLogged,
+          // ),
+          GoRoute(
+            name: 'login',
+            path: '/login',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SignInPage();
+            },
+            redirect: const AuthGuard().isLogged,
+          ),
+          GoRoute(
+            name: 'sign-up',
+            path: '/sign-up',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SignUpPage();
+            },
+            redirect: const AuthGuard().isLogged,
+          ),
+        ],
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return InitialPage(
@@ -38,6 +71,7 @@ class AppRouter {
             navigatorKey: _shellNavigatorHomeKey,
             routes: [
               GoRoute(
+                name: 'home',
                 path: '/home',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: HomePage(),
@@ -52,6 +86,7 @@ class AppRouter {
             navigatorKey: _shellNavigatorProfileKey,
             routes: [
               GoRoute(
+                name: 'profile',
                 path: '/profile',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: ProfilePage(),
@@ -66,6 +101,7 @@ class AppRouter {
             navigatorKey: _shellNavigatorCategoriesKey,
             routes: [
               GoRoute(
+                name: 'categories',
                 path: '/categories',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: CategoriesPage(),
@@ -80,6 +116,7 @@ class AppRouter {
             navigatorKey: _shellNavigatorDiagnosisKey,
             routes: [
               GoRoute(
+                name: 'diagnosis',
                 path: '/diagnosis',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: DiagnosisPage(),
@@ -94,6 +131,7 @@ class AppRouter {
             navigatorKey: _shellNavigatorPremiumKey,
             routes: [
               GoRoute(
+                name: 'premium',
                 path: '/premium',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: PremiumPage(),
@@ -103,28 +141,6 @@ class AppRouter {
                 ],
               ),
             ],
-          ),
-        ],
-      ),
-      GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state) {
-          return const GetStartedPage();
-        },
-        routes: <RouteBase>[
-          GoRoute(
-            path: 'login',
-            name: '/login',
-            builder: (BuildContext context, GoRouterState state) {
-              return const SignInPage();
-            },
-          ),
-          GoRoute(
-            path: 'sign-up',
-            name: '/sign-up',
-            builder: (BuildContext context, GoRouterState state) {
-              return const SignUpPage();
-            },
           ),
         ],
       ),

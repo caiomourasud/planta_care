@@ -21,7 +21,7 @@ class _PremiumPageState extends State<PremiumPage> {
             PlantaAppBarButton(
               context: context,
               onPressed: () {},
-              icon: const Icon(Icons.fit_screen_rounded),
+              icon: const Icon(Icons.share),
             ),
           ],
         ),

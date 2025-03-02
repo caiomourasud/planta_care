@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/firebase/auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,7 +47,9 @@ class _HomePageState extends State<HomePage> {
             ]),
             PlantaAppBarButton(
               context: context,
-              onPressed: () {},
+              onPressed: () {
+                Auth.signOut();
+              },
               icon: const Icon(Icons.fit_screen_rounded),
             ),
           ],

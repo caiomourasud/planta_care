@@ -66,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           password: password,
                         );
                         if (userCredential != null && context.mounted) {
-                          context.goNamed('/login');
+                          context.pop();
                         }
                         setState(() {
                           _isCreatingAccount = false;

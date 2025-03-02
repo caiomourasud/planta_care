@@ -17,8 +17,8 @@ class PlantaFilledButton extends FilledButton {
           child: isLoading
               ? const Center(
                   child: SizedBox(
-                    width: 24.0,
-                    height: 24.0,
+                    width: 20.0,
+                    height: 20.0,
                     child: CircularProgressIndicator(),
                   ),
                 )
