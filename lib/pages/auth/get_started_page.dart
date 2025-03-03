@@ -5,27 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
 import 'package:planta_care/components/logo_text_planta.dart';
 import 'package:planta_care/components/scaffold_elevated_container.dart';
-import 'package:planta_care/firebase/auth.dart';
 
-class GetStartedPage extends StatefulWidget {
+class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
-
-  @override
-  State<GetStartedPage> createState() => _GetStartedPageState();
-}
-
-class _GetStartedPageState extends State<GetStartedPage> {
-  @override
-  void initState() {
-    Auth.listenAuthState().onData((user) {
-      if (user == null && mounted) {
-        context.go('/');
-      } else if (user != null && mounted) {
-        context.go('/home');
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
