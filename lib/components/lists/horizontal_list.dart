@@ -11,6 +11,7 @@ class AdaptativeHorizontalList<T> extends StatefulWidget {
     this.selected,
     this.aspectRatio,
     this.spacing = 20.0,
+    this.numberOfRows = 1,
     super.key,
   });
 
@@ -23,6 +24,8 @@ class AdaptativeHorizontalList<T> extends StatefulWidget {
   final T? selected;
   final double? aspectRatio;
   final double spacing;
+  final int numberOfRows;
+
   @override
   State<AdaptativeHorizontalList<T>> createState() =>
       _AdaptativeHorizontalListState<T>();
@@ -165,7 +168,7 @@ class _AdaptativeHorizontalListState<T>
               alignment: AlignmentDirectional.center,
               children: [
                 SizedBox(
-                  height: height,
+                  height: height * widget.numberOfRows,
                   child: Row(
                     children: [
                       Expanded(

@@ -37,6 +37,7 @@ class MyPlantsHorizontalList extends StatelessWidget {
         AdaptativeHorizontalList<String>(
           aspectRatio: 1,
           minCardWidth: 200,
+          numberOfRows: 2,
           screenWidth: MediaQuery.of(context).size.width,
           items: const [
             'Plant 1',
