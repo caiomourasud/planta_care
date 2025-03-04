@@ -42,7 +42,7 @@ flutter:
     - assets/icon/
     - assets/svg/
     - assets/images/
-
+    - assets/images/plants/
   fonts:
     - family: Urbanist
       fonts:

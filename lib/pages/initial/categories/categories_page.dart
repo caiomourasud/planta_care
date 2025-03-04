@@ -97,7 +97,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 12.0),
                   PromotionalCard(
                     title: 'Give a gift that grows and thrives.',
                     titleStyle:
@@ -130,40 +130,154 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   ),
                   const SizedBox(height: 20.0),
                   MyPlantsHorizontalList(
+                    aspectRatioItem: 7 / 5,
                     title: 'Categories',
                     minCardWidth: 120,
                     onViewAllPressed: () {},
                     items: const [
-                      'Category 1',
-                      'Category 2',
-                      'Category 3',
-                      'Category 4',
-                      'Category 5',
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                      '5',
+                      '6',
+                      '7',
+                      '8',
+                      '9',
+                      '10',
                     ],
                     itemBuilder: (item, height) {
-                      return Card(
-                        margin: EdgeInsets.zero,
-                        elevation: 0,
-                        child: Center(child: Text(item)),
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 44.0,
+                                  ),
+                                  child: Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 0,
+                                    child: Center(child: Text(item)),
+                                  ),
+                                ),
+                                Image.asset(
+                                  'assets/images/plants/$item.png',
+                                  height: 100,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            'Category $item',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
                       );
                     },
                   ),
                   const SizedBox(height: 20.0),
                   MyPlantsHorizontalList(
                     title: 'Popular Plants',
+                    aspectRatioItem: 7 / 5.7,
                     onViewAllPressed: () {},
                     items: const [
-                      'Plant 1',
-                      'Plant 2',
-                      'Plant 3',
-                      'Plant 4',
-                      'Plant 5',
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                      '5',
                     ],
                     itemBuilder: (item, height) {
                       return Card(
                         margin: EdgeInsets.zero,
                         elevation: 0,
-                        child: Center(child: Text(item)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      'assets/images/plants/$item.png',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                height: 52.0,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            'Plant $item',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                          Text(
+                                            'Indoor',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withAlpha(120),
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 40.0,
+                                      height: 40.0,
+                                      child: IconButton(
+                                        style: IconButton.styleFrom(
+                                          side: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                          shape: const CircleBorder(),
+                                        ),
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.arrow_forward,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          size: 18.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   ),

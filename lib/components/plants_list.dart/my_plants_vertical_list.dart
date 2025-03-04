@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-class MyPlantsVerticalList extends StatelessWidget {
+class MyPlantsVerticalList<T> extends StatelessWidget {
   const MyPlantsVerticalList({
     required this.title,
     required this.onViewAllPressed,
+    required this.items,
+    required this.itemBuilder,
     super.key,
   });
 
   final String title;
   final VoidCallback onViewAllPressed;
+  final List<T> items;
+  final Widget Function(T item) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +55,8 @@ class MyPlantsVerticalList extends StatelessWidget {
             spacing: 20.0,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: List.generate(
-              6,
-              (index) => Card(
-                margin: EdgeInsets.zero,
-                elevation: 0,
-                child: SizedBox(
-                  height: 100.0,
-                  child: Center(
-                    child: Text(
-                      'Plant ${index + 1}',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                ),
-              ),
+              items.length,
+              (index) => itemBuilder(items[index]),
             ),
           ),
         ),
