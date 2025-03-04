@@ -19,7 +19,7 @@ class _RootScreenState extends State<RootScreen> {
   void initState() {
     Auth.listenAuthState().onData((user) {
       if (user == null && mounted) {
-        context.go('/get-started');
+        context.go('/login');
       } else if (user != null && mounted) {
         context.go('/home');
       }

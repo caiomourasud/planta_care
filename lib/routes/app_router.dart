@@ -34,15 +34,7 @@ class AppRouter {
         routes: [
           GoRoute(
             path: '/',
-            redirect: (_, __) => '/get-started',
-          ),
-          GoRoute(
-            name: 'get-started',
-            path: '/get-started',
-            builder: (BuildContext context, GoRouterState state) {
-              return const GetStartedPage();
-            },
-            redirect: const AuthGuard().isLogged,
+            redirect: (_, __) => '/login',
           ),
           GoRoute(
             name: 'login',
@@ -76,8 +68,15 @@ class AppRouter {
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: HomePage(),
                     ),
-                    routes: const [
-                      // TODO: Add routes for home page
+                    routes: [
+                      GoRoute(
+                        name: 'get-started',
+                        path: '/get-started',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const GetStartedPage();
+                        },
+                        redirect: const AuthGuard().isLogged,
+                      ),
                     ],
                   ),
                 ],

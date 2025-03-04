@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:planta_care/components/planta_snack_bar.dart';
 
 class Auth {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -13,14 +14,31 @@ class Auth {
   static Future<UserCredential?> signInWithEmailAndPassword({
     required String email,
     required String password,
+    BuildContext? context,
   }) async {
     try {
       return await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
+      if (context != null) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.message ?? 'An unknown error occurred',
+          type: PlantaSnackBarType.error,
+        );
+      }
+      return null;
+    } catch (e) {
+      if (context != null) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.toString(),
+          type: PlantaSnackBarType.error,
+        );
+      }
       return null;
     }
   }
@@ -28,27 +46,71 @@ class Auth {
   static Future<UserCredential?> createUserWithEmailAndPassword({
     required String email,
     required String password,
+    BuildContext? context,
   }) async {
     try {
-      return await _firebaseAuth.createUserWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: 'User created successfully',
+          type: PlantaSnackBarType.success,
+        );
+      }
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.toString(),
+          type: PlantaSnackBarType.error,
+        );
+      }
+      return null;
     } catch (e) {
       debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.toString(),
+          type: PlantaSnackBarType.error,
+        );
+      }
       return null;
     }
   }
 
   static Future<void> sendPasswordResetEmail({
     required String email,
+    BuildContext? context,
   }) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(
         email: email,
       );
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.message ?? 'An unknown error occurred',
+          type: PlantaSnackBarType.error,
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.toString(),
+          type: PlantaSnackBarType.error,
+        );
+      }
     }
   }
 
@@ -73,17 +135,36 @@ class Auth {
   //   }
   // }
 
-  static Future<void> signOut() async {
+  static Future<void> signOut({
+    BuildContext? context,
+  }) async {
     try {
       await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.message ?? 'An unknown error occurred',
+          type: PlantaSnackBarType.error,
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.toString(),
+          type: PlantaSnackBarType.error,
+        );
+      }
     }
   }
 
   static Future<UserCredential?> changePassword(
     String oldPassword,
     String newPassword,
+    BuildContext? context,
   ) async {
     try {
       final credential = EmailAuthProvider.credential(
@@ -91,10 +172,20 @@ class Auth {
         password: oldPassword,
       );
       return currentUser?.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
+      if (context != null && context.mounted) {
+        PlantaSnackBar.showSnackBar(
+          context: context,
+          message: e.message ?? 'An unknown error occurred',
+          type: PlantaSnackBarType.error,
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
       return null;
     }
+    return null;
   }
 
   static StreamSubscription<User?> listenAuthState() {

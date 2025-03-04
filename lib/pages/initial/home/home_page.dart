@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/components/lists/horizontal_list.dart';
 import 'package:planta_care/firebase/auth.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             PlantaAppBarButton(
               context: context,
               onPressed: () {
-                Auth.signOut();
+                Auth.signOut(context: context);
               },
               icon: const Icon(Icons.fit_screen_rounded),
             ),
@@ -58,7 +59,57 @@ class _HomePageState extends State<HomePage> {
         scrolledUnderElevation: 0.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: const Center(child: Text('Home Page')),
+      body: Scrollbar(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AdaptativeHorizontalList(
+                aspectRatio: 1,
+                // height: 200,
+                showNextCardPiece: true,
+                screenWidth: MediaQuery.of(context).size.width,
+                minCardWidth: 200,
+                items: const [
+                  Card(
+                    child: Column(
+                      children: [
+                        Text('Plant 1'),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        Text('Plant 2'),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        Text('Plant 3'),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        Text('Plant 4'),
+                      ],
+                    ),
+                  ),
+                ],
+                item: (Card object, double height) {
+                  return SizedBox(
+                    height: height,
+                    child: object,
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

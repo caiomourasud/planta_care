@@ -9,9 +9,7 @@ class PlantaFilledButton extends FilledButton {
     super.key,
   }) : super(
           style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16.0,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
           ),
           onPressed: isLoading ? null : onPressed,
           child: isLoading
@@ -19,7 +17,7 @@ class PlantaFilledButton extends FilledButton {
                   child: SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(strokeWidth: 2.0),
                   ),
                 )
               : child,

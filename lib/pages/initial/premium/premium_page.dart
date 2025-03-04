@@ -41,7 +41,7 @@ class _PremiumPageState extends State<PremiumPage> {
           SafeArea(
             bottom: true,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

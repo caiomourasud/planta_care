@@ -64,6 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             await Auth.createUserWithEmailAndPassword(
                           email: email,
                           password: password,
+                          context: context,
                         );
                         if (userCredential != null && context.mounted) {
                           context.pop();
