@@ -155,7 +155,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           right: 12.0,
                         ),
                         child: Image.asset(
-                          'assets/images/get_started.png',
+                          'assets/images/give_a_gift.png',
                           height: 190,
                         ),
                       ),

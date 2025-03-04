@@ -7,6 +7,7 @@ class PlantaSlidingSegmentedControl<T extends Object> extends StatelessWidget {
     required this.onValueChanged,
     this.children = const [],
     required this.itemBuilder,
+    this.backgroundColor,
     super.key,
   });
 
@@ -14,11 +15,11 @@ class PlantaSlidingSegmentedControl<T extends Object> extends StatelessWidget {
   final Function(T?) onValueChanged;
   final List<T> children;
   final Widget Function(T, bool) itemBuilder;
-
+  final Color? backgroundColor;
   @override
   Widget build(BuildContext context) {
     return CupertinoSlidingSegmentedControl<T>(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
       thumbColor: Theme.of(context).colorScheme.primary,
       groupValue: groupValue,
       onValueChanged: onValueChanged,

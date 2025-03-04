@@ -6,10 +6,12 @@ class PlantaFilledButton extends FilledButton {
     required Widget child,
     required VoidCallback onPressed,
     bool isLoading = false,
+    Color? backgroundColor,
     super.key,
   }) : super(
           style: FilledButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
+            backgroundColor: backgroundColor,
           ),
           onPressed: isLoading ? null : onPressed,
           child: isLoading

@@ -61,10 +61,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                 children: [
                   const SizedBox(height: 24.0),
                   Image.asset(
-                    'assets/images/get_started.png',
-                    height: MediaQuery.sizeOf(context).height * 0.45,
+                    'assets/images/diagnosis.png',
+                    height: MediaQuery.sizeOf(context).height * 0.48,
                   ),
-                  const SizedBox(height: 12.0),
                   PlantaFilledButton(
                     context: context,
                     onPressed: () {},
