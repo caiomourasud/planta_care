@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/components/planta_sliding_segmented_control.dart';
+import 'package:planta_care/components/promotional_card.dart';
 import 'package:planta_care/components/scaffold_elevated_container.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -228,148 +229,65 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              borderRadius: BorderRadius.circular(12.0),
+                      PromotionalCard(
+                        title: 'Living Room',
+                        description:
+                            'Living room plants enhance beauty, air relaxing ambiance.',
+                        actionButton: PlantaFilledButton(
+                          context: context,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.0,
                             ),
-                            padding: const EdgeInsets.all(16.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 120.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    'Living Room',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    'Living room plants enhance beauty, air relaxing ambiance.',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface
-                                              .withAlpha(120),
-                                        ),
-                                  ),
-                                  const SizedBox(height: 12.0),
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: PlantaFilledButton(
-                                      context: context,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0,
-                                        ),
-                                        child: Text(
-                                          'Add plants',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: Text('Add plants'),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 12.0,
-                              right: 12.0,
-                            ),
-                            child: Image.asset(
-                              'assets/images/get_started.png',
-                              height: 190,
-                            ),
-                          ),
-                        ],
+                          onPressed: () {},
+                        ),
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        image: Image.asset(
+                          'assets/images/get_started.png',
+                          height: 190,
+                        ),
                       ),
                       const SizedBox(height: 20.0),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              'Planta Premium',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                  ),
+                      PromotionalCard(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        title: 'Planta Premium',
+                        titleStyle:
+                            Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                        description:
+                            'Access to in-depth tools for taking of your cost plants',
+                        descriptionStyle:
+                            Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                        actionButton: PlantaFilledButton(
+                          context: context,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
                             ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              'Access to in-depth tools for taking of your cost plants',
+                            child: Text(
+                              'Learn more',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
                                     color:
-                                        Theme.of(context).colorScheme.surface,
+                                        Theme.of(context).colorScheme.onSurface,
+                                    fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            const SizedBox(height: 12.0),
-                            PlantaFilledButton(
-                              context: context,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0,
-                                ),
-                                child: Text(
-                                  'Learn more',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ),
-                              onPressed: () {
-                                context.go('/premium');
-                              },
-                            ),
-                          ],
+                          ),
+                          onPressed: () {
+                            context.go('/premium');
+                          },
                         ),
                       ),
                       SizedBox(

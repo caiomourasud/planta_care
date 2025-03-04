@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:go_router/go_router.dart';
+import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/components/logo_text_planta.dart';
 import 'package:planta_care/components/scaffold_elevated_container.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/pages/auth/components/auth_module.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  bool _isSigningIn = false;
+class _SignUpPageState extends State<SignUpPage> {
+  bool _isCreatingAccount = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +24,27 @@ class _SignInPageState extends State<SignInPage> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           scrolledUnderElevation: 0.0,
-          backgroundColor:
-              Theme.of(context).scaffoldBackgroundColor.withAlpha(0),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
-          title: const Align(
-            alignment: Alignment.bottomRight,
-            child: LogoTextPlanta(),
+          title: Row(
+            spacing: 8.0,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PlantaAppBarButton(
+                context: context,
+                onPressed: () => context.pop(),
+                icon: const Icon(Icons.arrow_back),
+              ),
+              const LogoTextPlanta(),
+            ],
           ),
         ),
         body: Stack(
           children: [
-            const ScaffoldElevatedContainer(),
+            const Padding(
+              padding: EdgeInsets.only(top: 16.0),
+              child: ScaffoldElevatedContainer(),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Scrollbar(
@@ -45,19 +57,23 @@ class _SignInPageState extends State<SignInPage> {
                   child: SafeArea(
                     bottom: true,
                     child: AuthModule(
-                      type: AuthModuleType.signIn,
-                      isLoading: _isSigningIn,
+                      type: AuthModuleType.signUp,
+                      isLoading: _isCreatingAccount,
                       onContinuePressed: (email, password) async {
                         setState(() {
-                          _isSigningIn = true;
+                          _isCreatingAccount = true;
                         });
-                        await Auth.signInWithEmailAndPassword(
+                        final userCredential =
+                            await Auth.createUserWithEmailAndPassword(
                           email: email,
                           password: password,
                           context: context,
                         );
+                        if (userCredential != null && context.mounted) {
+                          context.pop();
+                        }
                         setState(() {
-                          _isSigningIn = false;
+                          _isCreatingAccount = false;
                         });
                       },
                     ),

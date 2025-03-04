@@ -169,12 +169,15 @@ class _AuthModuleState extends State<AuthModule> {
               _passwordController.text,
             );
           },
-          child: Text(
-            AppLocale.continueButton.getString(context),
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              AppLocale.continueButton.getString(context),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+            ),
           ),
         ),
         const SizedBox(height: 16.0),

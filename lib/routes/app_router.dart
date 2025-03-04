@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/pages/auth/get_started_page.dart';
-import 'package:planta_care/pages/auth/sign_up_page/sign_up_page.dart';
-import 'package:planta_care/pages/auth/sign_in_page/sign_in_page.dart';
+import 'package:planta_care/pages/auth/sign_up_page.dart';
+import 'package:planta_care/pages/auth/sign_in_page.dart';
 import 'package:planta_care/pages/initial/categories/categories_page.dart';
 import 'package:planta_care/pages/initial/diagnosis/diagnosis_page.dart';
 import 'package:planta_care/pages/initial/home/home_page.dart';

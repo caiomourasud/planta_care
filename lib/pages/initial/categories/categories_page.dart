@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/components/plants_list.dart/my_plants_horizontal_list.dart';
+import 'package:planta_care/components/promotional_card.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -97,69 +98,35 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(12.0),
+                  PromotionalCard(
+                    title: 'Give a gift that grows and thrives.',
+                    titleStyle:
+                        Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                    actionButton: PlantaOutlinedButton(
+                      context: context,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
                         ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 120.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Give a gift that grows and thrives.',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
-                                    ),
+                        child: Text(
+                          'Add plants',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
                               ),
-                              const SizedBox(height: 12.0),
-                              PlantaOutlinedButton(
-                                context: context,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    'Add plants',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                  ),
-                                ),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 12.0,
-                          right: 12.0,
-                        ),
-                        child: Image.asset(
-                          'assets/images/give_a_gift.png',
-                          height: 190,
-                        ),
-                      ),
-                    ],
+                      onPressed: () {},
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    image: Image.asset(
+                      'assets/images/give_a_gift.png',
+                      height: 190,
+                    ),
                   ),
                   const SizedBox(height: 20.0),
                   MyPlantsHorizontalList(

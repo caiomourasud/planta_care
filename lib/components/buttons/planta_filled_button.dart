@@ -10,16 +10,17 @@ class PlantaFilledButton extends FilledButton {
     super.key,
   }) : super(
           style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             backgroundColor: backgroundColor,
           ),
           onPressed: isLoading ? null : onPressed,
           child: isLoading
-              ? const Center(
-                  child: SizedBox(
+              ? Center(
+                  child: Container(
+                    margin: const EdgeInsets.all(8.0),
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(strokeWidth: 2.0),
+                    child: const CircularProgressIndicator(strokeWidth: 2.0),
                   ),
                 )
               : child,
