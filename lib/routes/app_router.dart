@@ -69,6 +69,7 @@ class AppRouter {
                       child: HomePage(),
                     ),
                     routes: [
+                      // TODO: Add routes for home page
                       GoRoute(
                         name: 'get-started',
                         path: '/get-started',

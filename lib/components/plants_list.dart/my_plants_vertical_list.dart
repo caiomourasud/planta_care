@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:planta_care/components/lists/horizontal_list.dart';
 
-class MyPlantsHorizontalList<T> extends StatelessWidget {
-  const MyPlantsHorizontalList({
+class MyPlantsVerticalList extends StatelessWidget {
+  const MyPlantsVerticalList({
     required this.title,
     required this.onViewAllPressed,
-    required this.itemBuilder,
-    this.minCardWidth,
-    this.aspectRatioItem,
-    this.items = const [],
     super.key,
   });
 
   final String title;
   final VoidCallback onViewAllPressed;
-  final Widget Function(T object, double height) itemBuilder;
-  final double? minCardWidth;
-  final double? aspectRatioItem;
-  final List<T> items;
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +45,28 @@ class MyPlantsHorizontalList<T> extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8.0),
-        AdaptativeHorizontalList<T>(
-          aspectRatio: aspectRatioItem ?? 1,
-          minCardWidth: minCardWidth ?? 200,
-          numberOfRows: 1,
-          screenWidth: MediaQuery.of(context).size.width,
-          items: items,
-          itemBuilder: itemBuilder,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            spacing: 20.0,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(
+              6,
+              (index) => Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: SizedBox(
+                  height: 100.0,
+                  child: Center(
+                    child: Text(
+                      'Plant ${index + 1}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

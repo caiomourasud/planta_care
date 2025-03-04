@@ -15,15 +15,18 @@ class _PremiumPageState extends State<PremiumPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            PlantaAppBarButton(
-              context: context,
-              onPressed: () {},
-              icon: const Icon(Icons.share),
-            ),
-          ],
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PlantaAppBarButton(
+                context: context,
+                onPressed: () {},
+                icon: const Icon(Icons.share),
+              ),
+            ],
+          ),
         ),
         elevation: 0,
         scrolledUnderElevation: 0.0,

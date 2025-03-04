@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AdaptativeHorizontalList<T> extends StatefulWidget {
   const AdaptativeHorizontalList({
-    required this.item,
+    required this.itemBuilder,
     required this.screenWidth,
     this.items = const [],
     this.minCardWidth = 220,
@@ -17,7 +17,7 @@ class AdaptativeHorizontalList<T> extends StatefulWidget {
 
   final double screenWidth;
   final List<T> items;
-  final Widget Function(T object, double height) item;
+  final Widget Function(T object, double height) itemBuilder;
   final double minCardWidth;
   final double? height;
   final bool showArrowButtons;
@@ -182,7 +182,10 @@ class _AdaptativeHorizontalListState<T>
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding: EdgeInsets.only(left: widget.spacing),
-                              child: widget.item(widget.items[index], height),
+                              child: widget.itemBuilder(
+                                widget.items[index],
+                                height,
+                              ),
                             );
                           },
                           gridDelegate:

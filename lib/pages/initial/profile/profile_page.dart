@@ -14,15 +14,18 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            PlantaAppBarButton(
-              context: context,
-              onPressed: () {},
-              icon: const Icon(Icons.settings),
-            ),
-          ],
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PlantaAppBarButton(
+                context: context,
+                onPressed: () {},
+                icon: const Icon(Icons.settings),
+              ),
+            ],
+          ),
         ),
         elevation: 0,
         scrolledUnderElevation: 0.0,
@@ -30,7 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: const Stack(
         children: [
-          ScaffoldElevatedContainer(),
+          Padding(
+            padding: EdgeInsets.only(top: 12.0),
+            child: ScaffoldElevatedContainer(),
+          ),
           Center(child: Text('Profile Page')),
         ],
       ),
