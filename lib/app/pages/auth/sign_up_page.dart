@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/components/logo_text_planta.dart';
-import 'package:planta_care/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/logo_text_planta.dart';
+import 'package:planta_care/app/components/scaffold_elevated_container.dart';
 import 'package:planta_care/firebase/auth.dart';
-import 'package:planta_care/pages/auth/components/auth_module.dart';
+import 'package:planta_care/app/pages/auth/components/auth_module.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

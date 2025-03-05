@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/components/scaffold_elevated_container.dart';
-import 'package:planta_care/pages/initial/premium/components/premium_card.dart';
+import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/pages/initial/premium/components/premium_card.dart';
 
 class PremiumPage extends StatefulWidget {
   const PremiumPage({super.key});

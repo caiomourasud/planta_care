@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/components/buttons/planta_filled_button.dart';
-import 'package:planta_care/components/planta_sliding_segmented_control.dart';
-import 'package:planta_care/components/promotional_card.dart';
-import 'package:planta_care/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/app/components/planta_sliding_segmented_control.dart';
+import 'package:planta_care/app/components/promotional_card.dart';
+import 'package:planta_care/app/components/scaffold_elevated_container.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

@@ -3,8 +3,8 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
-import 'package:planta_care/components/logo_text_planta.dart';
-import 'package:planta_care/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/components/logo_text_planta.dart';
+import 'package:planta_care/app/components/scaffold_elevated_container.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});

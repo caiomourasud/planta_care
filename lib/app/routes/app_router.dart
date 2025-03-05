@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/pages/auth/get_started_page.dart';
-import 'package:planta_care/pages/auth/sign_up_page.dart';
-import 'package:planta_care/pages/auth/sign_in_page.dart';
-import 'package:planta_care/pages/initial/categories/categories_page.dart';
-import 'package:planta_care/pages/initial/diagnosis/diagnosis_page.dart';
-import 'package:planta_care/pages/initial/home/home_page.dart';
-import 'package:planta_care/pages/initial/initial_page.dart';
-import 'package:planta_care/pages/initial/premium/premium_page.dart';
-import 'package:planta_care/pages/initial/profile/profile_page.dart';
-import 'package:planta_care/routes/guards/auth_guard.dart';
-import 'package:planta_care/pages/root_screen.dart';
+import 'package:planta_care/app/pages/auth/get_started_page.dart';
+import 'package:planta_care/app/pages/auth/sign_up_page.dart';
+import 'package:planta_care/app/pages/auth/sign_in_page.dart';
+import 'package:planta_care/app/pages/initial/categories/categories_page.dart';
+import 'package:planta_care/app/pages/initial/diagnosis/diagnosis_page.dart';
+import 'package:planta_care/app/pages/initial/home/home_page.dart';
+import 'package:planta_care/app/pages/initial/initial_page.dart';
+import 'package:planta_care/app/pages/initial/premium/premium_page.dart';
+import 'package:planta_care/app/pages/initial/profile/profile_page.dart';
+import 'package:planta_care/app/routes/guards/auth_guard.dart';
+import 'package:planta_care/app/pages/root_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 

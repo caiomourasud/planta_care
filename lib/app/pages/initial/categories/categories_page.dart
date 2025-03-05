@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/components/buttons/planta_outlined_button.dart';
-import 'package:planta_care/components/plants_list.dart/my_plants_horizontal_list.dart';
-import 'package:planta_care/components/promotional_card.dart';
+import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
+import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
+import 'package:planta_care/app/components/promotional_card.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});

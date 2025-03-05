@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planta_care/components/lists/horizontal_list.dart';
+import 'package:planta_care/app/components/lists/horizontal_list.dart';
 
 class MyPlantsHorizontalList<T> extends StatelessWidget {
   const MyPlantsHorizontalList({

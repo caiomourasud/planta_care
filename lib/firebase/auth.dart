@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:planta_care/components/planta_snack_bar.dart';
+import 'package:planta_care/app/components/planta_snack_bar.dart';
 
 class Auth {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

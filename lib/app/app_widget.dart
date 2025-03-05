@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
-import 'package:planta_care/routes/app_router.dart';
+import 'package:planta_care/app/routes/app_router.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});

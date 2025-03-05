@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/components/planta_sliding_segmented_control.dart';
-import 'package:planta_care/components/plants_list.dart/my_plants_horizontal_list.dart';
-import 'package:planta_care/components/plants_list.dart/my_plants_vertical_list.dart';
+import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/planta_sliding_segmented_control.dart';
+import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
+import 'package:planta_care/app/components/plants_list.dart/my_plants_vertical_list.dart';
 import 'package:planta_care/firebase/auth.dart';
 
 class HomePage extends StatefulWidget {

@@ -3,11 +3,11 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
-import 'package:planta_care/components/buttons/planta_filled_button.dart';
-import 'package:planta_care/components/buttons/planta_outlined_button.dart';
-import 'package:planta_care/components/divider_with_text.dart';
-import 'package:planta_care/components/interactive_text.dart';
-import 'package:planta_care/components/text_form_field/planta_text_form_field.dart';
+import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
+import 'package:planta_care/app/components/divider_with_text.dart';
+import 'package:planta_care/app/components/interactive_text.dart';
+import 'package:planta_care/app/components/text_form_field/planta_text_form_field.dart';
 
 enum AuthModuleType {
   signIn(title: 'log in'),

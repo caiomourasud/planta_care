@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/pages/initial/components/planta_bottom_navigtion_bar.dart';
+import 'package:planta_care/app/pages/initial/components/planta_bottom_navigtion_bar.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({
