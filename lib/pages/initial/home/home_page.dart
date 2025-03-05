@@ -137,8 +137,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           const SizedBox(height: 8.0),
-                          SizedBox(
-                            height: 52.0,
+                          IntrinsicHeight(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -146,69 +145,72 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color: const Color(0xFFF6B618)
+                                            .withAlpha(30),
                                         shape: BoxShape.circle,
                                       ),
                                       height: 30.0,
                                       width: 30.0,
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.water_drop_rounded,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withAlpha(120),
+                                        color: Color(0xFFF6B618),
                                         size: 16.0,
                                       ),
                                     ),
                                     const SizedBox(height: 2.0),
-                                    const Text('100%'),
+                                    Text(
+                                      '100%',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ],
                                 ),
                                 Column(
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color: const Color(0xFFEB5864)
+                                            .withAlpha(30),
                                         shape: BoxShape.circle,
                                       ),
                                       height: 30.0,
                                       width: 30.0,
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.sunny,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withAlpha(120),
+                                        color: Color(0xFFEB5864),
                                         size: 16.0,
                                       ),
                                     ),
                                     const SizedBox(height: 2.0),
-                                    const Text('Sunny'),
+                                    Text(
+                                      'Sunny',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ],
                                 ),
                                 Column(
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                        color: const Color(0xFF1E73D4)
+                                            .withAlpha(30),
                                         shape: BoxShape.circle,
                                       ),
                                       height: 30.0,
                                       width: 30.0,
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.air_outlined,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withAlpha(120),
+                                        color: Color(0xFF1E73D4),
                                         size: 16.0,
                                       ),
                                     ),
                                     const SizedBox(height: 2.0),
-                                    const Text('100'),
+                                    Text(
+                                      '100',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ],
                                 ),
                               ],

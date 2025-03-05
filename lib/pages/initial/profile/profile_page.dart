@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/components/planta_sliding_segmented_control.dart';
 import 'package:planta_care/components/promotional_card.dart';
 import 'package:planta_care/components/scaffold_elevated_container.dart';
 
@@ -13,7 +14,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // String? _selectedSegment;
+  String? _selectedSegment;
 
   Widget _buildKeyValueVertical(String key, String value) {
     return Column(
@@ -141,41 +142,41 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      //   child: PlantaSlidingSegmentedControl<String>(
-                      //     backgroundColor: Theme.of(context)
-                      //         .colorScheme
-                      //         .onSurface
-                      //         .withAlpha(20),
-                      //     groupValue: _selectedSegment ?? 'Plants',
-                      //     onValueChanged: (value) {
-                      //       setState(() {
-                      //         _selectedSegment = value;
-                      //       });
-                      //     },
-                      //     children: const ['Plants', 'Sites', 'Photos'],
-                      //     itemBuilder: (item, selected) => Text(
-                      //       item,
-                      //       style: Theme.of(context)
-                      //           .textTheme
-                      //           .bodyMedium
-                      //           ?.copyWith(
-                      //               color:
-                      //                   selected
-                      //                       ? Theme.of(context)
-                      //                           .colorScheme
-                      //                           .onPrimary
-                      //                       : Theme.of(context)
-                      //                           .colorScheme
-                      //                           .onSurface,
-                      //               fontWeight: selected
-                      //                   ? FontWeight.bold
-                      //                   : FontWeight.normal),
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: PlantaSlidingSegmentedControl<String>(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(20),
+                          groupValue: _selectedSegment ?? 'Plants',
+                          onValueChanged: (value) {
+                            setState(() {
+                              _selectedSegment = value;
+                            });
+                          },
+                          children: const ['Plants', 'Sites', 'Photos'],
+                          itemBuilder: (item, selected) => Text(
+                            item,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color:
+                                        selected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                    fontWeight: selected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
                       PromotionalCard(
                         title: 'Living Room',
                         description:
