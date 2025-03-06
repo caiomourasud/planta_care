@@ -5,6 +5,7 @@ import 'package:planta_care/app/components/planta_sliding_segmented_control.dart
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_vertical_list.dart';
 import 'package:planta_care/firebase/auth.dart';
+import 'package:planta_care/firebase/user_collection.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? _selectedSegment;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
+  void _getUser() async {
+    final user = await UserCollection.getUserById(Auth.currentUser?.email);
+
+    debugPrint(user.toString());
+  }
 
   @override
   Widget build(BuildContext context) {

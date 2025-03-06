@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/components/planta_snack_bar.dart';
+import 'package:planta_care/firebase/user_collection.dart';
 
 class Auth {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -61,6 +62,7 @@ class Auth {
           type: PlantaSnackBarType.success,
         );
       }
+      await UserCollection.createUser(userCredential.user);
       return userCredential;
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());

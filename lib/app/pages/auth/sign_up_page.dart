@@ -72,9 +72,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (userCredential != null && context.mounted) {
                           context.pop();
                         }
-                        setState(() {
-                          _isCreatingAccount = false;
-                        });
+                        if (context.mounted) {
+                          setState(() {
+                            _isCreatingAccount = false;
+                          });
+                        }
                       },
                     ),
                   ),
