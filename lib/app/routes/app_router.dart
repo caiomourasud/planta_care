@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/app/pages/auth/get_started_page.dart';
+import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
+import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
 import 'package:planta_care/app/pages/auth/sign_up_page.dart';
 import 'package:planta_care/app/pages/auth/sign_in_page.dart';
 import 'package:planta_care/app/pages/initial/categories/categories_page.dart';
@@ -9,6 +10,7 @@ import 'package:planta_care/app/pages/initial/home/home_page.dart';
 import 'package:planta_care/app/pages/initial/initial_page.dart';
 import 'package:planta_care/app/pages/initial/premium/premium_page.dart';
 import 'package:planta_care/app/pages/initial/profile/profile_page.dart';
+import 'package:planta_care/app/pages/onboarding/where_are_your_plants.dart';
 import 'package:planta_care/app/routes/guards/auth_guard.dart';
 import 'package:planta_care/app/pages/root_screen.dart';
 
@@ -52,6 +54,30 @@ class AppRouter {
             },
             redirect: const AuthGuard().isLogged,
           ),
+          GoRoute(
+            name: 'get-started',
+            path: '/get-started',
+            builder: (BuildContext context, GoRouterState state) {
+              return const GetStartedPage();
+            },
+            redirect: const AuthGuard().isNotLogged,
+          ),
+          GoRoute(
+            name: 'where-are-your-plants',
+            path: '/where-are-your-plants',
+            builder: (BuildContext context, GoRouterState state) {
+              return const WhereAreYourPlantsPage();
+            },
+            redirect: const AuthGuard().isNotLogged,
+          ),
+          GoRoute(
+            name: 'experience-level',
+            path: '/experience-level',
+            builder: (BuildContext context, GoRouterState state) {
+              return const ExperienceLevelPage();
+            },
+            redirect: const AuthGuard().isNotLogged,
+          ),
           StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
               return InitialPage(
@@ -68,16 +94,8 @@ class AppRouter {
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: HomePage(),
                     ),
-                    routes: [
+                    routes: const [
                       // TODO: Add routes for home page
-                      GoRoute(
-                        name: 'get-started',
-                        path: '/get-started',
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const GetStartedPage();
-                        },
-                        redirect: const AuthGuard().isLogged,
-                      ),
                     ],
                   ),
                 ],

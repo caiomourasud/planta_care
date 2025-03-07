@@ -58,7 +58,7 @@ class MyPlantsHorizontalList<T> extends StatelessWidget {
           aspectRatio: aspectRatioItem ?? 1,
           minCardWidth: minCardWidth ?? 200,
           numberOfRows: 1,
-          screenWidth: MediaQuery.of(context).size.width,
+          screenWidth: MediaQuery.sizeOf(context).width,
           items: items,
           itemBuilder: itemBuilder,
         ),

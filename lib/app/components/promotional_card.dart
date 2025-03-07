@@ -27,6 +27,7 @@ class PromotionalCard extends StatelessWidget {
     final actionButton = this.actionButton;
     final image = this.image;
     final backgroundColor = this.backgroundColor;
+
     return Stack(
       alignment: Alignment.bottomRight,
       children: [

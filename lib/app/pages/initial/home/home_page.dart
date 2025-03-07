@@ -27,6 +27,30 @@ class _HomePageState extends State<HomePage> {
     final user = await UserCollection.getUserById(Auth.currentUser?.email);
 
     debugPrint(user.toString());
+
+    final plantLocations = user?.plantLocations;
+    final experienceLevel = user?.experienceLevel;
+    final onboardingSkipped = user?.onboardingSkipped;
+
+    if ((plantLocations == null || plantLocations.isEmpty) &&
+        onboardingSkipped == false) {
+      if (mounted) {
+        context.go('/get-started');
+        return;
+      }
+    }
+    if (experienceLevel == null && onboardingSkipped == false) {
+      if (mounted) {
+        context.go('/experience-level');
+        return;
+      }
+    }
+  }
+
+  @override
+  void didUpdateWidget(HomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _getUser();
   }
 
   @override

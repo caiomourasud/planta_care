@@ -50,6 +50,8 @@ flutter:
     - assets/svg/
     - assets/images/
     - assets/images/plants/
+    - assets/images/experience_level/
+    
   fonts:
     - family: Urbanist
       fonts:

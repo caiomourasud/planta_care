@@ -24,7 +24,8 @@ mixin _$UserModel {
   String? get city;
   String? get state;
   String? get country;
-  Map<PlantLocationOption, bool>? get plantLocations;
+  @PlantLocationOptionsConverter()
+  PlantLocationOptions? get plantLocations;
   ExperienceLevel? get experienceLevel;
   String? get profilePhotoUrl;
   bool? get emailVerified;
@@ -35,6 +36,7 @@ mixin _$UserModel {
   String? get languagePreference;
   String? get units;
   String? get themePreference;
+  bool? get onboardingSkipped;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -82,7 +84,9 @@ mixin _$UserModel {
                 other.languagePreference == languagePreference) &&
             (identical(other.units, units) || other.units == units) &&
             (identical(other.themePreference, themePreference) ||
-                other.themePreference == themePreference));
+                other.themePreference == themePreference) &&
+            (identical(other.onboardingSkipped, onboardingSkipped) ||
+                other.onboardingSkipped == onboardingSkipped));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -108,12 +112,13 @@ mixin _$UserModel {
         updatedAt,
         languagePreference,
         units,
-        themePreference
+        themePreference,
+        onboardingSkipped
       ]);
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference)';
+    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
   }
 }
 
@@ -132,6 +137,7 @@ abstract mixin class $UserModelCopyWith<$Res> {
       String? city,
       String? state,
       String? country,
+      @PlantLocationOptionsConverter()
       Map<PlantLocationOption, bool>? plantLocations,
       ExperienceLevel? experienceLevel,
       String? profilePhotoUrl,
@@ -142,7 +148,8 @@ abstract mixin class $UserModelCopyWith<$Res> {
       DateTime? updatedAt,
       String? languagePreference,
       String? units,
-      String? themePreference});
+      String? themePreference,
+      bool? onboardingSkipped});
 }
 
 /// @nodoc
@@ -177,6 +184,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object? languagePreference = freezed,
     Object? units = freezed,
     Object? themePreference = freezed,
+    Object? onboardingSkipped = freezed,
   }) {
     return _then(_self.copyWith(
       uid: freezed == uid
@@ -216,7 +224,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
       plantLocations: freezed == plantLocations
-          ? _self.plantLocations
+          ? _self.plantLocations!
           : plantLocations // ignore: cast_nullable_to_non_nullable
               as Map<PlantLocationOption, bool>?,
       experienceLevel: freezed == experienceLevel
@@ -259,6 +267,10 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           ? _self.themePreference
           : themePreference // ignore: cast_nullable_to_non_nullable
               as String?,
+      onboardingSkipped: freezed == onboardingSkipped
+          ? _self.onboardingSkipped
+          : onboardingSkipped // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -276,17 +288,19 @@ class _UserModel implements UserModel {
       this.city,
       this.state,
       this.country,
+      @PlantLocationOptionsConverter()
       final Map<PlantLocationOption, bool>? plantLocations,
       this.experienceLevel,
       this.profilePhotoUrl,
-      this.emailVerified,
+      this.emailVerified = false,
       this.timezone,
       this.accountType,
       this.createdAt,
       this.updatedAt,
       this.languagePreference,
       this.units,
-      this.themePreference})
+      this.themePreference,
+      this.onboardingSkipped = false})
       : _plantLocations = plantLocations;
   factory _UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
@@ -311,6 +325,7 @@ class _UserModel implements UserModel {
   final String? country;
   final Map<PlantLocationOption, bool>? _plantLocations;
   @override
+  @PlantLocationOptionsConverter()
   Map<PlantLocationOption, bool>? get plantLocations {
     final value = _plantLocations;
     if (value == null) return null;
@@ -324,6 +339,7 @@ class _UserModel implements UserModel {
   @override
   final String? profilePhotoUrl;
   @override
+  @JsonKey()
   final bool? emailVerified;
   @override
   final String? timezone;
@@ -339,6 +355,9 @@ class _UserModel implements UserModel {
   final String? units;
   @override
   final String? themePreference;
+  @override
+  @JsonKey()
+  final bool? onboardingSkipped;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -391,7 +410,9 @@ class _UserModel implements UserModel {
                 other.languagePreference == languagePreference) &&
             (identical(other.units, units) || other.units == units) &&
             (identical(other.themePreference, themePreference) ||
-                other.themePreference == themePreference));
+                other.themePreference == themePreference) &&
+            (identical(other.onboardingSkipped, onboardingSkipped) ||
+                other.onboardingSkipped == onboardingSkipped));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -417,12 +438,13 @@ class _UserModel implements UserModel {
         updatedAt,
         languagePreference,
         units,
-        themePreference
+        themePreference,
+        onboardingSkipped
       ]);
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference)';
+    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
   }
 }
 
@@ -444,6 +466,7 @@ abstract mixin class _$UserModelCopyWith<$Res>
       String? city,
       String? state,
       String? country,
+      @PlantLocationOptionsConverter()
       Map<PlantLocationOption, bool>? plantLocations,
       ExperienceLevel? experienceLevel,
       String? profilePhotoUrl,
@@ -454,7 +477,8 @@ abstract mixin class _$UserModelCopyWith<$Res>
       DateTime? updatedAt,
       String? languagePreference,
       String? units,
-      String? themePreference});
+      String? themePreference,
+      bool? onboardingSkipped});
 }
 
 /// @nodoc
@@ -489,6 +513,7 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
     Object? languagePreference = freezed,
     Object? units = freezed,
     Object? themePreference = freezed,
+    Object? onboardingSkipped = freezed,
   }) {
     return _then(_UserModel(
       uid: freezed == uid
@@ -571,6 +596,10 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
           ? _self.themePreference
           : themePreference // ignore: cast_nullable_to_non_nullable
               as String?,
+      onboardingSkipped: freezed == onboardingSkipped
+          ? _self.onboardingSkipped
+          : onboardingSkipped // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

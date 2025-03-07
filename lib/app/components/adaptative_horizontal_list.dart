@@ -103,7 +103,7 @@ class _AdaptativeHorizontalListState<T>
   }
 
   double get screenSize =>
-      (widget.screenWidth ?? MediaQuery.of(context).size.width) -
+      (widget.screenWidth ?? MediaQuery.sizeOf(context).width) -
       (widget.showNextCardPiece ? 0.0 : 48.0);
 
   double get width => _getCardWidthBasedOnScreen(

@@ -18,14 +18,12 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
       city: json['city'] as String?,
       state: json['state'] as String?,
       country: json['country'] as String?,
-      plantLocations: (json['plantLocations'] as Map<String, dynamic>?)?.map(
-        (k, e) =>
-            MapEntry($enumDecode(_$PlantLocationOptionEnumMap, k), e as bool),
-      ),
+      plantLocations: const PlantLocationOptionsConverter()
+          .fromJson(json['plantLocations'] as Map<String, dynamic>?),
       experienceLevel: $enumDecodeNullable(
           _$ExperienceLevelEnumMap, json['experienceLevel']),
       profilePhotoUrl: json['profilePhotoUrl'] as String?,
-      emailVerified: json['emailVerified'] as bool?,
+      emailVerified: json['emailVerified'] as bool? ?? false,
       timezone: json['timezone'] as String?,
       accountType:
           $enumDecodeNullable(_$AccountTypeEnumMap, json['accountType']),
@@ -38,6 +36,7 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
       languagePreference: json['languagePreference'] as String?,
       units: json['units'] as String?,
       themePreference: json['themePreference'] as String?,
+      onboardingSkipped: json['onboardingSkipped'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
@@ -51,8 +50,8 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'city': instance.city,
       'state': instance.state,
       'country': instance.country,
-      'plantLocations': instance.plantLocations
-          ?.map((k, e) => MapEntry(_$PlantLocationOptionEnumMap[k]!, e)),
+      'plantLocations':
+          const PlantLocationOptionsConverter().toJson(instance.plantLocations),
       'experienceLevel': _$ExperienceLevelEnumMap[instance.experienceLevel],
       'profilePhotoUrl': instance.profilePhotoUrl,
       'emailVerified': instance.emailVerified,
@@ -63,13 +62,8 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'languagePreference': instance.languagePreference,
       'units': instance.units,
       'themePreference': instance.themePreference,
+      'onboardingSkipped': instance.onboardingSkipped,
     };
-
-const _$PlantLocationOptionEnumMap = {
-  PlantLocationOption.pottedIndoor: 'pottedIndoor',
-  PlantLocationOption.pottedOutdoor: 'pottedOutdoor',
-  PlantLocationOption.garden: 'garden',
-};
 
 const _$ExperienceLevelEnumMap = {
   ExperienceLevel.hopeless: 'hopeless',
