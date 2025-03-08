@@ -131,7 +131,7 @@ class _ExperienceLevelPageState extends State<ExperienceLevelPage> {
                             vertical: 12.0,
                           ),
                           child: Text(
-                            'Go Home',
+                            'Get Started',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
