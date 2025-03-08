@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
-import 'package:planta_care/app/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/enums/plant_location_option.dart';
 import 'package:planta_care/app/models/user_model.dart';
-import 'package:planta_care/app/pages/onboarding/components/plant_location_option_card.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/user_collection.dart';
 
@@ -37,160 +36,104 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: PlantaAppBarButton(
-              context: context,
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-          ),
+    return PlantScaffold(
+      appBar: PlantAppBar(
+        leading: PlantaAppBarButton(
+          context: context,
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back),
         ),
-        elevation: 0,
-        scrolledUnderElevation: 0.0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: Stack(
-        alignment: Alignment.center,
+      overlayItem: Image.asset(
+        'assets/images/name_your_plant.png',
+        height: MediaQuery.sizeOf(context).height * 0.30,
+      ),
+      child: Column(
+        spacing: 16.0,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ScaffoldElevatedContainer(
-              height: MediaQuery.sizeOf(context).height * 0.60,
+          const SizedBox(height: 8.0),
+          Text(
+            'Name your plant',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          Text(
+            'Keep your plants alive by watering, '
+            'providing sunlight, '
+            'and checking for pests.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
+                ),
+          ),
+          const SizedBox(height: 8.0),
+          TextFormField(
+            style: Theme.of(context).textTheme.bodyMedium,
+            decoration: InputDecoration(
+              hintText: 'Type name here...',
+              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color:
+                        Theme.of(context).colorScheme.onSurface.withAlpha(120),
+                  ),
+              prefixIconColor:
+                  Theme.of(context).colorScheme.onSurface.withAlpha(120),
+              focusColor: Theme.of(context).colorScheme.onSurface,
+              fillColor: Theme.of(context).colorScheme.onSurface.withAlpha(10),
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(60.0),
+                borderSide: BorderSide.none,
+              ),
+              prefixIcon: const Icon(CupertinoIcons.search),
             ),
           ),
-          SafeArea(
-            bottom: true,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.asset(
-                    'assets/images/where_are_your_plants.png',
-                    height: MediaQuery.sizeOf(context).height * 0.32,
-                  ),
-                  const SizedBox(height: 24.0),
-                  Text(
-                    'Where are your plants',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'You can pick multiple options',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withAlpha(120),
-                        ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Expanded(
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          spacing: 16.0,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: PlantLocationOption.values
-                              .map((option) => PlantLocationOptionCard(
-                                    option: option,
-                                    isSelected:
-                                        selectedOptions[option] ?? false,
-                                    onSelected: (option) {
-                                      if (selectedOptions[option] ?? false) {
-                                        selectedOptions.remove(option);
-                                      } else {
-                                        selectedOptions[option] = true;
-                                      }
-                                      setState(() {});
-                                      UserCollection.updateUserPlantsLocation(
-                                        FirebaseAuth
-                                            .instance.currentUser?.email,
-                                        selectedOptions,
-                                      );
-                                    },
-                                  ))
-                              .toList(),
-                        ),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0,
+            children: [
+              ...[
+                'Bamboo',
+                'Aloe vera',
+                'Sunflower',
+                'Cactus',
+                'Basil',
+                'Orchid'
+              ].map((e) => ChoiceChip(
+                    label: Text(e),
+                    selected: false,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(20),
                       ),
+                      borderRadius: BorderRadius.circular(60.0),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Center(
-                        child: PlantaFilledButton(
-                          context: context,
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withAlpha(20),
-                          onPressed: () {
-                            UserCollection.updateUserOnboardingSkipped(
-                              FirebaseAuth.instance.currentUser?.email,
-                              true,
-                            );
-                            context.go('/home');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 50.0,
-                              vertical: 12.0,
-                            ),
-                            child: Text(
-                              'Skip',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: PlantaFilledButton(
-                          context: context,
-                          onPressed: () {
-                            context.go('/home');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 12.0,
-                            ),
-                            child: Text(
-                              'Next',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    onSelected: (selected) {},
+                  )),
+            ],
+          ),
+          const SizedBox(height: 4.0),
+          PlantaFilledButton(
+            context: context,
+            onPressed: () {
+              context.go('/home');
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 12.0,
+              ),
+              child: Text(
+                'Add to My Plants',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
               ),
             ),
           ),

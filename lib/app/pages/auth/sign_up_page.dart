@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/logo_text_planta.dart';
-import 'package:planta_care/app/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/app/pages/auth/components/auth_module.dart';
 
@@ -19,71 +18,38 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardDismissOnTap(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          scrolledUnderElevation: 0.0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          elevation: 0,
-          title: Row(
-            spacing: 8.0,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PlantaAppBarButton(
-                context: context,
-                onPressed: () => context.pop(),
-                icon: const Icon(Icons.arrow_back),
-              ),
-              const LogoTextPlanta(),
-            ],
-          ),
+    return PlantScaffold(
+      appBar: PlantAppBar(
+        leading: PlantaAppBarButton(
+          context: context,
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back),
         ),
-        body: Stack(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: ScaffoldElevatedContainer(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.only(
-                    top: 32.0,
-                    left: 20.0,
-                    right: 20.0,
-                  ),
-                  child: SafeArea(
-                    bottom: true,
-                    child: AuthModule(
-                      type: AuthModuleType.signUp,
-                      isLoading: _isCreatingAccount,
-                      onContinuePressed: (email, password) async {
-                        setState(() {
-                          _isCreatingAccount = true;
-                        });
-                        final userCredential =
-                            await Auth.createUserWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                          context: context,
-                        );
-                        if (userCredential != null && context.mounted) {
-                          context.pop();
-                        }
-                        if (context.mounted) {
-                          setState(() {
-                            _isCreatingAccount = false;
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        trailing: const LogoTextPlanta(),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 28.0),
+        child: AuthModule(
+          type: AuthModuleType.signUp,
+          isLoading: _isCreatingAccount,
+          onContinuePressed: (email, password) async {
+            setState(() {
+              _isCreatingAccount = true;
+            });
+            final userCredential = await Auth.createUserWithEmailAndPassword(
+              email: email,
+              password: password,
+              context: context,
+            );
+            if (userCredential != null && context.mounted) {
+              context.pop();
+            }
+            if (context.mounted) {
+              setState(() {
+                _isCreatingAccount = false;
+              });
+            }
+          },
         ),
       ),
     );

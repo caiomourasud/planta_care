@@ -32,7 +32,6 @@ class PromotionalCard extends StatelessWidget {
       alignment: Alignment.bottomRight,
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20.0),
           decoration: BoxDecoration(
             color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(12.0),

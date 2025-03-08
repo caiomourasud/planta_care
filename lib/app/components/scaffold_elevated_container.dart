@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 class ScaffoldElevatedContainer extends StatelessWidget {
   const ScaffoldElevatedContainer({
     this.height,
+    this.child,
     super.key,
   });
   final double? height;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       width: double.infinity,
       height: height ?? double.infinity,
       decoration: BoxDecoration(
@@ -26,6 +29,7 @@ class ScaffoldElevatedContainer extends StatelessWidget {
           ),
         ],
       ),
+      child: child,
     );
   }
 }

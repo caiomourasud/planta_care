@@ -98,34 +98,38 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     ),
                   ),
                   const SizedBox(height: 12.0),
-                  PromotionalCard(
-                    title: 'Give a gift that grows and thrives.',
-                    titleStyle:
-                        Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                    actionButton: PlantaOutlinedButton(
-                      context: context,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                        ),
-                        child: Text(
-                          'Add plants',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: PromotionalCard(
+                      title: 'Give a gift that grows and thrives.',
+                      titleStyle:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 color: Theme.of(context).colorScheme.onPrimary,
                               ),
+                      actionButton: PlantaOutlinedButton(
+                        context: context,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          child: Text(
+                            'Add plants',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                          ),
                         ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {},
-                    ),
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    image: Image.asset(
-                      'assets/images/give_a_gift.png',
-                      height: 190,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      image: Image.asset(
+                        'assets/images/give_a_gift.png',
+                        height: 190,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20.0),

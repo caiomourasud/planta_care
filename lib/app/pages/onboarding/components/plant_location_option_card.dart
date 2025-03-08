@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:planta_care/app/enums/plant_location_option.dart';
 
-class PlantLocationOptionCard extends StatelessWidget {
-  const PlantLocationOptionCard({
+class PlantOptionCard<T> extends StatelessWidget {
+  const PlantOptionCard({
     required this.option,
+    required this.buildTitle,
     this.isSelected = false,
     this.onSelected,
+    this.buildIcon,
+    this.contentPadding,
     super.key,
   });
 
-  final PlantLocationOption option;
+  final T option;
+  final String Function(T option) buildTitle;
   final bool isSelected;
-  final Function(PlantLocationOption option)? onSelected;
+  final Function(T option)? onSelected;
+  final IconData? Function(T option)? buildIcon;
+  final EdgeInsets? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +28,14 @@ class PlantLocationOptionCard extends StatelessWidget {
         title: Row(
           spacing: 16.0,
           children: [
-            Icon(
-              option.icon,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            if (buildIcon != null)
+              Icon(
+                buildIcon?.call(option),
+                color: Theme.of(context).colorScheme.primary,
+              ),
             Expanded(
               child: Text(
-                option.title,
+                buildTitle(option),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: isSelected
@@ -52,10 +58,11 @@ class PlantLocationOptionCard extends StatelessWidget {
             ),
           ],
         ),
-        contentPadding: const EdgeInsets.only(
-          left: 24.0,
-          right: 8.0,
-        ),
+        contentPadding: contentPadding ??
+            const EdgeInsets.only(
+              left: 24.0,
+              right: 8.0,
+            ),
         splashColor: Theme.of(context).colorScheme.primary.withAlpha(20),
         hoverColor: Theme.of(context).colorScheme.primary.withAlpha(20),
         focusColor: Theme.of(context).colorScheme.primary.withAlpha(20),

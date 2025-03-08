@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:planta_care/app/components/scaffold_elevated_container.dart';
+import 'package:planta_care/app/services/measure_size.dart';
+
+class PlantAppBar {
+  const PlantAppBar({
+    this.title,
+    this.leading,
+    this.trailing,
+    this.background,
+  });
+
+  final Widget? title;
+  final Widget? leading;
+  final Widget? trailing;
+  final Widget? background;
+}
+
+class PlantScaffold extends StatefulWidget {
+  const PlantScaffold({
+    required this.child,
+    this.overlayItem,
+    this.appBar,
+    this.contentPadding,
+    this.background,
+    this.parentHasBottomBavigationBar = false,
+    super.key,
+  });
+
+  final Widget child;
+  final Widget? overlayItem;
+  final PlantAppBar? appBar;
+  final EdgeInsets? contentPadding;
+  final Widget? background;
+  final bool parentHasBottomBavigationBar;
+
+  @override
+  State<PlantScaffold> createState() => _PlantScaffoldState();
+}
+
+class _PlantScaffoldState extends State<PlantScaffold> {
+  double _overlayItemHeight = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final overlayItem = widget.overlayItem;
+    final appBarLeading = widget.appBar?.leading;
+    final appBarTitle = widget.appBar?.title;
+    final appBarTrailing = widget.appBar?.trailing;
+    final background = widget.background;
+
+    return KeyboardDismissOnTap(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            if (background != null)
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: background,
+              ),
+            Container(
+              margin: EdgeInsets.only(
+                top: _overlayItemHeight > 0.0
+                    ? (MediaQuery.paddingOf(context).top +
+                                    kToolbarHeight +
+                                    20.0) +
+                                _overlayItemHeight >
+                            0.0
+                        ? _overlayItemHeight + 32.0
+                        : 0.0
+                    : MediaQuery.paddingOf(context).top + kToolbarHeight + 20.0,
+              ),
+              child: ScaffoldElevatedContainer(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: _overlayItemHeight > 0.0 ? 48.0 : 0.0,
+                  ),
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    removeBottom: true,
+                    child: Scrollbar(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                          left: widget.contentPadding?.left ?? 20.0,
+                          right: widget.contentPadding?.right ?? 20.0,
+                          bottom: MediaQuery.paddingOf(context).bottom +
+                              (widget.parentHasBottomBavigationBar
+                                  ? 90.0
+                                  : 0.0),
+                        ),
+                        child: Material(child: widget.child),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              height: kToolbarHeight,
+              child: Row(
+                spacing: 8.0,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (appBarLeading != null)
+                    appBarLeading
+                  else
+                    const SizedBox(),
+                  if (appBarTitle != null)
+                    Expanded(child: appBarTitle)
+                  else
+                    const SizedBox(),
+                  if (appBarTrailing != null)
+                    appBarTrailing
+                  else
+                    const SizedBox(),
+                ],
+              ),
+            ),
+            if (overlayItem != null)
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.paddingOf(context).top + 20.0,
+                ),
+                child: MeasureSize(
+                  onChange: (size) {
+                    setState(() {
+                      _overlayItemHeight = size?.height ?? 0.0;
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      overlayItem,
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
