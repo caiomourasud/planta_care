@@ -49,6 +49,59 @@ class _WhereAreYourPlantsPageState extends State<WhereAreYourPlantsPage> {
         'assets/images/where_are_your_plants.png',
         height: MediaQuery.sizeOf(context).height * 0.32,
       ),
+      bottomSheet: Row(
+        children: [
+          Center(
+            child: PlantaFilledButton(
+              context: context,
+              backgroundColor:
+                  Theme.of(context).colorScheme.onSurface.withAlpha(20),
+              onPressed: () {
+                UserCollection.updateUserOnboardingSkipped(
+                  FirebaseAuth.instance.currentUser?.email,
+                  true,
+                );
+                context.go('/home');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50.0,
+                  vertical: 12.0,
+                ),
+                child: Text(
+                  'Skip',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16.0),
+          Expanded(
+            child: PlantaFilledButton(
+              context: context,
+              onPressed: () {
+                context.push('/experience-level');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 12.0,
+                ),
+                child: Text(
+                  'Next',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       child: Column(
         children: [
           const SizedBox(height: 24.0),
@@ -98,59 +151,6 @@ class _WhereAreYourPlantsPageState extends State<WhereAreYourPlantsPage> {
                 .toList(),
           ),
           const SizedBox(height: 32.0),
-          Row(
-            children: [
-              Center(
-                child: PlantaFilledButton(
-                  context: context,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.onSurface.withAlpha(20),
-                  onPressed: () {
-                    UserCollection.updateUserOnboardingSkipped(
-                      FirebaseAuth.instance.currentUser?.email,
-                      true,
-                    );
-                    context.go('/home');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 50.0,
-                      vertical: 12.0,
-                    ),
-                    child: Text(
-                      'Skip',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: PlantaFilledButton(
-                  context: context,
-                  onPressed: () {
-                    context.push('/experience-level');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 12.0,
-                    ),
-                    child: Text(
-                      'Next',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

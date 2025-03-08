@@ -41,6 +41,28 @@ class _ExperienceLevelPageState extends State<ExperienceLevelPage> {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
+      bottomSheet: SizedBox(
+        width: double.infinity,
+        child: PlantaFilledButton(
+          context: context,
+          onPressed: () {
+            context.go('/home');
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Text(
+              'Get Started',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+            ),
+          ),
+        ),
+      ),
       child: Column(
         spacing: 16.0,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,26 +98,7 @@ class _ExperienceLevelPageState extends State<ExperienceLevelPage> {
               },
             );
           }),
-          const SizedBox(height: 4.0),
-          PlantaFilledButton(
-            context: context,
-            onPressed: () {
-              context.go('/home');
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 12.0,
-              ),
-              child: Text(
-                'Get Started',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-              ),
-            ),
-          ),
+          const SizedBox(height: 16.0),
         ],
       ),
     );

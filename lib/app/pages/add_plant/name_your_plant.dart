@@ -48,6 +48,28 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
         'assets/images/name_your_plant.png',
         height: MediaQuery.sizeOf(context).height * 0.30,
       ),
+      bottomSheet: SizedBox(
+        width: double.infinity,
+        child: PlantaFilledButton(
+          context: context,
+          onPressed: () {
+            context.go('/home');
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Text(
+              'Add to My Plants',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+            ),
+          ),
+        ),
+      ),
       child: Column(
         spacing: 16.0,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,25 +140,6 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
             ],
           ),
           const SizedBox(height: 4.0),
-          PlantaFilledButton(
-            context: context,
-            onPressed: () {
-              context.go('/home');
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 12.0,
-              ),
-              child: Text(
-                'Add to My Plants',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-              ),
-            ),
-          ),
         ],
       ),
     );

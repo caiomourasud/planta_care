@@ -35,6 +35,28 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
+      bottomSheet: SizedBox(
+        width: double.infinity,
+        child: PlantaFilledButton(
+          context: context,
+          onPressed: () {
+            context.push('/when-did-you-last-water-your-plant');
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Text(
+              'Next',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+            ),
+          ),
+        ),
+      ),
       child: Column(
         spacing: 16.0,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -196,25 +218,7 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
               );
             },
           ),
-          PlantaFilledButton(
-            context: context,
-            onPressed: () {
-              context.push('/when-did-you-last-water-your-plant');
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 12.0,
-              ),
-              child: Text(
-                'Next',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-              ),
-            ),
-          ),
+          const SizedBox(height: 4.0),
         ],
       ),
     );

@@ -32,6 +32,28 @@ class _WhenDidYouLastWaterYourPlantPageState
         'assets/images/where_are_your_plants.png',
         height: MediaQuery.sizeOf(context).height * 0.30,
       ),
+      bottomSheet: SizedBox(
+        width: double.infinity,
+        child: PlantaFilledButton(
+          context: context,
+          onPressed: () {
+            context.push('/name-your-plant');
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Text(
+              'Next',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+            ),
+          ),
+        ),
+      ),
       child: Column(
         spacing: 16.0,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,25 +86,6 @@ class _WhenDidYouLastWaterYourPlantPageState
                 .toList(),
           ),
           const SizedBox(height: 8.0),
-          PlantaFilledButton(
-            context: context,
-            onPressed: () {
-              context.push('/name-your-plant');
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 12.0,
-              ),
-              child: Text(
-                'Next',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-              ),
-            ),
-          ),
         ],
       ),
     );
