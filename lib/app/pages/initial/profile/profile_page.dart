@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text('Add plants'),
               ),
               onPressed: () {
-                context.push('/where-is-the-plant-placed');
+                context.push('/name-your-plant');
               },
             ),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,

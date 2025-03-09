@@ -37,7 +37,7 @@ class _WhenDidYouLastWaterYourPlantPageState
         child: PlantaFilledButton(
           context: context,
           onPressed: () {
-            context.push('/name-your-plant');
+            context.push('/where-is-the-plant-placed');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(

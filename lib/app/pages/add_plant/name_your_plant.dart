@@ -53,7 +53,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
         child: PlantaFilledButton(
           context: context,
           onPressed: () {
-            context.go('/home');
+            context.push('/when-did-you-last-water-your-plant');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -61,7 +61,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
               vertical: 12.0,
             ),
             child: Text(
-              'Add to My Plants',
+              'Next',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.surface,
