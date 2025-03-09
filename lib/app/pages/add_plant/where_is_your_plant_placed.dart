@@ -97,7 +97,7 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
               context: context,
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute<Null>(
+                  CupertinoPageRoute(
                     builder: (BuildContext context) {
                       return AddLocationContent(
                         initialPlantLocationType: _selectedPlantLocationType,

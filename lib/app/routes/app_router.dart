@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
 import 'package:planta_care/app/pages/add_plant/when_did_you_last_water_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/where_is_your_plant_placed.dart';
+import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
 import 'package:planta_care/app/pages/auth/sign_up_page.dart';
@@ -22,8 +23,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final _shellNavigatorHomeKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellHome');
-final _shellNavigatorProfileKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
+final _shellNavigatorMyPlaceKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellMyPlace');
 final _shellNavigatorCategoriesKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellCategories');
 final _shellNavigatorDiagnosisKey =
@@ -130,23 +131,30 @@ class AppRouter {
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: HomePage(),
                     ),
-                    routes: const [
-                      // TODO: Add routes for home page
+                    routes: [
+                      GoRoute(
+                        name: 'profile',
+                        path: 'profile',
+                        pageBuilder: (context, state) => const CupertinoPage(
+                          child: ProfilePage(),
+                        ),
+                        redirect: const AuthGuard().isNotLogged,
+                      ),
                     ],
                   ),
                 ],
               ),
               StatefulShellBranch(
-                navigatorKey: _shellNavigatorProfileKey,
+                navigatorKey: _shellNavigatorMyPlaceKey,
                 routes: [
                   GoRoute(
-                    name: 'profile',
-                    path: '/profile',
+                    name: 'my-place',
+                    path: '/my-place',
                     pageBuilder: (context, state) => const NoTransitionPage(
-                      child: ProfilePage(),
+                      child: MyPlacePage(),
                     ),
                     routes: const [
-                      // TODO: Add routes for profile page
+                      // TODO: Add routes for my place page
                     ],
                   ),
                 ],

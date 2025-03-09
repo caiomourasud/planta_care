@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   PlantaAppBarButton(
                     context: context,
                     onPressed: () {
-                      context.go('/profile');
+                      context.push('/home/profile');
                     },
                     icon: const Icon(Icons.person),
                   ),
@@ -272,10 +272,15 @@ class _HomePageState extends State<HomePage> {
                 ],
                 itemBuilder: (item) => Card(
                   margin: EdgeInsets.zero,
+                  clipBehavior: Clip.hardEdge,
                   elevation: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
+                  child: ListTile(
+                    onTap: () {},
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 4.0,
+                    ),
+                    title: Row(
                       children: [
                         Container(
                           decoration: BoxDecoration(

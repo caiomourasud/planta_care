@@ -47,14 +47,18 @@ class _AddLocationContentState extends State<AddLocationContent> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              PlantaAppBarButton(
-                context: context,
-                onPressed: () => context.pop(),
-                icon: const Icon(Icons.close),
-              ),
-            ],
+          titleSpacing: 0.0,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              children: [
+                PlantaAppBarButton(
+                  context: context,
+                  onPressed: () => context.pop(),
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
           ),
         ),
         body: Padding(

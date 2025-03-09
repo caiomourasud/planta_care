@@ -28,7 +28,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 PlantaAppBarButton(
                   context: context,
                   onPressed: () {
-                    context.go('/profile');
+                    context.push('/home/profile');
                   },
                   icon: const Icon(Icons.person),
                 ),
@@ -113,7 +113,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             horizontal: 16.0,
                           ),
                           child: Text(
-                            'Add plants',
+                            'Add plant',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -123,7 +123,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push('/name-your-plant');
+                        },
                       ),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       image: Image.asset(

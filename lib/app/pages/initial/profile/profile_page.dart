@@ -39,6 +39,13 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return PlantScaffold(
       appBar: PlantAppBar(
+        leading: PlantaAppBarButton(
+          context: context,
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         trailing: PlantaAppBarButton(
           context: context,
           onPressed: () {},
@@ -127,29 +134,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ? Theme.of(context).colorScheme.onPrimary
                       : Theme.of(context).colorScheme.onSurface,
                   fontWeight: selected ? FontWeight.bold : FontWeight.normal),
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          PromotionalCard(
-            title: 'Living Room',
-            description:
-                'Living room plants enhance beauty, air relaxing ambiance.',
-            actionButton: PlantaFilledButton(
-              context: context,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
-                child: Text('Add plants'),
-              ),
-              onPressed: () {
-                context.push('/name-your-plant');
-              },
-            ),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            image: Image.asset(
-              'assets/images/get_started.png',
-              height: 190,
             ),
           ),
           const SizedBox(height: 20.0),

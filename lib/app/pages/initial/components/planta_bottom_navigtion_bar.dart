@@ -81,9 +81,9 @@ class PlantaBottomNavigationBar extends StatelessWidget {
             _buildButton(
               context,
               1,
-              tooltip: 'Profile',
+              tooltip: 'My Place',
               icon: (isSelected) => Icon(
-                Icons.person,
+                Icons.grass,
                 color: isSelected
                     ? Theme.of(context).colorScheme.onPrimary
                     : Colors.grey[500],
