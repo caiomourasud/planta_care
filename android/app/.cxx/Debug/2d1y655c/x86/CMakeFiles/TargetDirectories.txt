@@ -1,0 +1,2 @@
+/Users/caio.moura/Documents/Development/GitHub/planta_care/android/app/.cxx/Debug/2d1y655c/x86/CMakeFiles/edit_cache.dir
+/Users/caio.moura/Documents/Development/GitHub/planta_care/android/app/.cxx/Debug/2d1y655c/x86/CMakeFiles/rebuild_cache.dir
