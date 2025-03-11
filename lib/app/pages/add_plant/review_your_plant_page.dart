@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
@@ -7,7 +6,14 @@ import 'package:planta_care/app/models/plant_sub_location_model.dart';
 import 'package:planta_care/app/services/plant_sub_location_service.dart';
 
 class ReviewYourPlantPage extends StatefulWidget {
-  const ReviewYourPlantPage({super.key});
+  const ReviewYourPlantPage({
+    this.onNext,
+    this.onGoBack,
+    super.key,
+  });
+
+  final void Function()? onNext;
+  final void Function()? onGoBack;
 
   @override
   State<ReviewYourPlantPage> createState() => _ReviewYourPlantPageState();
@@ -27,7 +33,9 @@ class _ReviewYourPlantPageState extends State<ReviewYourPlantPage> {
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
-          onPressed: () => context.pop(),
+          onPressed: () {
+            widget.onGoBack?.call();
+          },
           icon: const Icon(Icons.arrow_back),
         ),
       ),
@@ -110,9 +118,7 @@ class _ReviewYourPlantPageState extends State<ReviewYourPlantPage> {
         width: double.infinity,
         child: PlantaFilledButton(
           context: context,
-          onPressed: () {
-            context.go('/');
-          },
+          onPressed: () => widget.onNext?.call(),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/pages/add_plant/app_plant_page.dart';
-import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
 import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
@@ -88,14 +87,6 @@ class AppRouter {
               fullscreenDialog: true,
               child: AppPlantPage(),
             ),
-            redirect: const AuthGuard().isNotLogged,
-          ),
-          GoRoute(
-            name: 'review-your-plant',
-            path: '/review-your-plant',
-            builder: (BuildContext context, GoRouterState state) {
-              return const ReviewYourPlantPage();
-            },
             redirect: const AuthGuard().isNotLogged,
           ),
           StatefulShellRoute.indexedStack(

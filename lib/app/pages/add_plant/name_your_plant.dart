@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
@@ -10,7 +9,16 @@ import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/user_collection.dart';
 
 class NameYourPlantPage extends StatefulWidget {
-  const NameYourPlantPage({super.key});
+  const NameYourPlantPage({
+    this.plantName,
+    this.onNext,
+    this.onGoBack,
+    super.key,
+  });
+
+  final String? plantName;
+  final void Function(String value)? onNext;
+  final void Function()? onGoBack;
 
   @override
   State<NameYourPlantPage> createState() => _NameYourPlantPageState();
@@ -40,7 +48,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
-          onPressed: () => context.pop(),
+          onPressed: widget.onGoBack,
           icon: const Icon(Icons.close),
         ),
       ),
@@ -52,9 +60,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
         width: double.infinity,
         child: PlantaFilledButton(
           context: context,
-          onPressed: () {
-            context.push('/when-did-you-last-water-your-plant');
-          },
+          onPressed: () => widget.onNext?.call(widget.plantName ?? ''),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -94,6 +100,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
           const SizedBox(height: 8.0),
           TextFormField(
             style: Theme.of(context).textTheme.bodyMedium,
+            initialValue: widget.plantName,
             decoration: InputDecoration(
               hintText: 'Type name here...',
               hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(

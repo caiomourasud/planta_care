@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
@@ -14,7 +13,14 @@ import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/location_collection.dart';
 
 class WhereIsThePlantPlacedPage extends StatefulWidget {
-  const WhereIsThePlantPlacedPage({super.key});
+  const WhereIsThePlantPlacedPage({
+    super.key,
+    this.onNext,
+    this.onGoBack,
+  });
+
+  final void Function(PlantLocationType? value)? onNext;
+  final void Function()? onGoBack;
 
   @override
   State<WhereIsThePlantPlacedPage> createState() =>
@@ -81,7 +87,7 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
-          onPressed: () => context.pop(),
+          onPressed: widget.onGoBack,
           icon: const Icon(Icons.arrow_back),
         ),
       ),
@@ -140,9 +146,7 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
           Expanded(
             child: PlantaFilledButton(
               context: context,
-              onPressed: () {
-                context.push('/review-your-plant');
-              },
+              onPressed: () => widget.onNext?.call(_selectedPlantLocationType),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
@@ -27,46 +28,66 @@ class AppPlantPage extends StatefulWidget {
 }
 
 class _AppPlantPageState extends State<AppPlantPage> {
-  final ValueNotifier<String> _currentRoute = ValueNotifier<String>('/');
+  final String _plantName = 'Test';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ValueListenableBuilder<String>(
-        valueListenable: _currentRoute,
-        builder: (context, currentRoute, child) {
-          return Navigator(
-            pages: [
-              const MaterialPage(
-                child: NameYourPlantPage(
-                    // onNext: () =>
-                    //     _navigateTo('/when-did-you-last-water-your-plant'),
-                    ),
-                name: '/',
-              ),
-              if (currentRoute == '/when-did-you-last-water-your-plant')
-                const MaterialPage(
-                  child: WhenDidYouLastWaterYourPlantPage(
-                      // onNext: () => _navigateTo('/where-is-the-plant-placed'),
-                      ),
-                  name: '/when-did-you-last-water-your-plant',
-                ),
-              if (currentRoute == '/where-is-the-plant-placed')
-                const MaterialPage(
-                  child: WhereIsThePlantPlacedPage(
-                      // onNext: () => _navigateTo('/review-your-plant'),
-                      ),
-                  name: '/where-is-the-plant-placed',
-                ),
-              if (currentRoute == '/review-your-plant')
-                const MaterialPage(
-                  child: ReviewYourPlantPage(
-                      // onNext: () => _navigateTo('/'),
-                      ),
-                  name: '/review-your-plant',
-                ),
-            ],
-          );
+      body: Navigator(
+        initialRoute: '/',
+        onGenerateRoute: (RouteSettings settings) {
+          WidgetBuilder builder;
+          switch (settings.name) {
+            case '/':
+              builder = (BuildContext context) => NameYourPlantPage(
+                    plantName: _plantName,
+                    onNext: (value) {
+                      Navigator.pushNamed(
+                        context,
+                        '/when-did-you-last-water-your-plant',
+                      );
+                    },
+                    onGoBack: () => context.pop(),
+                  );
+              break;
+            case '/when-did-you-last-water-your-plant':
+              builder =
+                  (BuildContext context) => WhenDidYouLastWaterYourPlantPage(
+                        onNext: (value) {
+                          Navigator.pushNamed(
+                            context,
+                            '/where-is-the-plant-placed',
+                          );
+                        },
+                        onGoBack: () => Navigator.pop(context),
+                      );
+              break;
+            case '/where-is-the-plant-placed':
+              builder = (BuildContext context) => WhereIsThePlantPlacedPage(
+                    onNext: (value) {
+                      Navigator.pushNamed(
+                        context,
+                        '/review-your-plant',
+                      );
+                    },
+                    onGoBack: () => Navigator.pop(context),
+                  );
+              break;
+            case '/review-your-plant':
+              builder = (BuildContext innerContext) => ReviewYourPlantPage(
+                    onNext: () {
+                      context.pop();
+                    },
+                    onGoBack: () => Navigator.pop(innerContext),
+                  );
+              break;
+            default:
+              throw Exception('Invalid route: ${settings.name}');
+          }
+          return MaterialPageRoute(builder: builder, settings: settings);
+        },
+        onDidRemovePage: (page) {
+          debugPrint('onDidRemovePage');
         },
       ),
     );

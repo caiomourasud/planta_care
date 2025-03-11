@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
@@ -7,7 +6,14 @@ import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/pages/onboarding/components/plant_location_option_card.dart';
 
 class WhenDidYouLastWaterYourPlantPage extends StatefulWidget {
-  const WhenDidYouLastWaterYourPlantPage({super.key});
+  const WhenDidYouLastWaterYourPlantPage({
+    this.onNext,
+    this.onGoBack,
+    super.key,
+  });
+
+  final void Function(LastWatered? value)? onNext;
+  final void Function()? onGoBack;
 
   @override
   State<WhenDidYouLastWaterYourPlantPage> createState() =>
@@ -24,7 +30,7 @@ class _WhenDidYouLastWaterYourPlantPageState
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
-          onPressed: () => context.pop(),
+          onPressed: widget.onGoBack,
           icon: const Icon(Icons.arrow_back),
         ),
       ),
@@ -37,7 +43,7 @@ class _WhenDidYouLastWaterYourPlantPageState
         child: PlantaFilledButton(
           context: context,
           onPressed: () {
-            context.push('/where-is-the-plant-placed');
+            widget.onNext?.call(selectedOption);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(
