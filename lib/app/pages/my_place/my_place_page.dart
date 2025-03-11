@@ -122,7 +122,7 @@ class _MyPlacePageState extends State<MyPlacePage> {
                     child: Text('Add plant'),
                   ),
                   onPressed: () {
-                    context.push('/name-your-plant');
+                    context.push('/add-plant');
                   },
                 ),
                 backgroundColor: Theme.of(context).colorScheme.surface,

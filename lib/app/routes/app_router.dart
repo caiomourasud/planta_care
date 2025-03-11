@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
+import 'package:planta_care/app/pages/add_plant/app_plant_page.dart';
 import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
-import 'package:planta_care/app/pages/add_plant/when_did_you_last_water_your_plant.dart';
-import 'package:planta_care/app/pages/add_plant/where_is_your_plant_placed.dart';
 import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
@@ -84,27 +82,12 @@ class AppRouter {
             redirect: const AuthGuard().isNotLogged,
           ),
           GoRoute(
-            name: 'name-your-plant',
-            path: '/name-your-plant',
-            builder: (BuildContext context, GoRouterState state) {
-              return const NameYourPlantPage();
-            },
-            redirect: const AuthGuard().isNotLogged,
-          ),
-          GoRoute(
-            name: 'when-did-you-last-water-your-plant',
-            path: '/when-did-you-last-water-your-plant',
-            builder: (BuildContext context, GoRouterState state) {
-              return const WhenDidYouLastWaterYourPlantPage();
-            },
-            redirect: const AuthGuard().isNotLogged,
-          ),
-          GoRoute(
-            name: 'where-is-the-plant-placed',
-            path: '/where-is-the-plant-placed',
-            builder: (BuildContext context, GoRouterState state) {
-              return const WhereIsThePlantPlacedPage();
-            },
+            name: 'add-plant',
+            path: '/add-plant',
+            pageBuilder: (context, state) => const CupertinoPage(
+              fullscreenDialog: true,
+              child: AppPlantPage(),
+            ),
             redirect: const AuthGuard().isNotLogged,
           ),
           GoRoute(

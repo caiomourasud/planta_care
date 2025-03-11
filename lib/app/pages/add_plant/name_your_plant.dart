@@ -41,7 +41,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
         leading: PlantaAppBarButton(
           context: context,
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.close),
         ),
       ),
       overlayItem: Image.asset(

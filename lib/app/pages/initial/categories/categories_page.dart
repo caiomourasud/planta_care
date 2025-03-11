@@ -124,7 +124,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           ),
                         ),
                         onPressed: () {
-                          context.push('/name-your-plant');
+                          context.push('/add-plant');
                         },
                       ),
                       backgroundColor: Theme.of(context).colorScheme.primary,
