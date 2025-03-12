@@ -19,7 +19,11 @@ abstract class PlantModel with _$PlantModel {
     List<Dimensions>? dimensions,
     String? cycle,
     String? watering,
-    @JsonKey(name: 'watering_general_benchmark')
+    @JsonKey(
+      name: 'watering_general_benchmark',
+      fromJson: _wateringBenchmarkFromJson,
+      toJson: _wateringBenchmarkToJson,
+    )
     WateringBenchmark? wateringGeneralBenchmark,
     @JsonKey(name: 'plant_anatomy') List<PlantAnatomy>? plantAnatomy,
     List<String>? sunlight,
@@ -101,12 +105,60 @@ abstract class Dimensions with _$Dimensions {
 @freezed
 abstract class WateringBenchmark with _$WateringBenchmark {
   const factory WateringBenchmark({
-    String? value,
+    double? minValue,
+    double? maxValue,
     String? unit,
   }) = _WateringBenchmark;
 
-  factory WateringBenchmark.fromJson(Map<String, dynamic> json) =>
-      _$WateringBenchmarkFromJson(json);
+  factory WateringBenchmark.fromJson(Map<String, dynamic> json) {
+    final value = json['value'] as String?;
+    double? minValue;
+    double? maxValue;
+
+    if (value != null) {
+      final values = value.split('-');
+      if (values.length == 2) {
+        minValue = double.tryParse(values[0]);
+        maxValue = double.tryParse(values[1]);
+      }
+    }
+
+    return WateringBenchmark(
+      minValue: minValue,
+      maxValue: maxValue,
+      unit: json['unit'] as String?,
+    );
+  }
+}
+
+WateringBenchmark _wateringBenchmarkFromJson(Map<String, dynamic> json) {
+  final value = json['value'] as String?;
+  double? minValue;
+  double? maxValue;
+
+  if (value != null) {
+    final values = value.split('-');
+    if (values.length == 2) {
+      minValue = double.tryParse(values[0]);
+      maxValue = double.tryParse(values[1]);
+    }
+  }
+
+  return WateringBenchmark(
+    minValue: minValue,
+    maxValue: maxValue,
+    unit: json['unit'] as String?,
+  );
+}
+
+// Função para converter de WateringBenchmark para JSON
+Map<String, dynamic> _wateringBenchmarkToJson(WateringBenchmark? benchmark) {
+  if (benchmark == null) return {};
+
+  return {
+    'value': '${benchmark.minValue}-${benchmark.maxValue}',
+    'unit': benchmark.unit,
+  };
 }
 
 @freezed

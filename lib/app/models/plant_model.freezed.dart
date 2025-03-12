@@ -29,7 +29,10 @@ mixin _$PlantModel {
   List<Dimensions>? get dimensions;
   String? get cycle;
   String? get watering;
-  @JsonKey(name: 'watering_general_benchmark')
+  @JsonKey(
+      name: 'watering_general_benchmark',
+      fromJson: _wateringBenchmarkFromJson,
+      toJson: _wateringBenchmarkToJson)
   WateringBenchmark? get wateringGeneralBenchmark;
   @JsonKey(name: 'plant_anatomy')
   List<PlantAnatomy>? get plantAnatomy;
@@ -267,7 +270,10 @@ abstract mixin class $PlantModelCopyWith<$Res> {
       List<Dimensions>? dimensions,
       String? cycle,
       String? watering,
-      @JsonKey(name: 'watering_general_benchmark')
+      @JsonKey(
+          name: 'watering_general_benchmark',
+          fromJson: _wateringBenchmarkFromJson,
+          toJson: _wateringBenchmarkToJson)
       WateringBenchmark? wateringGeneralBenchmark,
       @JsonKey(name: 'plant_anatomy') List<PlantAnatomy>? plantAnatomy,
       List<String>? sunlight,
@@ -669,7 +675,10 @@ class _PlantModel implements PlantModel {
       final List<Dimensions>? dimensions,
       this.cycle,
       this.watering,
-      @JsonKey(name: 'watering_general_benchmark')
+      @JsonKey(
+          name: 'watering_general_benchmark',
+          fromJson: _wateringBenchmarkFromJson,
+          toJson: _wateringBenchmarkToJson)
       this.wateringGeneralBenchmark,
       @JsonKey(name: 'plant_anatomy') final List<PlantAnatomy>? plantAnatomy,
       final List<String>? sunlight,
@@ -782,7 +791,10 @@ class _PlantModel implements PlantModel {
   @override
   final String? watering;
   @override
-  @JsonKey(name: 'watering_general_benchmark')
+  @JsonKey(
+      name: 'watering_general_benchmark',
+      fromJson: _wateringBenchmarkFromJson,
+      toJson: _wateringBenchmarkToJson)
   final WateringBenchmark? wateringGeneralBenchmark;
   final List<PlantAnatomy>? _plantAnatomy;
   @override
@@ -1123,7 +1135,10 @@ abstract mixin class _$PlantModelCopyWith<$Res>
       List<Dimensions>? dimensions,
       String? cycle,
       String? watering,
-      @JsonKey(name: 'watering_general_benchmark')
+      @JsonKey(
+          name: 'watering_general_benchmark',
+          fromJson: _wateringBenchmarkFromJson,
+          toJson: _wateringBenchmarkToJson)
       WateringBenchmark? wateringGeneralBenchmark,
       @JsonKey(name: 'plant_anatomy') List<PlantAnatomy>? plantAnatomy,
       List<String>? sunlight,
@@ -1707,7 +1722,8 @@ class __$DimensionsCopyWithImpl<$Res> implements _$DimensionsCopyWith<$Res> {
 
 /// @nodoc
 mixin _$WateringBenchmark {
-  String? get value;
+  double? get minValue;
+  double? get maxValue;
   String? get unit;
 
   /// Create a copy of WateringBenchmark
@@ -1718,25 +1734,24 @@ mixin _$WateringBenchmark {
       _$WateringBenchmarkCopyWithImpl<WateringBenchmark>(
           this as WateringBenchmark, _$identity);
 
-  /// Serializes this WateringBenchmark to a JSON map.
-  Map<String, dynamic> toJson();
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is WateringBenchmark &&
-            (identical(other.value, value) || other.value == value) &&
+            (identical(other.minValue, minValue) ||
+                other.minValue == minValue) &&
+            (identical(other.maxValue, maxValue) ||
+                other.maxValue == maxValue) &&
             (identical(other.unit, unit) || other.unit == unit));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, value, unit);
+  int get hashCode => Object.hash(runtimeType, minValue, maxValue, unit);
 
   @override
   String toString() {
-    return 'WateringBenchmark(value: $value, unit: $unit)';
+    return 'WateringBenchmark(minValue: $minValue, maxValue: $maxValue, unit: $unit)';
   }
 }
 
@@ -1746,7 +1761,7 @@ abstract mixin class $WateringBenchmarkCopyWith<$Res> {
           WateringBenchmark value, $Res Function(WateringBenchmark) _then) =
       _$WateringBenchmarkCopyWithImpl;
   @useResult
-  $Res call({String? value, String? unit});
+  $Res call({double? minValue, double? maxValue, String? unit});
 }
 
 /// @nodoc
@@ -1762,14 +1777,19 @@ class _$WateringBenchmarkCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = freezed,
+    Object? minValue = freezed,
+    Object? maxValue = freezed,
     Object? unit = freezed,
   }) {
     return _then(_self.copyWith(
-      value: freezed == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+      minValue: freezed == minValue
+          ? _self.minValue
+          : minValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      maxValue: freezed == maxValue
+          ? _self.maxValue
+          : maxValue // ignore: cast_nullable_to_non_nullable
+              as double?,
       unit: freezed == unit
           ? _self.unit
           : unit // ignore: cast_nullable_to_non_nullable
@@ -1779,14 +1799,14 @@ class _$WateringBenchmarkCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _WateringBenchmark implements WateringBenchmark {
-  const _WateringBenchmark({this.value, this.unit});
-  factory _WateringBenchmark.fromJson(Map<String, dynamic> json) =>
-      _$WateringBenchmarkFromJson(json);
+  const _WateringBenchmark({this.minValue, this.maxValue, this.unit});
 
   @override
-  final String? value;
+  final double? minValue;
+  @override
+  final double? maxValue;
   @override
   final String? unit;
 
@@ -1799,28 +1819,23 @@ class _WateringBenchmark implements WateringBenchmark {
       __$WateringBenchmarkCopyWithImpl<_WateringBenchmark>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$WateringBenchmarkToJson(
-      this,
-    );
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _WateringBenchmark &&
-            (identical(other.value, value) || other.value == value) &&
+            (identical(other.minValue, minValue) ||
+                other.minValue == minValue) &&
+            (identical(other.maxValue, maxValue) ||
+                other.maxValue == maxValue) &&
             (identical(other.unit, unit) || other.unit == unit));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, value, unit);
+  int get hashCode => Object.hash(runtimeType, minValue, maxValue, unit);
 
   @override
   String toString() {
-    return 'WateringBenchmark(value: $value, unit: $unit)';
+    return 'WateringBenchmark(minValue: $minValue, maxValue: $maxValue, unit: $unit)';
   }
 }
 
@@ -1832,7 +1847,7 @@ abstract mixin class _$WateringBenchmarkCopyWith<$Res>
       __$WateringBenchmarkCopyWithImpl;
   @override
   @useResult
-  $Res call({String? value, String? unit});
+  $Res call({double? minValue, double? maxValue, String? unit});
 }
 
 /// @nodoc
@@ -1848,14 +1863,19 @@ class __$WateringBenchmarkCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? value = freezed,
+    Object? minValue = freezed,
+    Object? maxValue = freezed,
     Object? unit = freezed,
   }) {
     return _then(_WateringBenchmark(
-      value: freezed == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+      minValue: freezed == minValue
+          ? _self.minValue
+          : minValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      maxValue: freezed == maxValue
+          ? _self.maxValue
+          : maxValue // ignore: cast_nullable_to_non_nullable
+              as double?,
       unit: freezed == unit
           ? _self.unit
           : unit // ignore: cast_nullable_to_non_nullable

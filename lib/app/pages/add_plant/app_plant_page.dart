@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/api/plant_api.dart';
@@ -40,7 +42,8 @@ class _AppPlantPageState extends State<AppPlantPage> {
   }
 
   Future<void> _fetchPlantDetails() async {
-    final plant = await PlantApi.fetchPlantDetails('2');
+    final plant = await PlantApi.fetchPlantDetails('991');
+    log(plant.toString());
     if (plant != null) {
       setState(() {
         imageUrl = plant.defaultImage?.thumbnail;

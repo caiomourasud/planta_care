@@ -25,10 +25,8 @@ _PlantModel _$PlantModelFromJson(Map<String, dynamic> json) => _PlantModel(
           .toList(),
       cycle: json['cycle'] as String?,
       watering: json['watering'] as String?,
-      wateringGeneralBenchmark: json['watering_general_benchmark'] == null
-          ? null
-          : WateringBenchmark.fromJson(
-              json['watering_general_benchmark'] as Map<String, dynamic>),
+      wateringGeneralBenchmark: _wateringBenchmarkFromJson(
+          json['watering_general_benchmark'] as Map<String, dynamic>),
       plantAnatomy: (json['plant_anatomy'] as List<dynamic>?)
           ?.map((e) => PlantAnatomy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -103,7 +101,8 @@ Map<String, dynamic> _$PlantModelToJson(_PlantModel instance) =>
       'dimensions': instance.dimensions,
       'cycle': instance.cycle,
       'watering': instance.watering,
-      'watering_general_benchmark': instance.wateringGeneralBenchmark,
+      'watering_general_benchmark':
+          _wateringBenchmarkToJson(instance.wateringGeneralBenchmark),
       'plant_anatomy': instance.plantAnatomy,
       'sunlight': instance.sunlight,
       'pruning_month': instance.pruningMonth,
@@ -156,18 +155,6 @@ Map<String, dynamic> _$DimensionsToJson(_Dimensions instance) =>
       'type': instance.type,
       'minValue': instance.minValue,
       'maxValue': instance.maxValue,
-      'unit': instance.unit,
-    };
-
-_WateringBenchmark _$WateringBenchmarkFromJson(Map<String, dynamic> json) =>
-    _WateringBenchmark(
-      value: json['value'] as String?,
-      unit: json['unit'] as String?,
-    );
-
-Map<String, dynamic> _$WateringBenchmarkToJson(_WateringBenchmark instance) =>
-    <String, dynamic>{
-      'value': instance.value,
       'unit': instance.unit,
     };
 
