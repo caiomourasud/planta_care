@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
@@ -30,40 +31,54 @@ class AppPlantPage extends StatefulWidget {
 class _AppPlantPageState extends State<AppPlantPage> {
   final String _plantName = 'Test';
 
+  String? imageUrl;
+
+  @override
+  void initState() {
+    _fetchPlantDetails();
+    super.initState();
+  }
+
+  Future<void> _fetchPlantDetails() async {
+    final plant = await PlantApi.fetchPlantDetails('2');
+    if (plant != null) {
+      setState(() {
+        imageUrl = plant.defaultImage?.thumbnail;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: imageUrl != null
+          ? AppBar(
+              title: Image.network(
+                imageUrl!,
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+              ),
+            )
+          : null,
       body: Navigator(
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder builder;
           switch (settings.name) {
-            case '/':
-              builder = (BuildContext context) => NameYourPlantPage(
-                    plantName: _plantName,
+            case '/when-did-you-last-water-your-plant':
+              builder = (context) => WhenDidYouLastWaterYourPlantPage(
                     onNext: (value) {
                       Navigator.pushNamed(
                         context,
-                        '/when-did-you-last-water-your-plant',
+                        '/where-is-the-plant-placed',
                       );
                     },
-                    onGoBack: () => context.pop(),
+                    onGoBack: () => Navigator.pop(context),
                   );
               break;
-            case '/when-did-you-last-water-your-plant':
-              builder =
-                  (BuildContext context) => WhenDidYouLastWaterYourPlantPage(
-                        onNext: (value) {
-                          Navigator.pushNamed(
-                            context,
-                            '/where-is-the-plant-placed',
-                          );
-                        },
-                        onGoBack: () => Navigator.pop(context),
-                      );
-              break;
             case '/where-is-the-plant-placed':
-              builder = (BuildContext context) => WhereIsThePlantPlacedPage(
+              builder = (context) => WhereIsThePlantPlacedPage(
                     onNext: (value) {
                       Navigator.pushNamed(
                         context,
@@ -74,15 +89,26 @@ class _AppPlantPageState extends State<AppPlantPage> {
                   );
               break;
             case '/review-your-plant':
-              builder = (BuildContext innerContext) => ReviewYourPlantPage(
+              builder = (innerContext) => ReviewYourPlantPage(
                     onNext: () {
                       context.pop();
                     },
                     onGoBack: () => Navigator.pop(innerContext),
                   );
               break;
+            case '/':
             default:
-              throw Exception('Invalid route: ${settings.name}');
+              builder = (context) => NameYourPlantPage(
+                    plantName: _plantName,
+                    onNext: (value) {
+                      Navigator.pushNamed(
+                        context,
+                        '/when-did-you-last-water-your-plant',
+                      );
+                    },
+                    onGoBack: () => context.pop(),
+                  );
+              break;
           }
           return MaterialPageRoute(builder: builder, settings: settings);
         },

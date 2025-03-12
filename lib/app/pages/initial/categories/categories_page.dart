@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
+import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
+import 'package:planta_care/app/models/plant_model.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -15,6 +19,25 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
+  List<PlantModel> _plants = [];
+
+  Timer? _debounceTimer;
+
+  Future<void> _searchPlant(String query) async {
+    if (_debounceTimer != null) {
+      _debounceTimer?.cancel();
+    }
+
+    _debounceTimer = Timer(const Duration(seconds: 2), () {
+      PlantApi.searchPlant(query).then((plants) {
+        setState(() {
+          _plants = plants ?? [];
+        });
+        print(_plants);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardDismissOnTap(
@@ -57,6 +80,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            onChanged: (value) {
+                              _searchPlant(value);
+                            },
                             style: Theme.of(context).textTheme.bodyMedium,
                             decoration: InputDecoration(
                               hintText: 'Search',
