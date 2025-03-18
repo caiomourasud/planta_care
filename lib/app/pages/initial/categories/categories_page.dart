@@ -10,6 +10,7 @@ import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/models/plant_model.dart';
+import 'package:planta_care/app/pages/initial/categories/chart_page.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -57,7 +58,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 ),
                 PlantaAppBarButton(
                   context: context,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChartPage(),
+                      ),
+                    );
+                  },
                   icon: const Icon(Icons.notifications),
                 ),
               ],

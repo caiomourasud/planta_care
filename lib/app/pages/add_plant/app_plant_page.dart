@@ -1,13 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
+import 'package:planta_care/app/enums/last_watered.dart';
+import 'package:planta_care/app/enums/plant_health_status.dart';
+import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
 import 'package:planta_care/app/pages/add_plant/when_did_you_last_water_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/where_is_your_plant_placed.dart';
+import 'package:planta_care/firebase/auth.dart';
+import 'package:planta_care/firebase/plant_collection.dart';
 
 class AppPlantStep {
   AppPlantStep({
@@ -31,39 +33,22 @@ class AppPlantPage extends StatefulWidget {
 }
 
 class _AppPlantPageState extends State<AppPlantPage> {
-  final String _plantName = 'Test';
-
-  String? imageUrl;
-
-  @override
-  void initState() {
-    _fetchPlantDetails();
-    super.initState();
-  }
-
-  Future<void> _fetchPlantDetails() async {
-    final plant = await PlantApi.fetchPlantDetails('991');
-    log(plant.toString());
-    if (plant != null) {
-      setState(() {
-        imageUrl = plant.defaultImage?.thumbnail;
-      });
-    }
-  }
+  MyPlantModel? plant = MyPlantModel(
+    name: 'Margarida',
+    description: 'Flor das visitas',
+    images: ['https://via.placeholder.com/150'],
+    lastWatered: LastWatered.yesterday,
+    lastFertilization: null,
+    locationId: 'zYR5Qrykxcb6Reo0I6XQ',
+    deviceId: '3C:8A:1F:AF:7E:A4',
+    plantId: null,
+    healthStatus: PlantHealthStatus.healthy,
+    createdAt: DateTime.now(),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: imageUrl != null
-          ? AppBar(
-              title: Image.network(
-                imageUrl!,
-                fit: BoxFit.cover,
-                width: 100,
-                height: 100,
-              ),
-            )
-          : null,
       body: Navigator(
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {
@@ -102,12 +87,21 @@ class _AppPlantPageState extends State<AppPlantPage> {
             case '/':
             default:
               builder = (context) => NameYourPlantPage(
-                    plantName: _plantName,
-                    onNext: (value) {
+                    plantName: plant?.name,
+                    onNext: (value) async {
                       Navigator.pushNamed(
                         context,
                         '/when-did-you-last-water-your-plant',
                       );
+                      final result = await PlantCollection.createPlant(
+                        Auth.currentUser?.email,
+                        plant,
+                      );
+                      if (result) {
+                        print('Plant created successfully');
+                      } else {
+                        print('Error creating plant');
+                      }
                     },
                     onGoBack: () => context.pop(),
                   );

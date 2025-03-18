@@ -1,5 +1,3 @@
-// lib/app/models/plant_model.dart
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'plant_model.freezed.dart';
