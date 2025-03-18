@@ -15,8 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeviceModel {
-  String get id;
   List<DeviceReadingModel>? get readings;
+  String? get light;
+  int? get moisture;
+  DateTime? get timestamp;
 
   /// Create a copy of DeviceModel
   /// with the given fields replaced by the non-null parameter values.
@@ -33,18 +35,26 @@ mixin _$DeviceModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeviceModel &&
-            (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality().equals(other.readings, readings));
+            const DeepCollectionEquality().equals(other.readings, readings) &&
+            (identical(other.light, light) || other.light == light) &&
+            (identical(other.moisture, moisture) ||
+                other.moisture == moisture) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, const DeepCollectionEquality().hash(readings));
+      runtimeType,
+      const DeepCollectionEquality().hash(readings),
+      light,
+      moisture,
+      timestamp);
 
   @override
   String toString() {
-    return 'DeviceModel(id: $id, readings: $readings)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp)';
   }
 }
 
@@ -54,7 +64,11 @@ abstract mixin class $DeviceModelCopyWith<$Res> {
           DeviceModel value, $Res Function(DeviceModel) _then) =
       _$DeviceModelCopyWithImpl;
   @useResult
-  $Res call({String id, List<DeviceReadingModel>? readings});
+  $Res call(
+      {List<DeviceReadingModel>? readings,
+      String? light,
+      int? moisture,
+      DateTime? timestamp});
 }
 
 /// @nodoc
@@ -69,18 +83,28 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? readings = freezed,
+    Object? light = freezed,
+    Object? moisture = freezed,
+    Object? timestamp = freezed,
   }) {
     return _then(_self.copyWith(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       readings: freezed == readings
           ? _self.readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as String?,
+      moisture: freezed == moisture
+          ? _self.moisture
+          : moisture // ignore: cast_nullable_to_non_nullable
+              as int?,
+      timestamp: freezed == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -89,13 +113,14 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
 @JsonSerializable()
 class _DeviceModel implements DeviceModel {
   const _DeviceModel(
-      {required this.id, final List<DeviceReadingModel>? readings})
+      {final List<DeviceReadingModel>? readings,
+      this.light,
+      this.moisture,
+      this.timestamp})
       : _readings = readings;
   factory _DeviceModel.fromJson(Map<String, dynamic> json) =>
       _$DeviceModelFromJson(json);
 
-  @override
-  final String id;
   final List<DeviceReadingModel>? _readings;
   @override
   List<DeviceReadingModel>? get readings {
@@ -105,6 +130,13 @@ class _DeviceModel implements DeviceModel {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
+
+  @override
+  final String? light;
+  @override
+  final int? moisture;
+  @override
+  final DateTime? timestamp;
 
   /// Create a copy of DeviceModel
   /// with the given fields replaced by the non-null parameter values.
@@ -126,18 +158,26 @@ class _DeviceModel implements DeviceModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _DeviceModel &&
-            (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality().equals(other._readings, _readings));
+            const DeepCollectionEquality().equals(other._readings, _readings) &&
+            (identical(other.light, light) || other.light == light) &&
+            (identical(other.moisture, moisture) ||
+                other.moisture == moisture) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, const DeepCollectionEquality().hash(_readings));
+      runtimeType,
+      const DeepCollectionEquality().hash(_readings),
+      light,
+      moisture,
+      timestamp);
 
   @override
   String toString() {
-    return 'DeviceModel(id: $id, readings: $readings)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp)';
   }
 }
 
@@ -149,7 +189,11 @@ abstract mixin class _$DeviceModelCopyWith<$Res>
       __$DeviceModelCopyWithImpl;
   @override
   @useResult
-  $Res call({String id, List<DeviceReadingModel>? readings});
+  $Res call(
+      {List<DeviceReadingModel>? readings,
+      String? light,
+      int? moisture,
+      DateTime? timestamp});
 }
 
 /// @nodoc
@@ -164,18 +208,28 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
     Object? readings = freezed,
+    Object? light = freezed,
+    Object? moisture = freezed,
+    Object? timestamp = freezed,
   }) {
     return _then(_DeviceModel(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       readings: freezed == readings
           ? _self._readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as String?,
+      moisture: freezed == moisture
+          ? _self.moisture
+          : moisture // ignore: cast_nullable_to_non_nullable
+              as int?,
+      timestamp: freezed == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }

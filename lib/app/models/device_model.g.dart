@@ -7,14 +7,20 @@ part of 'device_model.dart';
 // **************************************************************************
 
 _DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => _DeviceModel(
-      id: json['id'] as String,
       readings: (json['readings'] as List<dynamic>?)
           ?.map((e) => DeviceReadingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      light: json['light'] as String?,
+      moisture: (json['moisture'] as num?)?.toInt(),
+      timestamp: json['timestamp'] == null
+          ? null
+          : DateTime.parse(json['timestamp'] as String),
     );
 
 Map<String, dynamic> _$DeviceModelToJson(_DeviceModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'readings': instance.readings,
+      'light': instance.light,
+      'moisture': instance.moisture,
+      'timestamp': instance.timestamp?.toIso8601String(),
     };

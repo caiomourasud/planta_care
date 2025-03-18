@@ -7,8 +7,10 @@ part 'device_model.g.dart';
 @freezed
 abstract class DeviceModel with _$DeviceModel {
   const factory DeviceModel({
-    required String id,
     List<DeviceReadingModel>? readings,
+    String? light,
+    int? moisture,
+    DateTime? timestamp,
   }) = _DeviceModel;
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) =>

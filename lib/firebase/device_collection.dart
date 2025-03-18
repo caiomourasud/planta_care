@@ -32,9 +32,7 @@ class DeviceCollection {
     }
     try {
       await _deviceDoc(deviceId)?.set(
-        DeviceModel(
-          id: deviceId,
-        ).toJson(),
+        const DeviceModel().toJson(),
       );
       return true;
     } catch (e) {
