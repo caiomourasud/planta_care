@@ -62,8 +62,6 @@ class DeviceCollection {
     final collection = _readingsCollection(deviceId);
     if (collection == null) return [];
 
-    debugPrint('Fetching readings for device: $deviceId and date: $date');
-
     final dateOnly = date?.split('T')[0];
 
     final query = dateOnly != null
