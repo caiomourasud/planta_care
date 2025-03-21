@@ -88,6 +88,7 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   Future<void> _getData() async {
+    await _enableRealTime();
     await _getReadings(selectedDate);
     _getRealTimeData();
     setState(() {});
@@ -111,6 +112,13 @@ class _ChartPageState extends State<ChartPage> {
         device = result;
       });
     }
+  }
+
+  Future<void> _enableRealTime() async {
+    await DeviceCollection.setRealTimeEnabled(
+      '3C:8A:1F:AF:7E:A4',
+      true,
+    );
   }
 
   DateTime? _roundToNearestHalfHour(DateTime? dateTime) {

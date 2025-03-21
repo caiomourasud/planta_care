@@ -15,6 +15,7 @@ _DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => _DeviceModel(
       timestamp: json['timestamp'] == null
           ? null
           : DateTime.parse(json['timestamp'] as String),
+      realTimeEnabled: json['realTimeEnabled'] as bool?,
     );
 
 Map<String, dynamic> _$DeviceModelToJson(_DeviceModel instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$DeviceModelToJson(_DeviceModel instance) =>
       'light': instance.light,
       'moisture': instance.moisture,
       'timestamp': instance.timestamp?.toIso8601String(),
+      'realTimeEnabled': instance.realTimeEnabled,
     };

@@ -19,6 +19,7 @@ mixin _$DeviceModel {
   String? get light;
   int? get moisture;
   DateTime? get timestamp;
+  bool? get realTimeEnabled;
 
   /// Create a copy of DeviceModel
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,9 @@ mixin _$DeviceModel {
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            (identical(other.realTimeEnabled, realTimeEnabled) ||
+                other.realTimeEnabled == realTimeEnabled));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -50,11 +53,12 @@ mixin _$DeviceModel {
       const DeepCollectionEquality().hash(readings),
       light,
       moisture,
-      timestamp);
+      timestamp,
+      realTimeEnabled);
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -68,7 +72,8 @@ abstract mixin class $DeviceModelCopyWith<$Res> {
       {List<DeviceReadingModel>? readings,
       String? light,
       int? moisture,
-      DateTime? timestamp});
+      DateTime? timestamp,
+      bool? realTimeEnabled});
 }
 
 /// @nodoc
@@ -87,6 +92,7 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
     Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
+    Object? realTimeEnabled = freezed,
   }) {
     return _then(_self.copyWith(
       readings: freezed == readings
@@ -105,6 +111,10 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      realTimeEnabled: freezed == realTimeEnabled
+          ? _self.realTimeEnabled
+          : realTimeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -116,7 +126,8 @@ class _DeviceModel implements DeviceModel {
       {final List<DeviceReadingModel>? readings,
       this.light,
       this.moisture,
-      this.timestamp})
+      this.timestamp,
+      this.realTimeEnabled})
       : _readings = readings;
   factory _DeviceModel.fromJson(Map<String, dynamic> json) =>
       _$DeviceModelFromJson(json);
@@ -137,6 +148,8 @@ class _DeviceModel implements DeviceModel {
   final int? moisture;
   @override
   final DateTime? timestamp;
+  @override
+  final bool? realTimeEnabled;
 
   /// Create a copy of DeviceModel
   /// with the given fields replaced by the non-null parameter values.
@@ -163,7 +176,9 @@ class _DeviceModel implements DeviceModel {
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            (identical(other.realTimeEnabled, realTimeEnabled) ||
+                other.realTimeEnabled == realTimeEnabled));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -173,11 +188,12 @@ class _DeviceModel implements DeviceModel {
       const DeepCollectionEquality().hash(_readings),
       light,
       moisture,
-      timestamp);
+      timestamp,
+      realTimeEnabled);
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -193,7 +209,8 @@ abstract mixin class _$DeviceModelCopyWith<$Res>
       {List<DeviceReadingModel>? readings,
       String? light,
       int? moisture,
-      DateTime? timestamp});
+      DateTime? timestamp,
+      bool? realTimeEnabled});
 }
 
 /// @nodoc
@@ -212,6 +229,7 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
     Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
+    Object? realTimeEnabled = freezed,
   }) {
     return _then(_DeviceModel(
       readings: freezed == readings
@@ -230,6 +248,10 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      realTimeEnabled: freezed == realTimeEnabled
+          ? _self.realTimeEnabled
+          : realTimeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

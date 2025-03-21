@@ -11,6 +11,7 @@ abstract class DeviceModel with _$DeviceModel {
     String? light,
     int? moisture,
     DateTime? timestamp,
+    bool? realTimeEnabled,
   }) = _DeviceModel;
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) =>

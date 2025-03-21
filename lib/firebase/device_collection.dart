@@ -78,4 +78,23 @@ class DeviceCollection {
         .map((doc) => DeviceReadingModel.fromJson(doc.data()))
         .toList();
   }
+
+  static Future<bool> setRealTimeEnabled(
+    String? deviceId,
+    bool enabled,
+  ) async {
+    if (deviceId == null) {
+      debugPrint('Device ID is null');
+      return false;
+    }
+    try {
+      await _deviceDoc(deviceId)?.update(
+        {'realTimeEnabled': enabled},
+      );
+      return true;
+    } catch (e) {
+      debugPrint('Failed to set real time enabled => $e');
+    }
+    return false;
+  }
 }
