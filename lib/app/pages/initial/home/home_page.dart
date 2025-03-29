@@ -152,10 +152,18 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (item, height) {
                   return Card(
                     margin: EdgeInsets.zero,
+                    clipBehavior: Clip.hardEdge,
                     elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                    child: ListTile(
+                      onTap: () {
+                        context.push('/plant-details');
+                      },
+                      minVerticalPadding: 0.0,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 8.0,
+                      ),
+                      title: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Expanded(

@@ -5,14 +5,14 @@ import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/enums/plant_health_status.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
-import 'package:planta_care/app/pages/add_plant/review_your_plant_page.dart';
+import 'package:planta_care/app/pages/plant_details/plant_details_page.dart';
 import 'package:planta_care/app/pages/add_plant/when_did_you_last_water_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/where_is_your_plant_placed.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/plant_collection.dart';
 
-class AppPlantStep {
-  AppPlantStep({
+class AddPlantStep {
+  AddPlantStep({
     required this.appBar,
     required this.child,
     this.bottomSheet,
@@ -25,14 +25,14 @@ class AppPlantStep {
   final Widget? overlayItem;
 }
 
-class AppPlantPage extends StatefulWidget {
-  const AppPlantPage({super.key});
+class AddPlantPage extends StatefulWidget {
+  const AddPlantPage({super.key});
 
   @override
-  State<AppPlantPage> createState() => _AppPlantPageState();
+  State<AddPlantPage> createState() => _AddPlantPageState();
 }
 
-class _AppPlantPageState extends State<AppPlantPage> {
+class _AddPlantPageState extends State<AddPlantPage> {
   MyPlantModel? plant = MyPlantModel(
     name: 'Margarida',
     description: 'Flor das visitas',
@@ -77,7 +77,7 @@ class _AppPlantPageState extends State<AppPlantPage> {
                   );
               break;
             case '/review-your-plant':
-              builder = (innerContext) => ReviewYourPlantPage(
+              builder = (innerContext) => PlantDetailsPage(
                     onNext: () {
                       context.pop();
                     },

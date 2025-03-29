@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:planta_care/app/pages/add_plant/app_plant_page.dart';
+import 'package:planta_care/app/pages/add_plant/add_plant_page.dart';
 import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
@@ -13,6 +13,7 @@ import 'package:planta_care/app/pages/initial/initial_page.dart';
 import 'package:planta_care/app/pages/initial/premium/premium_page.dart';
 import 'package:planta_care/app/pages/initial/profile/profile_page.dart';
 import 'package:planta_care/app/pages/onboarding/where_are_your_plants.dart';
+import 'package:planta_care/app/pages/plant_details/plant_details_page.dart';
 import 'package:planta_care/app/routes/guards/auth_guard.dart';
 import 'package:planta_care/app/pages/root_screen.dart';
 
@@ -81,11 +82,18 @@ class AppRouter {
             redirect: const AuthGuard().isNotLogged,
           ),
           GoRoute(
+            name: 'plant-details',
+            path: '/plant-details',
+            pageBuilder: (context, state) => const CupertinoPage(
+              child: PlantDetailsPage(),
+            ),
+          ),
+          GoRoute(
             name: 'add-plant',
             path: '/add-plant',
             pageBuilder: (context, state) => const CupertinoPage(
               fullscreenDialog: true,
-              child: AppPlantPage(),
+              child: AddPlantPage(),
             ),
             redirect: const AuthGuard().isNotLogged,
           ),

@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
+import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/plant_sub_location_model.dart';
 import 'package:planta_care/app/services/plant_sub_location_service.dart';
+import 'package:planta_care/firebase/device_collection.dart';
 
-class ReviewYourPlantPage extends StatefulWidget {
-  const ReviewYourPlantPage({
+class PlantDetailsPage extends StatefulWidget {
+  const PlantDetailsPage({
     this.onNext,
     this.onGoBack,
     super.key,
@@ -16,10 +21,54 @@ class ReviewYourPlantPage extends StatefulWidget {
   final void Function()? onGoBack;
 
   @override
-  State<ReviewYourPlantPage> createState() => _ReviewYourPlantPageState();
+  State<PlantDetailsPage> createState() => _PlantDetailsPageState();
 }
 
-class _ReviewYourPlantPageState extends State<ReviewYourPlantPage> {
+class _PlantDetailsPageState extends State<PlantDetailsPage> {
+  DeviceModel? _device;
+  StreamSubscription? _deviceSubscription;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _setupDeviceListener();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _deviceSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _setupDeviceListener() async {
+    await _enableRealTime();
+
+    _deviceSubscription =
+        DeviceCollection.listenToDevice('3C:8A:1F:AF:7E:A4').listen((device) {
+      if (device != null && mounted) {
+        setState(() {
+          _device = device;
+        });
+      }
+    });
+  }
+
+  Future<void> _enableRealTime() async {
+    await DeviceCollection.setRealTimeEnabled(
+      '3C:8A:1F:AF:7E:A4',
+      true,
+    );
+  }
+
+  String _formatTimestamp(DateTime? timestamp) {
+    if (timestamp == null) {
+      return '';
+    }
+    return DateFormat('MM/dd/yyyy HH:mm:ss').format(timestamp);
+  }
+
   final PlantSubLocationModel _selectedPlantSubLocationType =
       const PlantSubLocationModel(
     id: '1',
@@ -27,15 +76,35 @@ class _ReviewYourPlantPageState extends State<ReviewYourPlantPage> {
     description: 'Location',
   );
 
+  Widget _buildData(String title, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
+              ),
+        ),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PlantScaffold(
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
-          onPressed: () {
-            widget.onGoBack?.call();
-          },
+          onPressed: widget.onGoBack ?? () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
       ),
@@ -52,64 +121,59 @@ class _ReviewYourPlantPageState extends State<ReviewYourPlantPage> {
               ),
               child: Image.asset(
                 'assets/images/where_are_your_plants.png',
-                height: MediaQuery.sizeOf(context).height * 0.30,
+                height: MediaQuery.sizeOf(context).height * 0.26,
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Size',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(120),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildData('Light', 'Difuse'),
+                          const SizedBox(height: 8.0),
+                          _buildData('Humidity', '${_device?.humidity}%'),
+                        ],
                       ),
-                ),
-                Text(
-                  'Small',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
+                      const SizedBox(width: 12.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildData(
+                              'Temperature', '${_device?.temperature}°C'),
+                          const SizedBox(height: 8.0),
+                          _buildData('Moisture', '${_device?.moisture}%'),
+                        ],
                       ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'Humidity',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(120),
-                      ),
-                ),
-                Text(
-                  '55.7%',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'Light',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(120),
-                      ),
-                ),
-                Text(
-                  'Difuse',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+                  Text(
+                    'Last Update:',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(120),
+                        ),
+                  ),
+                  Text(
+                    _formatTimestamp(_device?.timestamp),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(120),
+                        ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

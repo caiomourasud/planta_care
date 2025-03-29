@@ -97,4 +97,45 @@ class DeviceCollection {
     }
     return false;
   }
+
+  static Stream<DeviceModel?> listenToDevice(String? deviceId) {
+    if (deviceId == null) {
+      debugPrint('Device ID is null');
+      return Stream.value(null);
+    }
+
+    return _deviceDoc(deviceId)?.snapshots().map(
+              (snapshot) => snapshot.exists
+                  ? DeviceModel.fromJson(snapshot.data() ?? {})
+                  : null,
+            ) ??
+        Stream.value(null);
+  }
+
+  static Stream<List<DeviceReadingModel>> listenToReadings(
+    String? deviceId, {
+    String? date,
+  }) {
+    if (deviceId == null) {
+      debugPrint('Device ID is null');
+      return Stream.value([]);
+    }
+
+    final collection = _readingsCollection(deviceId);
+    if (collection == null) return Stream.value([]);
+
+    final dateOnly = date?.split('T')[0];
+
+    final query = dateOnly != null
+        ? collection
+            .where(FieldPath.documentId,
+                isGreaterThanOrEqualTo: "${dateOnly}T00:00:00Z")
+            .where(FieldPath.documentId, isLessThan: "${dateOnly}T23:59:59Z")
+            .orderBy(FieldPath.documentId)
+        : collection;
+
+    return query.snapshots().map((snapshot) => snapshot.docs
+        .map((doc) => DeviceReadingModel.fromJson(doc.data()))
+        .toList());
+  }
 }

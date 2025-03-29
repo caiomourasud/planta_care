@@ -10,19 +10,21 @@ _DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => _DeviceModel(
       readings: (json['readings'] as List<dynamic>?)
           ?.map((e) => DeviceReadingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      light: json['light'] as String?,
-      moisture: (json['moisture'] as num?)?.toInt(),
+      moisture: (json['moisture'] as num?)?.toDouble(),
       timestamp: json['timestamp'] == null
           ? null
           : DateTime.parse(json['timestamp'] as String),
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      humidity: (json['humidity'] as num?)?.toDouble(),
       realTimeEnabled: json['realTimeEnabled'] as bool?,
     );
 
 Map<String, dynamic> _$DeviceModelToJson(_DeviceModel instance) =>
     <String, dynamic>{
       'readings': instance.readings,
-      'light': instance.light,
       'moisture': instance.moisture,
       'timestamp': instance.timestamp?.toIso8601String(),
+      'temperature': instance.temperature,
+      'humidity': instance.humidity,
       'realTimeEnabled': instance.realTimeEnabled,
     };

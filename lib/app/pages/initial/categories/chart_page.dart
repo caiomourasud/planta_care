@@ -162,11 +162,76 @@ class _ChartPageState extends State<ChartPage> {
     return sortedReadings.map((e) => e.value).toList();
   }
 
-  String _formatTimestamp(DateTime? timestamp) {
-    if (timestamp == null) {
-      return '';
-    }
-    return DateFormat('MM/dd/yyyy HH:mm:ss').format(timestamp);
+  // String _formatTimestamp(DateTime? timestamp) {
+  //   if (timestamp == null) {
+  //     return '';
+  //   }
+  //   return DateFormat('MM/dd/yyyy HH:mm:ss').format(timestamp);
+  // }
+
+  Widget _chart({
+    required String title,
+    required double? Function(int index) values,
+    double? minValue,
+    double? maxValue,
+    Color? lowColor,
+    Color? highColor,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 10),
+        AspectRatio(
+          aspectRatio: 16 / 4,
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              spacing: 2.0,
+              children: List.generate(48, (index) {
+                return Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        height: constraints.maxHeight,
+                      ),
+                      Builder(builder: (context) {
+                        final hasItem = values(index) != null;
+                        final moisture = hasItem && values(index) != null
+                            ? values(index)?.toDouble() ?? 0.0
+                            : 0.0;
+                        return Tooltip(
+                          message: '${moisture.toInt()}%',
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            decoration: BoxDecoration(
+                              color: moisture > (minValue ?? 30)
+                                  ? highColor ?? Colors.blue.shade200
+                                  : lowColor ?? Colors.red.shade200,
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(2),
+                                bottomRight: Radius.circular(2),
+                              ),
+                            ),
+                            height: moisture *
+                                constraints.maxHeight /
+                                (maxValue ?? 100),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                );
+              }).toList(),
+            );
+          }),
+        ),
+      ],
+    );
   }
 
   @override
@@ -182,35 +247,35 @@ class _ChartPageState extends State<ChartPage> {
         ),
         trailing: Text('Charts', style: Theme.of(context).textTheme.titleLarge),
       ),
-      overlayItem: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 50),
-            Text('Real Time', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Moisture: ${device?.moisture ?? 0}%',
-                    style: Theme.of(context).textTheme.titleLarge),
-                Text('Light: ${device?.light ?? ''}',
-                    style: Theme.of(context).textTheme.titleLarge),
-              ],
-            ),
-            Text('Last check: ${_formatTimestamp(device?.timestamp)}',
-                style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(height: 70),
-          ],
-        ),
-      ),
+      // overlayItem: Container(
+      //   width: MediaQuery.of(context).size.width,
+      //   padding: const EdgeInsets.symmetric(horizontal: 20),
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       const SizedBox(height: 50),
+      //       Text('Real Time', style: Theme.of(context).textTheme.titleLarge),
+      //       const SizedBox(height: 20),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //         children: [
+      //           Text('Moisture: ${device?.moisture ?? 0}%',
+      //               style: Theme.of(context).textTheme.titleLarge),
+      //           // Text('Light: ${device?.light ?? ''}',
+      //           //     style: Theme.of(context).textTheme.titleLarge),
+      //         ],
+      //       ),
+      //       Text('Last check: ${_formatTimestamp(device?.timestamp)}',
+      //           style: Theme.of(context).textTheme.bodyMedium),
+      //       const SizedBox(height: 70),
+      //     ],
+      //   ),
+      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // const SizedBox(height: 40),
+          const SizedBox(height: 20),
           Row(
             spacing: 8.0,
             children: weekDates.map((e) {
@@ -264,112 +329,99 @@ class _ChartPageState extends State<ChartPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Moisture', style: Theme.of(context).textTheme.titleLarge),
+              // Text('Moisture', style: Theme.of(context).textTheme.titleLarge),
+              // const SizedBox(height: 20),
+              // AspectRatio(
+              //   aspectRatio: 16 / 4,
+              //   child: LayoutBuilder(builder: (context, constraints) {
+              //     return Row(
+              //       spacing: 2.0,
+              //       children: List.generate(48, (index) {
+              //         return Expanded(
+              //           child: Stack(
+              //             alignment: Alignment.bottomCenter,
+              //             children: [
+              //               Container(
+              //                 decoration: BoxDecoration(
+              //                   color: Colors.grey.shade200,
+              //                   borderRadius: BorderRadius.circular(2),
+              //                 ),
+              //                 height: constraints.maxHeight,
+              //               ),
+              //               Builder(builder: (context) {
+              //                 final hasItem = filledReadings.length > index;
+              //                 final moisture = hasItem &&
+              //                         filledReadings[index].moisture != null
+              //                     ? filledReadings[index]
+              //                             .moisture
+              //                             ?.toDouble() ??
+              //                         0
+              //                     : 0;
+              //                 return Tooltip(
+              //                   message: '${moisture.toInt()}%',
+              //                   child: AnimatedContainer(
+              //                     duration: const Duration(milliseconds: 300),
+              //                     decoration: BoxDecoration(
+              //                       color: moisture > 30
+              //                           ? Colors.blue.shade200
+              //                           : Colors.red.shade200,
+              //                       borderRadius: const BorderRadius.only(
+              //                         bottomLeft: Radius.circular(2),
+              //                         bottomRight: Radius.circular(2),
+              //                       ),
+              //                     ),
+              //                     height:
+              //                         moisture * constraints.maxHeight / 100,
+              //                   ),
+              //                 );
+              //               }),
+              //             ],
+              //           ),
+              //         );
+              //       }).toList(),
+              //     );
+              //   }),
+              // ),
+              _chart(
+                title: 'Moisture',
+                values: (index) {
+                  if (index >= filledReadings.length) {
+                    return null;
+                  }
+                  return filledReadings[index].moisture;
+                },
+                minValue: 30,
+                maxValue: 100,
+                lowColor: Colors.blueGrey.shade200,
+                highColor: Colors.green.shade200,
+              ),
               const SizedBox(height: 20),
-              AspectRatio(
-                aspectRatio: 16 / 4,
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Row(
-                    spacing: 2.0,
-                    children: List.generate(48, (index) {
-                      return Expanded(
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                              height: constraints.maxHeight,
-                            ),
-                            Builder(builder: (context) {
-                              final hasItem = filledReadings.length > index;
-                              final moisture = hasItem &&
-                                      filledReadings[index].moisture != null
-                                  ? filledReadings[index]
-                                          .moisture
-                                          ?.toDouble() ??
-                                      0
-                                  : 0;
-                              return Tooltip(
-                                message: '${moisture.toInt()}%',
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  decoration: BoxDecoration(
-                                    color: moisture > 30
-                                        ? Colors.blue.shade200
-                                        : Colors.red.shade200,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(2),
-                                      bottomRight: Radius.circular(2),
-                                    ),
-                                  ),
-                                  height:
-                                      moisture * constraints.maxHeight / 100,
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }),
+              _chart(
+                title: 'Temperature',
+                values: (index) {
+                  if (index >= filledReadings.length) {
+                    return null;
+                  }
+                  return filledReadings[index].temperature;
+                },
+                minValue: 18,
+                maxValue: 50,
+                lowColor: Colors.blue.shade200,
+                highColor: Colors.orange.shade200,
+              ),
+              const SizedBox(height: 20),
+              _chart(
+                title: 'Humidity',
+                values: (index) {
+                  if (index >= filledReadings.length) {
+                    return null;
+                  }
+                  return filledReadings[index].humidity;
+                },
+                minValue: 30,
+                maxValue: 100,
               ),
               const SizedBox(height: 40),
-              Text('Brightness', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 20),
-              AspectRatio(
-                aspectRatio: 16 / 4,
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Row(
-                    spacing: 2.0,
-                    children: List.generate(48, (index) {
-                      return Expanded(
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                              height: constraints.maxHeight,
-                            ),
-                            Builder(builder: (context) {
-                              final hasItem = filledReadings.length > index;
-                              final brightness = hasItem &&
-                                  filledReadings[index].light == "Bright";
-                              final darkness = hasItem &&
-                                  filledReadings[index].light == "Dark";
-                              return Tooltip(
-                                message: brightness
-                                    ? 'Bright'
-                                    : darkness
-                                        ? 'Dark'
-                                        : '',
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  decoration: BoxDecoration(
-                                    color: brightness
-                                        ? Colors.orange.shade200
-                                        : darkness
-                                            ? Colors.blueGrey.shade200
-                                            : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  height: constraints.maxHeight,
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }),
-              ),
             ],
           ),
         ],

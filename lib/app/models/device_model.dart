@@ -8,9 +8,11 @@ part 'device_model.g.dart';
 abstract class DeviceModel with _$DeviceModel {
   const factory DeviceModel({
     List<DeviceReadingModel>? readings,
-    String? light,
-    int? moisture,
+    // String? light,
+    double? moisture,
     DateTime? timestamp,
+    double? temperature,
+    double? humidity,
     bool? realTimeEnabled,
   }) = _DeviceModel;
 

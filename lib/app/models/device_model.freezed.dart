@@ -15,10 +15,11 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeviceModel {
-  List<DeviceReadingModel>? get readings;
-  String? get light;
-  int? get moisture;
+  List<DeviceReadingModel>? get readings; // String? light,
+  double? get moisture;
   DateTime? get timestamp;
+  double? get temperature;
+  double? get humidity;
   bool? get realTimeEnabled;
 
   /// Create a copy of DeviceModel
@@ -37,11 +38,14 @@ mixin _$DeviceModel {
         (other.runtimeType == runtimeType &&
             other is DeviceModel &&
             const DeepCollectionEquality().equals(other.readings, readings) &&
-            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.humidity, humidity) ||
+                other.humidity == humidity) &&
             (identical(other.realTimeEnabled, realTimeEnabled) ||
                 other.realTimeEnabled == realTimeEnabled));
   }
@@ -51,14 +55,15 @@ mixin _$DeviceModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(readings),
-      light,
       moisture,
       timestamp,
+      temperature,
+      humidity,
       realTimeEnabled);
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, realTimeEnabled: $realTimeEnabled)';
+    return 'DeviceModel(readings: $readings, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -70,9 +75,10 @@ abstract mixin class $DeviceModelCopyWith<$Res> {
   @useResult
   $Res call(
       {List<DeviceReadingModel>? readings,
-      String? light,
-      int? moisture,
+      double? moisture,
       DateTime? timestamp,
+      double? temperature,
+      double? humidity,
       bool? realTimeEnabled});
 }
 
@@ -89,9 +95,10 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
   @override
   $Res call({
     Object? readings = freezed,
-    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
+    Object? temperature = freezed,
+    Object? humidity = freezed,
     Object? realTimeEnabled = freezed,
   }) {
     return _then(_self.copyWith(
@@ -99,18 +106,22 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
           ? _self.readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
-      light: freezed == light
-          ? _self.light
-          : light // ignore: cast_nullable_to_non_nullable
-              as String?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       timestamp: freezed == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      temperature: freezed == temperature
+          ? _self.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      humidity: freezed == humidity
+          ? _self.humidity
+          : humidity // ignore: cast_nullable_to_non_nullable
+              as double?,
       realTimeEnabled: freezed == realTimeEnabled
           ? _self.realTimeEnabled
           : realTimeEnabled // ignore: cast_nullable_to_non_nullable
@@ -124,9 +135,10 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
 class _DeviceModel implements DeviceModel {
   const _DeviceModel(
       {final List<DeviceReadingModel>? readings,
-      this.light,
       this.moisture,
       this.timestamp,
+      this.temperature,
+      this.humidity,
       this.realTimeEnabled})
       : _readings = readings;
   factory _DeviceModel.fromJson(Map<String, dynamic> json) =>
@@ -142,12 +154,15 @@ class _DeviceModel implements DeviceModel {
     return EqualUnmodifiableListView(value);
   }
 
+// String? light,
   @override
-  final String? light;
-  @override
-  final int? moisture;
+  final double? moisture;
   @override
   final DateTime? timestamp;
+  @override
+  final double? temperature;
+  @override
+  final double? humidity;
   @override
   final bool? realTimeEnabled;
 
@@ -172,11 +187,14 @@ class _DeviceModel implements DeviceModel {
         (other.runtimeType == runtimeType &&
             other is _DeviceModel &&
             const DeepCollectionEquality().equals(other._readings, _readings) &&
-            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
+            (identical(other.temperature, temperature) ||
+                other.temperature == temperature) &&
+            (identical(other.humidity, humidity) ||
+                other.humidity == humidity) &&
             (identical(other.realTimeEnabled, realTimeEnabled) ||
                 other.realTimeEnabled == realTimeEnabled));
   }
@@ -186,14 +204,15 @@ class _DeviceModel implements DeviceModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_readings),
-      light,
       moisture,
       timestamp,
+      temperature,
+      humidity,
       realTimeEnabled);
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, realTimeEnabled: $realTimeEnabled)';
+    return 'DeviceModel(readings: $readings, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -207,9 +226,10 @@ abstract mixin class _$DeviceModelCopyWith<$Res>
   @useResult
   $Res call(
       {List<DeviceReadingModel>? readings,
-      String? light,
-      int? moisture,
+      double? moisture,
       DateTime? timestamp,
+      double? temperature,
+      double? humidity,
       bool? realTimeEnabled});
 }
 
@@ -226,9 +246,10 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? readings = freezed,
-    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
+    Object? temperature = freezed,
+    Object? humidity = freezed,
     Object? realTimeEnabled = freezed,
   }) {
     return _then(_DeviceModel(
@@ -236,18 +257,22 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
           ? _self._readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
-      light: freezed == light
-          ? _self.light
-          : light // ignore: cast_nullable_to_non_nullable
-              as String?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       timestamp: freezed == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      temperature: freezed == temperature
+          ? _self.temperature
+          : temperature // ignore: cast_nullable_to_non_nullable
+              as double?,
+      humidity: freezed == humidity
+          ? _self.humidity
+          : humidity // ignore: cast_nullable_to_non_nullable
+              as double?,
       realTimeEnabled: freezed == realTimeEnabled
           ? _self.realTimeEnabled
           : realTimeEnabled // ignore: cast_nullable_to_non_nullable
