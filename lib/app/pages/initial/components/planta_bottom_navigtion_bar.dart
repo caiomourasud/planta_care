@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:planta_care/app/routes/app_router.dart';
 
 class PlantaBottomNavigationBar extends StatelessWidget {
   const PlantaBottomNavigationBar({
@@ -32,7 +33,31 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).hoverColor,
             ),
-            onPressed: () => onPressed(index),
+            onPressed: () {
+              final String route = GoRouterState.of(context).uri.path;
+              final basePath = route.split('/').take(3).join('/');
+              final controller = ScrollControllers.getController(basePath);
+              if (controller.hasClients && isSelected) {
+                if (controller.position.pixels > 0.0) {
+                  controller.animateTo(
+                    0.0,
+                    duration: const Duration(milliseconds: 260),
+                    curve: Curves.ease,
+                  );
+                  return;
+                }
+              }
+
+              if (isSelected) {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  onPressed(index);
+                }
+              } else {
+                onPressed(index);
+              }
+            },
             icon: icon?.call(isSelected) ??
                 Icon(Icons.home,
                     color: isSelected

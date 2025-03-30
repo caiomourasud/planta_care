@@ -28,6 +28,7 @@ class PlantScaffold extends StatefulWidget {
     this.parentHasBottomBavigationBar = false,
     this.bottomSheet,
     this.upperBodyTitle,
+    this.scrollController,
     super.key,
   });
 
@@ -39,6 +40,7 @@ class PlantScaffold extends StatefulWidget {
   final bool parentHasBottomBavigationBar;
   final Widget? bottomSheet;
   final Widget? upperBodyTitle;
+  final ScrollController? scrollController;
 
   @override
   State<PlantScaffold> createState() => _PlantScaffoldState();
@@ -126,6 +128,7 @@ class _PlantScaffoldState extends State<PlantScaffold> {
                             removeBottom: true,
                             child: Scrollbar(
                               child: SingleChildScrollView(
+                                primary: true,
                                 padding: EdgeInsets.only(
                                   left: widget.contentPadding?.left ?? 20.0,
                                   right: widget.contentPadding?.right ?? 20.0,

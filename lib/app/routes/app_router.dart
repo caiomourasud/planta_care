@@ -108,9 +108,14 @@ class AppRouter {
                   GoRoute(
                     name: 'home',
                     path: '/home',
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: HomePage(),
-                    ),
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/home');
+                      });
+                      return const NoTransitionPage(
+                        child: HomePage(),
+                      );
+                    },
                     routes: [
                       GoRoute(
                         name: 'profile',
@@ -123,11 +128,17 @@ class AppRouter {
                       GoRoute(
                         name: 'plant-details',
                         path: '/plant-details/:plantId',
-                        pageBuilder: (context, state) => CupertinoPage(
-                          child: PlantDetailsPage(
-                            plantId: state.pathParameters['plantId'],
-                          ),
-                        ),
+                        pageBuilder: (context, state) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            ScrollControllers.getController(
+                                '/home/plant-details');
+                          });
+                          return CupertinoPage(
+                            child: PlantDetailsPage(
+                              plantId: state.pathParameters['plantId'],
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -139,23 +150,40 @@ class AppRouter {
                   GoRoute(
                     name: 'my-place',
                     path: '/my-place',
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: MyPlacePage(),
-                    ),
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/my-place');
+                      });
+                      return const NoTransitionPage(
+                        child: MyPlacePage(),
+                      );
+                    },
                     routes: [
                       GoRoute(
                         name: 'settings',
                         path: 'settings',
-                        pageBuilder: (context, state) => const CupertinoPage(
-                          child: SettingsPage(),
-                        ),
+                        pageBuilder: (context, state) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            ScrollControllers.getController(
+                                '/my-place/settings');
+                          });
+                          return const CupertinoPage(
+                            child: SettingsPage(),
+                          );
+                        },
                       ),
                       GoRoute(
                         name: 'my-locations',
                         path: 'my-locations',
-                        pageBuilder: (context, state) => const CupertinoPage(
-                          child: MyLocationsPage(),
-                        ),
+                        pageBuilder: (context, state) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            ScrollControllers.getController(
+                                '/my-place/my-locations');
+                          });
+                          return const CupertinoPage(
+                            child: MyLocationsPage(),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -167,9 +195,14 @@ class AppRouter {
                   GoRoute(
                     name: 'categories',
                     path: '/categories',
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: CategoriesPage(),
-                    ),
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/categories');
+                      });
+                      return const NoTransitionPage(
+                        child: CategoriesPage(),
+                      );
+                    },
                     routes: const [
                       // TODO: Add routes for categories page
                     ],
@@ -182,12 +215,14 @@ class AppRouter {
                   GoRoute(
                     name: 'diagnosis',
                     path: '/diagnosis',
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: DiagnosisPage(),
-                    ),
-                    routes: const [
-                      // TODO: Add routes for diagnosis page
-                    ],
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/diagnosis');
+                      });
+                      return const NoTransitionPage(
+                        child: DiagnosisPage(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -197,12 +232,14 @@ class AppRouter {
                   GoRoute(
                     name: 'premium',
                     path: '/premium',
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: PremiumPage(),
-                    ),
-                    routes: const [
-                      // TODO: Add routes for premium page
-                    ],
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/premium');
+                      });
+                      return const NoTransitionPage(
+                        child: PremiumPage(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -212,4 +249,25 @@ class AppRouter {
       ),
     ],
   );
+}
+
+class ScrollControllers {
+  static final Map<String, ScrollController> controllers = {};
+
+  static ScrollController getController(String routeName) {
+    if (!controllers.containsKey(routeName)) {
+      controllers[routeName] = ScrollController();
+    }
+    return controllers[routeName] ?? ScrollController();
+  }
+
+  static void scrollToTop(String routeName) {
+    if (controllers.containsKey(routeName)) {
+      controllers[routeName]?.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 }
