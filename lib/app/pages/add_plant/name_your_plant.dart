@@ -26,6 +26,7 @@ class NameYourPlantPage extends StatefulWidget {
 
 class _NameYourPlantPageState extends State<NameYourPlantPage> {
   Map<PlantLocationOption, bool> selectedOptions = {};
+  final _plantNameController = TextEditingController();
 
   UserModel? user;
 
@@ -33,6 +34,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
   void initState() {
     super.initState();
     _getUser();
+    _plantNameController.text = widget.plantName ?? '';
   }
 
   Future<void> _getUser() async {
@@ -60,7 +62,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
         width: double.infinity,
         child: PlantaFilledButton(
           context: context,
-          onPressed: () => widget.onNext?.call(widget.plantName ?? ''),
+          onPressed: () => widget.onNext?.call(_plantNameController.text),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -100,7 +102,7 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
           const SizedBox(height: 8.0),
           TextFormField(
             style: Theme.of(context).textTheme.bodyMedium,
-            initialValue: widget.plantName,
+            controller: _plantNameController,
             decoration: InputDecoration(
               hintText: 'Type name here...',
               hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -142,7 +144,11 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
                       ),
                       borderRadius: BorderRadius.circular(60.0),
                     ),
-                    onSelected: (selected) {},
+                    onSelected: (selected) {
+                      setState(() {
+                        _plantNameController.text = e;
+                      });
+                    },
                   )),
             ],
           ),

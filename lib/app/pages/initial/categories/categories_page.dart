@@ -10,7 +10,7 @@ import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/models/plant_model.dart';
-import 'package:planta_care/app/pages/initial/categories/chart_page.dart';
+import 'package:planta_care/app/pages/initial/categories/charts_page.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -20,7 +20,7 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  List<PlantModel> _plants = [];
+  List<PlantModel> _searchPlants = [];
 
   Timer? _debounceTimer;
 
@@ -32,9 +32,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
     _debounceTimer = Timer(const Duration(seconds: 2), () {
       PlantApi.searchPlant(query).then((plants) {
         setState(() {
-          _plants = plants ?? [];
+          _searchPlants = plants ?? [];
         });
-        print(_plants);
+        debugPrint(_searchPlants.toString());
       });
     });
   }
@@ -62,7 +62,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ChartPage(),
+                        builder: (context) => const ChartsPage(),
                       ),
                     );
                   },

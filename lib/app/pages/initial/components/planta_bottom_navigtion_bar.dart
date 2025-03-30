@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PlantaBottomNavigationBar extends StatelessWidget {
   const PlantaBottomNavigationBar({
@@ -71,22 +73,32 @@ class PlantaBottomNavigationBar extends StatelessWidget {
               context,
               0,
               tooltip: 'Home',
-              icon: (isSelected) => Icon(
-                Icons.home_filled,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Colors.grey[500],
+              icon: (isSelected) => SvgPicture.asset(
+                'assets/svg/icons/home.svg',
+                width: 18.0,
+                height: 18.0,
+                colorFilter: ColorFilter.mode(
+                  isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey[500]!,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             _buildButton(
               context,
               1,
               tooltip: 'My Place',
-              icon: (isSelected) => Icon(
-                Icons.grass,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Colors.grey[500],
+              icon: (isSelected) => SvgPicture.asset(
+                'assets/svg/icons/my_place.svg',
+                width: 18.0,
+                height: 18.0,
+                colorFilter: ColorFilter.mode(
+                  isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey[500]!,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             _buildButton(
@@ -94,7 +106,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
               2,
               tooltip: 'Categories',
               icon: (isSelected) => Icon(
-                Icons.search,
+                CupertinoIcons.search,
                 color: isSelected
                     ? Theme.of(context).colorScheme.onPrimary
                     : Colors.grey[500],
@@ -115,11 +127,16 @@ class PlantaBottomNavigationBar extends StatelessWidget {
               context,
               4,
               tooltip: 'Premium',
-              icon: (isSelected) => Icon(
-                Icons.diamond,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Colors.grey[500],
+              icon: (isSelected) => SvgPicture.asset(
+                'assets/svg/icons/premium.svg',
+                width: 18.0,
+                height: 18.0,
+                colorFilter: ColorFilter.mode(
+                  isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey[500]!,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ],

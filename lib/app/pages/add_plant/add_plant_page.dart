@@ -33,14 +33,18 @@ class AddPlantPage extends StatefulWidget {
 }
 
 class _AddPlantPageState extends State<AddPlantPage> {
-  MyPlantModel? plant = MyPlantModel(
-    name: 'Margarida',
-    description: 'Flor das visitas',
-    images: ['https://via.placeholder.com/150'],
-    lastWatered: LastWatered.yesterday,
+  String? _plantName;
+  String? _plantLocationId;
+  LastWatered? _lastWatered;
+
+  final MyPlantModel _plant = MyPlantModel(
+    name: '',
+    description: '',
+    images: [],
+    lastWatered: null,
     lastFertilization: null,
-    locationId: 'zYR5Qrykxcb6Reo0I6XQ',
-    deviceId: '3C:8A:1F:AF:7E:A4',
+    locationId: '',
+    deviceId: '',
     plantId: null,
     healthStatus: PlantHealthStatus.healthy,
     createdAt: DateTime.now(),
@@ -57,6 +61,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
             case '/when-did-you-last-water-your-plant':
               builder = (context) => WhenDidYouLastWaterYourPlantPage(
                     onNext: (value) {
+                      _lastWatered = value;
                       Navigator.pushNamed(
                         context,
                         '/where-is-the-plant-placed',
@@ -68,6 +73,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
             case '/where-is-the-plant-placed':
               builder = (context) => WhereIsThePlantPlacedPage(
                     onNext: (value) {
+                      _plantLocationId = value;
                       Navigator.pushNamed(
                         context,
                         '/review-your-plant',
@@ -77,31 +83,40 @@ class _AddPlantPageState extends State<AddPlantPage> {
                   );
               break;
             case '/review-your-plant':
-              builder = (innerContext) => PlantDetailsPage(
-                    onNext: () {
-                      context.pop();
-                    },
-                    onGoBack: () => Navigator.pop(innerContext),
-                  );
+              builder = (innerContext) {
+                final updatePlant = _plant.copyWith(
+                  name: _plantName,
+                  locationId: _plantLocationId,
+                  lastWatered: _lastWatered,
+                );
+                return PlantDetailsPage(
+                  plant: updatePlant,
+                  onNext: () async {
+                    context.pop();
+
+                    final result = await PlantCollection.createPlant(
+                      Auth.currentUser?.email,
+                      updatePlant,
+                    );
+                    if (result) {
+                      debugPrint('Plant created successfully');
+                    } else {
+                      debugPrint('Error creating plant');
+                    }
+                  },
+                  onGoBack: () => Navigator.pop(innerContext),
+                );
+              };
               break;
             case '/':
             default:
               builder = (context) => NameYourPlantPage(
-                    plantName: plant?.name,
                     onNext: (value) async {
+                      _plantName = value;
                       Navigator.pushNamed(
                         context,
                         '/when-did-you-last-water-your-plant',
                       );
-                      final result = await PlantCollection.createPlant(
-                        Auth.currentUser?.email,
-                        plant,
-                      );
-                      if (result) {
-                        print('Plant created successfully');
-                      } else {
-                        print('Error creating plant');
-                      }
                     },
                     onGoBack: () => context.pop(),
                   );

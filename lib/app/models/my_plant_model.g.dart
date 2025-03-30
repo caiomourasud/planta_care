@@ -22,6 +22,9 @@ _MyPlantModel _$MyPlantModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['lastFertilization'] as String),
       deviceId: json['deviceId'] as String?,
+      deviceAddedAt: json['deviceAddedAt'] == null
+          ? null
+          : DateTime.parse(json['deviceAddedAt'] as String),
       locationId: json['locationId'] as String?,
       plantId: (json['plantId'] as num?)?.toInt(),
       healthStatus:
@@ -44,6 +47,7 @@ Map<String, dynamic> _$MyPlantModelToJson(_MyPlantModel instance) =>
       'lastWatering': instance.lastWatering?.toIso8601String(),
       'lastFertilization': instance.lastFertilization?.toIso8601String(),
       'deviceId': instance.deviceId,
+      'deviceAddedAt': instance.deviceAddedAt?.toIso8601String(),
       'locationId': instance.locationId,
       'plantId': instance.plantId,
       'healthStatus': _$PlantHealthStatusEnumMap[instance.healthStatus],

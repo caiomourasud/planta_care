@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/app/components/location_card.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/enums/plant_location_type.dart';
 import 'package:planta_care/app/enums/plant_sub_location_type.dart';
@@ -19,7 +20,7 @@ class WhereIsThePlantPlacedPage extends StatefulWidget {
     this.onGoBack,
   });
 
-  final void Function(PlantLocationType? value)? onNext;
+  final void Function(String? value)? onNext;
   final void Function()? onGoBack;
 
   @override
@@ -146,7 +147,9 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
           Expanded(
             child: PlantaFilledButton(
               context: context,
-              onPressed: () => widget.onNext?.call(_selectedPlantLocationType),
+              onPressed: () => widget.onNext?.call(
+                _selectedPlantSubLocationType.id,
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -226,75 +229,14 @@ class _WhereIsThePlantPlacedPageState extends State<WhereIsThePlantPlacedPage> {
             itemCount: plantSubLocations.length,
             itemBuilder: (context, index) {
               final location = plantSubLocations[index];
-              return Material(
-                child: ListTile(
-                  onTap: () {
-                    setState(() {
-                      _selectedPlantSubLocationType = location;
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: _selectedPlantSubLocationType == location
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withAlpha(20),
-                    ),
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  tileColor: Theme.of(context).colorScheme.surface,
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 8.0),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: PlantSubLocationService
-                                      .getIconColorByPlantLocationModel(
-                                          location)
-                                  ?.withAlpha(40) ??
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(20),
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Icon(
-                          PlantSubLocationService.getIconByPlantLocationModel(
-                                  location) ??
-                              Icons.dashboard_customize,
-                          color: PlantSubLocationService
-                                  .getIconColorByPlantLocationModel(location) ??
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(120),
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        location.name ?? 'Location',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        location.description ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(120),
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
+              return LocationCard(
+                location: location,
+                selected: _selectedPlantSubLocationType == location,
+                onTap: () {
+                  setState(() {
+                    _selectedPlantSubLocationType = location;
+                  });
+                },
               );
             },
           ),

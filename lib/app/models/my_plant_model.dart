@@ -16,6 +16,7 @@ abstract class MyPlantModel with _$MyPlantModel {
     DateTime? lastWatering,
     DateTime? lastFertilization,
     String? deviceId,
+    DateTime? deviceAddedAt,
     String? locationId,
     int? plantId,
     PlantHealthStatus? healthStatus,

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/pages/add_plant/add_plant_page.dart';
+import 'package:planta_care/app/pages/initial/my_locations/my_locations_page.dart';
+import 'package:planta_care/app/pages/initial/settings/settings_page.dart';
 import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
@@ -31,6 +33,8 @@ final _shellNavigatorPremiumKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellPremium');
 
 class AppRouter {
+  static StatefulNavigationShell? navigationShell;
+
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     routes: <RouteBase>[
@@ -82,13 +86,6 @@ class AppRouter {
             redirect: const AuthGuard().isNotLogged,
           ),
           GoRoute(
-            name: 'plant-details',
-            path: '/plant-details',
-            pageBuilder: (context, state) => const CupertinoPage(
-              child: PlantDetailsPage(),
-            ),
-          ),
-          GoRoute(
             name: 'add-plant',
             path: '/add-plant',
             pageBuilder: (context, state) => const CupertinoPage(
@@ -98,9 +95,10 @@ class AppRouter {
             redirect: const AuthGuard().isNotLogged,
           ),
           StatefulShellRoute.indexedStack(
-            builder: (context, state, navigationShell) {
+            builder: (context, state, initialNavigationShell) {
+              navigationShell = initialNavigationShell;
               return InitialPage(
-                navigationShell: navigationShell,
+                navigationShell: navigationShell!,
               );
             },
             branches: [
@@ -122,6 +120,15 @@ class AppRouter {
                         ),
                         redirect: const AuthGuard().isNotLogged,
                       ),
+                      GoRoute(
+                        name: 'plant-details',
+                        path: '/plant-details/:plantId',
+                        pageBuilder: (context, state) => CupertinoPage(
+                          child: PlantDetailsPage(
+                            plantId: state.pathParameters['plantId'],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -135,8 +142,21 @@ class AppRouter {
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: MyPlacePage(),
                     ),
-                    routes: const [
-                      // TODO: Add routes for my place page
+                    routes: [
+                      GoRoute(
+                        name: 'settings',
+                        path: 'settings',
+                        pageBuilder: (context, state) => const CupertinoPage(
+                          child: SettingsPage(),
+                        ),
+                      ),
+                      GoRoute(
+                        name: 'my-locations',
+                        path: 'my-locations',
+                        pageBuilder: (context, state) => const CupertinoPage(
+                          child: MyLocationsPage(),
+                        ),
+                      ),
                     ],
                   ),
                 ],

@@ -23,6 +23,7 @@ mixin _$MyPlantModel {
   DateTime? get lastWatering;
   DateTime? get lastFertilization;
   String? get deviceId;
+  DateTime? get deviceAddedAt;
   String? get locationId;
   int? get plantId;
   PlantHealthStatus? get healthStatus;
@@ -58,6 +59,8 @@ mixin _$MyPlantModel {
                 other.lastFertilization == lastFertilization) &&
             (identical(other.deviceId, deviceId) ||
                 other.deviceId == deviceId) &&
+            (identical(other.deviceAddedAt, deviceAddedAt) ||
+                other.deviceAddedAt == deviceAddedAt) &&
             (identical(other.locationId, locationId) ||
                 other.locationId == locationId) &&
             (identical(other.plantId, plantId) || other.plantId == plantId) &&
@@ -81,6 +84,7 @@ mixin _$MyPlantModel {
       lastWatering,
       lastFertilization,
       deviceId,
+      deviceAddedAt,
       locationId,
       plantId,
       healthStatus,
@@ -89,7 +93,7 @@ mixin _$MyPlantModel {
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -108,6 +112,7 @@ abstract mixin class $MyPlantModelCopyWith<$Res> {
       DateTime? lastWatering,
       DateTime? lastFertilization,
       String? deviceId,
+      DateTime? deviceAddedAt,
       String? locationId,
       int? plantId,
       PlantHealthStatus? healthStatus,
@@ -135,6 +140,7 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
     Object? lastWatering = freezed,
     Object? lastFertilization = freezed,
     Object? deviceId = freezed,
+    Object? deviceAddedAt = freezed,
     Object? locationId = freezed,
     Object? plantId = freezed,
     Object? healthStatus = freezed,
@@ -174,6 +180,10 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
           ? _self.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String?,
+      deviceAddedAt: freezed == deviceAddedAt
+          ? _self.deviceAddedAt
+          : deviceAddedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       locationId: freezed == locationId
           ? _self.locationId
           : locationId // ignore: cast_nullable_to_non_nullable
@@ -210,6 +220,7 @@ class _MyPlantModel implements MyPlantModel {
       this.lastWatering,
       this.lastFertilization,
       this.deviceId,
+      this.deviceAddedAt,
       this.locationId,
       this.plantId,
       this.healthStatus,
@@ -243,6 +254,8 @@ class _MyPlantModel implements MyPlantModel {
   final DateTime? lastFertilization;
   @override
   final String? deviceId;
+  @override
+  final DateTime? deviceAddedAt;
   @override
   final String? locationId;
   @override
@@ -287,6 +300,8 @@ class _MyPlantModel implements MyPlantModel {
                 other.lastFertilization == lastFertilization) &&
             (identical(other.deviceId, deviceId) ||
                 other.deviceId == deviceId) &&
+            (identical(other.deviceAddedAt, deviceAddedAt) ||
+                other.deviceAddedAt == deviceAddedAt) &&
             (identical(other.locationId, locationId) ||
                 other.locationId == locationId) &&
             (identical(other.plantId, plantId) || other.plantId == plantId) &&
@@ -310,6 +325,7 @@ class _MyPlantModel implements MyPlantModel {
       lastWatering,
       lastFertilization,
       deviceId,
+      deviceAddedAt,
       locationId,
       plantId,
       healthStatus,
@@ -318,7 +334,7 @@ class _MyPlantModel implements MyPlantModel {
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -339,6 +355,7 @@ abstract mixin class _$MyPlantModelCopyWith<$Res>
       DateTime? lastWatering,
       DateTime? lastFertilization,
       String? deviceId,
+      DateTime? deviceAddedAt,
       String? locationId,
       int? plantId,
       PlantHealthStatus? healthStatus,
@@ -367,6 +384,7 @@ class __$MyPlantModelCopyWithImpl<$Res>
     Object? lastWatering = freezed,
     Object? lastFertilization = freezed,
     Object? deviceId = freezed,
+    Object? deviceAddedAt = freezed,
     Object? locationId = freezed,
     Object? plantId = freezed,
     Object? healthStatus = freezed,
@@ -406,6 +424,10 @@ class __$MyPlantModelCopyWithImpl<$Res>
           ? _self.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String?,
+      deviceAddedAt: freezed == deviceAddedAt
+          ? _self.deviceAddedAt
+          : deviceAddedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       locationId: freezed == locationId
           ? _self.locationId
           : locationId // ignore: cast_nullable_to_non_nullable

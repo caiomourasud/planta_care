@@ -9,14 +9,14 @@ import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/device_reading_model.dart';
 import 'package:planta_care/firebase/device_collection.dart';
 
-class ChartPage extends StatefulWidget {
-  const ChartPage({super.key});
+class ChartsPage extends StatefulWidget {
+  const ChartsPage({super.key});
 
   @override
-  State<ChartPage> createState() => _ChartPageState();
+  State<ChartsPage> createState() => _ChartsPageState();
 }
 
-class _ChartPageState extends State<ChartPage> {
+class _ChartsPageState extends State<ChartsPage> {
   List<DeviceReadingModel> readings = [];
   List<DeviceReadingModel> filledReadings = [];
   DateTime selectedDate = DateTime.now();
@@ -43,7 +43,6 @@ class _ChartPageState extends State<ChartPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _selectDate(DateTime.now());
-      _setupTimers();
       _getCurrentWeekDates();
     });
   }
@@ -54,71 +53,26 @@ class _ChartPageState extends State<ChartPage> {
     super.dispose();
   }
 
-  void _setupTimers() {
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      _getRealTimeData();
-    });
-
-    _scheduleNextReading();
-  }
-
   void _selectDate(DateTime date) async {
     selectedDate = date;
     _getData();
   }
 
-  void _scheduleNextReading() {
-    final now = DateTime.now();
-    final minutes = now.minute;
-    final seconds = now.second;
-
-    Duration timeUntilNext;
-    if (minutes < 30) {
-      timeUntilNext = Duration(minutes: 30 - minutes, seconds: -seconds);
-    } else {
-      timeUntilNext = Duration(minutes: 60 - minutes, seconds: -seconds);
-    }
-
-    _timer = Timer(timeUntilNext, () {
-      _getReadings(selectedDate);
-      _timer = Timer.periodic(const Duration(minutes: 30), (timer) {
-        _getReadings(selectedDate);
-      });
-    });
-  }
-
   Future<void> _getData() async {
-    await _enableRealTime();
-    await _getReadings(selectedDate);
-    _getRealTimeData();
-    setState(() {});
+    _listenToReadings();
   }
 
-  Future<void> _getReadings(DateTime date) async {
-    final result = await DeviceCollection.fetchReadings('3C:8A:1F:AF:7E:A4',
-        date: date.toIso8601String());
-    if (mounted) {
-      setState(() {
-        readings = result;
-        filledReadings = _fillMissingReadings(result);
-      });
-    }
-  }
-
-  Future<void> _getRealTimeData() async {
-    final result = await DeviceCollection.getDeviceById('3C:8A:1F:AF:7E:A4');
-    if (result != null && mounted) {
-      setState(() {
-        device = result;
-      });
-    }
-  }
-
-  Future<void> _enableRealTime() async {
-    await DeviceCollection.setRealTimeEnabled(
-      '3C:8A:1F:AF:7E:A4',
-      true,
-    );
+  _listenToReadings() {
+    DeviceCollection.listenToReadings('3C:8A:1F:AF:7E:A4',
+            date: selectedDate.toIso8601String())
+        .listen((result) {
+      if (mounted) {
+        setState(() {
+          readings = result;
+          filledReadings = _fillMissingReadings(result);
+        });
+      }
+    });
   }
 
   DateTime? _roundToNearestHalfHour(DateTime? dateTime) {
@@ -162,13 +116,6 @@ class _ChartPageState extends State<ChartPage> {
     return sortedReadings.map((e) => e.value).toList();
   }
 
-  // String _formatTimestamp(DateTime? timestamp) {
-  //   if (timestamp == null) {
-  //     return '';
-  //   }
-  //   return DateFormat('MM/dd/yyyy HH:mm:ss').format(timestamp);
-  // }
-
   Widget _chart({
     required String title,
     required double? Function(int index) values,
@@ -176,6 +123,7 @@ class _ChartPageState extends State<ChartPage> {
     double? maxValue,
     Color? lowColor,
     Color? highColor,
+    String? unit,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -183,7 +131,7 @@ class _ChartPageState extends State<ChartPage> {
         Text(title, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 10),
         AspectRatio(
-          aspectRatio: 16 / 4,
+          aspectRatio: 16 / 3,
           child: LayoutBuilder(builder: (context, constraints) {
             return Row(
               spacing: 2.0,
@@ -194,7 +142,10 @@ class _ChartPageState extends State<ChartPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(20),
                           borderRadius: BorderRadius.circular(2),
                         ),
                         height: constraints.maxHeight,
@@ -205,7 +156,7 @@ class _ChartPageState extends State<ChartPage> {
                             ? values(index)?.toDouble() ?? 0.0
                             : 0.0;
                         return Tooltip(
-                          message: '${moisture.toInt()}%',
+                          message: '${moisture.toInt()}${unit ?? '%'}',
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             decoration: BoxDecoration(
@@ -245,33 +196,17 @@ class _ChartPageState extends State<ChartPage> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        trailing: Text('Charts', style: Theme.of(context).textTheme.titleLarge),
       ),
-      // overlayItem: Container(
-      //   width: MediaQuery.of(context).size.width,
-      //   padding: const EdgeInsets.symmetric(horizontal: 20),
-      //   child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       const SizedBox(height: 50),
-      //       Text('Real Time', style: Theme.of(context).textTheme.titleLarge),
-      //       const SizedBox(height: 20),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: [
-      //           Text('Moisture: ${device?.moisture ?? 0}%',
-      //               style: Theme.of(context).textTheme.titleLarge),
-      //           // Text('Light: ${device?.light ?? ''}',
-      //           //     style: Theme.of(context).textTheme.titleLarge),
-      //         ],
-      //       ),
-      //       Text('Last check: ${_formatTimestamp(device?.timestamp)}',
-      //           style: Theme.of(context).textTheme.bodyMedium),
-      //       const SizedBox(height: 70),
-      //     ],
-      //   ),
-      // ),
+      upperBodyTitle: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+        child: Text(
+          'Charts',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -290,11 +225,13 @@ class _ChartPageState extends State<ChartPage> {
                       textAlign: TextAlign.center,
                       style: isSelected
                           ? Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               )
                           : Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withAlpha(120),
                               ),
                     ),
                     const SizedBox(height: 4.0),
@@ -305,8 +242,14 @@ class _ChartPageState extends State<ChartPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? Colors.grey[500]
-                                  : Colors.grey[300],
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withAlpha(120)
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withAlpha(20),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -329,59 +272,6 @@ class _ChartPageState extends State<ChartPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Text('Moisture', style: Theme.of(context).textTheme.titleLarge),
-              // const SizedBox(height: 20),
-              // AspectRatio(
-              //   aspectRatio: 16 / 4,
-              //   child: LayoutBuilder(builder: (context, constraints) {
-              //     return Row(
-              //       spacing: 2.0,
-              //       children: List.generate(48, (index) {
-              //         return Expanded(
-              //           child: Stack(
-              //             alignment: Alignment.bottomCenter,
-              //             children: [
-              //               Container(
-              //                 decoration: BoxDecoration(
-              //                   color: Colors.grey.shade200,
-              //                   borderRadius: BorderRadius.circular(2),
-              //                 ),
-              //                 height: constraints.maxHeight,
-              //               ),
-              //               Builder(builder: (context) {
-              //                 final hasItem = filledReadings.length > index;
-              //                 final moisture = hasItem &&
-              //                         filledReadings[index].moisture != null
-              //                     ? filledReadings[index]
-              //                             .moisture
-              //                             ?.toDouble() ??
-              //                         0
-              //                     : 0;
-              //                 return Tooltip(
-              //                   message: '${moisture.toInt()}%',
-              //                   child: AnimatedContainer(
-              //                     duration: const Duration(milliseconds: 300),
-              //                     decoration: BoxDecoration(
-              //                       color: moisture > 30
-              //                           ? Colors.blue.shade200
-              //                           : Colors.red.shade200,
-              //                       borderRadius: const BorderRadius.only(
-              //                         bottomLeft: Radius.circular(2),
-              //                         bottomRight: Radius.circular(2),
-              //                       ),
-              //                     ),
-              //                     height:
-              //                         moisture * constraints.maxHeight / 100,
-              //                   ),
-              //                 );
-              //               }),
-              //             ],
-              //           ),
-              //         );
-              //       }).toList(),
-              //     );
-              //   }),
-              // ),
               _chart(
                 title: 'Moisture',
                 values: (index) {
@@ -405,9 +295,10 @@ class _ChartPageState extends State<ChartPage> {
                   return filledReadings[index].temperature;
                 },
                 minValue: 18,
-                maxValue: 50,
+                maxValue: 45,
                 lowColor: Colors.blue.shade200,
                 highColor: Colors.orange.shade200,
+                unit: '°C',
               ),
               const SizedBox(height: 20),
               _chart(

@@ -48,7 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         trailing: PlantaAppBarButton(
           context: context,
-          onPressed: () {},
+          onPressed: () {
+            context.push('/my-place/settings');
+          },
           icon: const Icon(Icons.settings),
         ),
       ),

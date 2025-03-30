@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class MyPlantsVerticalList<T> extends StatelessWidget {
   const MyPlantsVerticalList({
     required this.title,
-    required this.onViewAllPressed,
     required this.items,
     required this.itemBuilder,
+    this.onViewAllPressed,
     super.key,
   });
 
   final String title;
-  final VoidCallback onViewAllPressed;
   final List<T> items;
-  final Widget Function(T item) itemBuilder;
+  final Widget Function(T item, int index) itemBuilder;
+  final VoidCallback? onViewAllPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +30,24 @@ class MyPlantsVerticalList<T> extends StatelessWidget {
                       ),
                 ),
               ),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  foregroundColor: Theme.of(context).colorScheme.onSurface,
-                ),
-                onPressed: onViewAllPressed,
-                child: Text(
-                  'View all',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
+              if (onViewAllPressed != null)
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  onPressed: onViewAllPressed,
+                  child: Text(
+                    'View all',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                )
+              else
+                const SizedBox(height: 40.0),
             ],
           ),
         ),
@@ -56,7 +59,7 @@ class MyPlantsVerticalList<T> extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: List.generate(
               items.length,
-              (index) => itemBuilder(items[index]),
+              (index) => itemBuilder(items[index], index),
             ),
           ),
         ),
