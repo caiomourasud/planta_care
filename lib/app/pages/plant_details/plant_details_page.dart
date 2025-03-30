@@ -413,7 +413,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                   child: _buildCare(
                     icon: const Icon(
                       Icons.sunny,
-                      color: Colors.yellow,
+                      color: Colors.orange,
                     ),
                     title: 'Medium',
                     onTap: () {},

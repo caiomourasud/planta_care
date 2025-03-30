@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
@@ -5,6 +7,11 @@ import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/components/planta_sliding_segmented_control.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
+import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/models/plant_sub_location_model.dart';
+import 'package:planta_care/firebase/auth.dart';
+import 'package:planta_care/firebase/location_collection.dart';
+import 'package:planta_care/firebase/plant_collection.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,6 +22,45 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? _selectedSegment;
+  StreamSubscription? _plantsSubscription;
+  StreamSubscription? _locationsSubscription;
+
+  List<MyPlantModel>? _plants;
+  List<PlantSubLocationModel>? _locations;
+
+  @override
+  void initState() {
+    super.initState();
+    _listenToPlants();
+    _listenToLocations();
+  }
+
+  @override
+  void dispose() {
+    _plantsSubscription?.cancel();
+    _locationsSubscription?.cancel();
+    super.dispose();
+  }
+
+  _listenToPlants() {
+    _plantsSubscription =
+        PlantCollection.listenToPlants(Auth.currentUser?.email ?? '')
+            .listen((plants) {
+      setState(() {
+        _plants = plants;
+      });
+    });
+  }
+
+  _listenToLocations() {
+    _locationsSubscription =
+        LocationCollection.listenToLocations(Auth.currentUser?.email ?? '')
+            .listen((locations) {
+      setState(() {
+        _locations = locations;
+      });
+    });
+  }
 
   Widget _buildKeyValueVertical(String key, String value) {
     return Column(
@@ -107,13 +153,15 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Row(
               children: [
                 Expanded(
-                  child: _buildKeyValueVertical('20', 'Plants'),
+                  child: _buildKeyValueVertical(
+                      '${_plants?.length ?? 0}', 'Plants'),
                 ),
                 Expanded(
-                  child: _buildKeyValueVertical('50', 'Sites'),
+                  child: _buildKeyValueVertical(
+                      '${_locations?.length ?? 0}', 'Locations'),
                 ),
                 Expanded(
-                  child: _buildKeyValueVertical('100', 'Photos'),
+                  child: _buildKeyValueVertical('0', 'Photos'),
                 ),
               ],
             ),
@@ -128,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _selectedSegment = value;
               });
             },
-            children: const ['Plants', 'Sites', 'Photos'],
+            children: const ['Plants', 'Locations', 'Photos'],
             itemBuilder: (item, selected) => Text(
               item,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(

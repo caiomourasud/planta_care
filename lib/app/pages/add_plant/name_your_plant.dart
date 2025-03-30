@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
@@ -118,7 +119,18 @@ class _NameYourPlantPageState extends State<NameYourPlantPage> {
                 borderRadius: BorderRadius.circular(60.0),
                 borderSide: BorderSide.none,
               ),
-              prefixIcon: const Icon(CupertinoIcons.search),
+              prefixIcon: SizedBox(
+                width: 22.0,
+                height: 22.0,
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/svg/icons/search.svg',
+                    width: 22.0,
+                    height: 22.0,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
             ),
           ),
           Wrap(

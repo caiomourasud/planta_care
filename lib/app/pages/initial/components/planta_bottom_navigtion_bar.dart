@@ -105,22 +105,32 @@ class PlantaBottomNavigationBar extends StatelessWidget {
               context,
               2,
               tooltip: 'Categories',
-              icon: (isSelected) => Icon(
-                CupertinoIcons.search,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Colors.grey[500],
+              icon: (isSelected) => SvgPicture.asset(
+                'assets/svg/icons/search.svg',
+                width: 22.0,
+                height: 22.0,
+                colorFilter: ColorFilter.mode(
+                  isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey[500]!,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             _buildButton(
               context,
               3,
               tooltip: 'Diagnosis',
-              icon: (isSelected) => Icon(
-                Icons.medical_services,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Colors.grey[500],
+              icon: (isSelected) => SvgPicture.asset(
+                'assets/svg/icons/diagnose.svg',
+                width: 22.0,
+                height: 22.0,
+                colorFilter: ColorFilter.mode(
+                  isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey[500]!,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             _buildButton(

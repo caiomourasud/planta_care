@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
@@ -115,7 +115,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 borderRadius: BorderRadius.circular(60.0),
                                 borderSide: BorderSide.none,
                               ),
-                              prefixIcon: const Icon(CupertinoIcons.search),
+                              prefixIcon: SizedBox(
+                                width: 22.0,
+                                height: 22.0,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    'assets/svg/icons/search.svg',
+                                    width: 22.0,
+                                    height: 22.0,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

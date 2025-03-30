@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/my_plant_square_card.dart';
@@ -130,7 +131,12 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   AppRouter.navigationShell?.goBranch(3);
                 },
-                icon: const Icon(Icons.fit_screen_rounded),
+                icon: SvgPicture.asset(
+                  'assets/svg/icons/scan.svg',
+                  width: 22.0,
+                  height: 22.0,
+                  fit: BoxFit.contain,
+                ),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/components/planta_sliding_segmented_control.dart';
@@ -52,7 +53,16 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.fit_screen_rounded),
+                SvgPicture.asset(
+                  'assets/svg/icons/scan.svg',
+                  width: 22.0,
+                  height: 22.0,
+                  fit: BoxFit.contain,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
                 const SizedBox(width: 8.0),
                 Text(
                   'Auto diagnose',
