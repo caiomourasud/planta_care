@@ -245,7 +245,8 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        _buildData('Light', 'Difuse'),
+                                        _buildData(
+                                            'Light', _device?.lightLevel ?? ''),
                                         const SizedBox(height: 8.0),
                                         _buildData('Humidity',
                                             '${_device?.humidity}%'),

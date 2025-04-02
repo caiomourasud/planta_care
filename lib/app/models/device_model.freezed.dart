@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeviceModel {
-  List<DeviceReadingModel>? get readings; // String? light,
+  List<DeviceReadingModel>? get readings;
+  @LightLevelConverter()
+  double? get light;
   double? get moisture;
   DateTime? get timestamp;
   double? get temperature;
@@ -38,6 +40,7 @@ mixin _$DeviceModel {
         (other.runtimeType == runtimeType &&
             other is DeviceModel &&
             const DeepCollectionEquality().equals(other.readings, readings) &&
+            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
@@ -55,6 +58,7 @@ mixin _$DeviceModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(readings),
+      light,
       moisture,
       timestamp,
       temperature,
@@ -63,7 +67,7 @@ mixin _$DeviceModel {
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -75,6 +79,7 @@ abstract mixin class $DeviceModelCopyWith<$Res> {
   @useResult
   $Res call(
       {List<DeviceReadingModel>? readings,
+      @LightLevelConverter() double? light,
       double? moisture,
       DateTime? timestamp,
       double? temperature,
@@ -95,6 +100,7 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
   @override
   $Res call({
     Object? readings = freezed,
+    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
     Object? temperature = freezed,
@@ -106,6 +112,10 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
           ? _self.readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as double?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
@@ -132,15 +142,17 @@ class _$DeviceModelCopyWithImpl<$Res> implements $DeviceModelCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _DeviceModel implements DeviceModel {
+class _DeviceModel extends DeviceModel {
   const _DeviceModel(
       {final List<DeviceReadingModel>? readings,
+      @LightLevelConverter() this.light,
       this.moisture,
       this.timestamp,
       this.temperature,
       this.humidity,
       this.realTimeEnabled})
-      : _readings = readings;
+      : _readings = readings,
+        super._();
   factory _DeviceModel.fromJson(Map<String, dynamic> json) =>
       _$DeviceModelFromJson(json);
 
@@ -154,7 +166,9 @@ class _DeviceModel implements DeviceModel {
     return EqualUnmodifiableListView(value);
   }
 
-// String? light,
+  @override
+  @LightLevelConverter()
+  final double? light;
   @override
   final double? moisture;
   @override
@@ -187,6 +201,7 @@ class _DeviceModel implements DeviceModel {
         (other.runtimeType == runtimeType &&
             other is _DeviceModel &&
             const DeepCollectionEquality().equals(other._readings, _readings) &&
+            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
@@ -204,6 +219,7 @@ class _DeviceModel implements DeviceModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_readings),
+      light,
       moisture,
       timestamp,
       temperature,
@@ -212,7 +228,7 @@ class _DeviceModel implements DeviceModel {
 
   @override
   String toString() {
-    return 'DeviceModel(readings: $readings, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
+    return 'DeviceModel(readings: $readings, light: $light, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity, realTimeEnabled: $realTimeEnabled)';
   }
 }
 
@@ -226,6 +242,7 @@ abstract mixin class _$DeviceModelCopyWith<$Res>
   @useResult
   $Res call(
       {List<DeviceReadingModel>? readings,
+      @LightLevelConverter() double? light,
       double? moisture,
       DateTime? timestamp,
       double? temperature,
@@ -246,6 +263,7 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? readings = freezed,
+    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
     Object? temperature = freezed,
@@ -257,6 +275,10 @@ class __$DeviceModelCopyWithImpl<$Res> implements _$DeviceModelCopyWith<$Res> {
           ? _self._readings
           : readings // ignore: cast_nullable_to_non_nullable
               as List<DeviceReadingModel>?,
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as double?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable

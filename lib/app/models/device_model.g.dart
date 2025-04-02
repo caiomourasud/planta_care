@@ -10,6 +10,7 @@ _DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => _DeviceModel(
       readings: (json['readings'] as List<dynamic>?)
           ?.map((e) => DeviceReadingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      light: const LightLevelConverter().fromJson(json['light']),
       moisture: (json['moisture'] as num?)?.toDouble(),
       timestamp: json['timestamp'] == null
           ? null
@@ -22,6 +23,7 @@ _DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => _DeviceModel(
 Map<String, dynamic> _$DeviceModelToJson(_DeviceModel instance) =>
     <String, dynamic>{
       'readings': instance.readings,
+      'light': const LightLevelConverter().toJson(instance.light),
       'moisture': instance.moisture,
       'timestamp': instance.timestamp?.toIso8601String(),
       'temperature': instance.temperature,

@@ -8,6 +8,7 @@ part of 'device_reading_model.dart';
 
 _DeviceReadingModel _$DeviceReadingModelFromJson(Map<String, dynamic> json) =>
     _DeviceReadingModel(
+      light: const LightLevelConverter().fromJson(json['light']),
       moisture: (json['moisture'] as num?)?.toDouble(),
       timestamp: json['timestamp'] == null
           ? null
@@ -18,6 +19,7 @@ _DeviceReadingModel _$DeviceReadingModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$DeviceReadingModelToJson(_DeviceReadingModel instance) =>
     <String, dynamic>{
+      'light': const LightLevelConverter().toJson(instance.light),
       'moisture': instance.moisture,
       'timestamp': instance.timestamp?.toIso8601String(),
       'temperature': instance.temperature,

@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeviceReadingModel {
-// String? light,
+  @LightLevelConverter()
+  double? get light;
   double? get moisture;
   DateTime? get timestamp;
   double? get temperature;
@@ -37,6 +38,7 @@ mixin _$DeviceReadingModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeviceReadingModel &&
+            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
@@ -49,12 +51,12 @@ mixin _$DeviceReadingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, moisture, timestamp, temperature, humidity);
+  int get hashCode => Object.hash(
+      runtimeType, light, moisture, timestamp, temperature, humidity);
 
   @override
   String toString() {
-    return 'DeviceReadingModel(moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity)';
+    return 'DeviceReadingModel(light: $light, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity)';
   }
 }
 
@@ -65,7 +67,8 @@ abstract mixin class $DeviceReadingModelCopyWith<$Res> {
       _$DeviceReadingModelCopyWithImpl;
   @useResult
   $Res call(
-      {double? moisture,
+      {@LightLevelConverter() double? light,
+      double? moisture,
       DateTime? timestamp,
       double? temperature,
       double? humidity});
@@ -84,12 +87,17 @@ class _$DeviceReadingModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
     Object? temperature = freezed,
     Object? humidity = freezed,
   }) {
     return _then(_self.copyWith(
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as double?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable
@@ -112,13 +120,20 @@ class _$DeviceReadingModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _DeviceReadingModel implements DeviceReadingModel {
+class _DeviceReadingModel extends DeviceReadingModel {
   const _DeviceReadingModel(
-      {this.moisture, this.timestamp, this.temperature, this.humidity});
+      {@LightLevelConverter() this.light,
+      this.moisture,
+      this.timestamp,
+      this.temperature,
+      this.humidity})
+      : super._();
   factory _DeviceReadingModel.fromJson(Map<String, dynamic> json) =>
       _$DeviceReadingModelFromJson(json);
 
-// String? light,
+  @override
+  @LightLevelConverter()
+  final double? light;
   @override
   final double? moisture;
   @override
@@ -148,6 +163,7 @@ class _DeviceReadingModel implements DeviceReadingModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _DeviceReadingModel &&
+            (identical(other.light, light) || other.light == light) &&
             (identical(other.moisture, moisture) ||
                 other.moisture == moisture) &&
             (identical(other.timestamp, timestamp) ||
@@ -160,12 +176,12 @@ class _DeviceReadingModel implements DeviceReadingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, moisture, timestamp, temperature, humidity);
+  int get hashCode => Object.hash(
+      runtimeType, light, moisture, timestamp, temperature, humidity);
 
   @override
   String toString() {
-    return 'DeviceReadingModel(moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity)';
+    return 'DeviceReadingModel(light: $light, moisture: $moisture, timestamp: $timestamp, temperature: $temperature, humidity: $humidity)';
   }
 }
 
@@ -178,7 +194,8 @@ abstract mixin class _$DeviceReadingModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double? moisture,
+      {@LightLevelConverter() double? light,
+      double? moisture,
       DateTime? timestamp,
       double? temperature,
       double? humidity});
@@ -197,12 +214,17 @@ class __$DeviceReadingModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? light = freezed,
     Object? moisture = freezed,
     Object? timestamp = freezed,
     Object? temperature = freezed,
     Object? humidity = freezed,
   }) {
     return _then(_DeviceReadingModel(
+      light: freezed == light
+          ? _self.light
+          : light // ignore: cast_nullable_to_non_nullable
+              as double?,
       moisture: freezed == moisture
           ? _self.moisture
           : moisture // ignore: cast_nullable_to_non_nullable

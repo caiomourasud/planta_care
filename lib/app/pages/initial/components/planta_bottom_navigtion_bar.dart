@@ -59,10 +59,12 @@ class PlantaBottomNavigationBar extends StatelessWidget {
               }
             },
             icon: icon?.call(isSelected) ??
-                Icon(Icons.home,
-                    color: isSelected
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Colors.grey[500]),
+                Icon(
+                  Icons.home,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
+                ),
           ),
         ),
       ),
@@ -105,7 +107,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                   isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey[500]!,
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
                   BlendMode.srcIn,
                 ),
               ),
@@ -121,7 +123,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                   isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey[500]!,
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
                   BlendMode.srcIn,
                 ),
               ),
@@ -137,7 +139,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                   isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey[500]!,
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
                   BlendMode.srcIn,
                 ),
               ),
@@ -153,7 +155,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                   isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey[500]!,
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
                   BlendMode.srcIn,
                 ),
               ),
@@ -169,7 +171,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 colorFilter: ColorFilter.mode(
                   isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey[500]!,
+                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
                   BlendMode.srcIn,
                 ),
               ),
