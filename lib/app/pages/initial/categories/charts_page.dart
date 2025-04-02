@@ -24,34 +24,13 @@ class _ChartsPageState extends State<ChartsPage> {
   List<DateTime> weekDates = [];
 
   DeviceModel? device;
-  Timer? _timer;
-
-  // void _getCurrentWeekDates() {
-  //   final now = selectedDate;
-  //   final sunday = now.subtract(Duration(days: now.weekday));
-
-  //   weekDates = List.generate(7, (index) {
-  //     return DateTime(
-  //       sunday.year,
-  //       sunday.month,
-  //       sunday.day + index,
-  //     );
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _selectDate(DateTime.now());
-      // _getCurrentWeekDates();
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   void _selectDate(DateTime date) async {
@@ -155,15 +134,15 @@ class _ChartsPageState extends State<ChartsPage> {
                           ),
                           Builder(builder: (context) {
                             final hasItem = values(index) != null;
-                            final moisture = hasItem && values(index) != null
+                            final data = hasItem && values(index) != null
                                 ? values(index)?.toDouble() ?? 0.0
                                 : 0.0;
                             return Tooltip(
-                              message: '${moisture.toInt()}${unit ?? '%'}',
+                              message: '${data.toInt()}${unit ?? '%'}',
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 decoration: BoxDecoration(
-                                  color: moisture > (minValue ?? 30)
+                                  color: data > (minValue ?? 30)
                                       ? highColor ?? Colors.blue.shade200
                                       : lowColor ?? Colors.red.shade200,
                                   borderRadius: const BorderRadius.only(
@@ -171,7 +150,7 @@ class _ChartsPageState extends State<ChartsPage> {
                                     bottomRight: Radius.circular(2),
                                   ),
                                 ),
-                                height: moisture *
+                                height: data *
                                     constraints.maxHeight /
                                     (maxValue ?? 100),
                               ),
@@ -216,103 +195,6 @@ class _ChartsPageState extends State<ChartsPage> {
       ],
     );
   }
-
-  // Widget _treeWeeksDays() {
-  //   return SizedBox(
-  //     height: 68.0,
-  //     child: PageView(
-  //       controller: _pageController,
-  //       children: [
-  //         _weekDays(weekDates
-  //             .map((e) => e.subtract(const Duration(days: 7)))
-  //             .toList()),
-  //         _weekDays(weekDates),
-  //         _weekDays(
-  //             weekDates.map((e) => e.add(const Duration(days: 7))).toList()),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _weekDays(List<DateTime> thisWeekDates) {
-  //   final now = DateTime.now();
-  //   return Row(
-  //     spacing: 8.0,
-  //     children: thisWeekDates.map((e) {
-  //       final isSelected =
-  //           DateTime(selectedDate.year, selectedDate.month, selectedDate.day) ==
-  //               DateTime(e.year, e.month, e.day);
-  //       return Expanded(
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //               height: 18.0,
-  //               width: 18.0,
-  //               decoration: BoxDecoration(
-  //                 color: DateTime(e.year, e.month, e.day) ==
-  //                         DateTime(now.year, now.month, now.day)
-  //                     ? Theme.of(context).colorScheme.primary
-  //                     : null,
-  //                 shape: BoxShape.circle,
-  //               ),
-  //               child: Center(
-  //                 child: Text(
-  //                   DateFormat('E').format(e)[0],
-  //                   textAlign: TextAlign.center,
-  //                   style: DateTime(e.year, e.month, e.day) ==
-  //                           DateTime(now.year, now.month, now.day)
-  //                       ? Theme.of(context).textTheme.bodySmall?.copyWith(
-  //                             fontWeight: FontWeight.bold,
-  //                             color: Theme.of(context).colorScheme.onPrimary,
-  //                           )
-  //                       : isSelected
-  //                           ? Theme.of(context).textTheme.bodySmall?.copyWith(
-  //                                 fontWeight: FontWeight.bold,
-  //                               )
-  //                           : Theme.of(context).textTheme.bodySmall?.copyWith(
-  //                                 color: Theme.of(context)
-  //                                     .colorScheme
-  //                                     .onSurface
-  //                                     .withAlpha(120),
-  //                               ),
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(height: 4.0),
-  //             AspectRatio(
-  //               aspectRatio: 1,
-  //               child: Stack(
-  //                 children: [
-  //                   Container(
-  //                     decoration: BoxDecoration(
-  //                       color: isSelected
-  //                           ? Theme.of(context)
-  //                               .colorScheme
-  //                               .onSurface
-  //                               .withAlpha(120)
-  //                           : Theme.of(context)
-  //                               .colorScheme
-  //                               .onSurface
-  //                               .withAlpha(20),
-  //                       borderRadius: BorderRadius.circular(100),
-  //                     ),
-  //                   ),
-  //                   Material(
-  //                     color: Colors.transparent,
-  //                     child: InkWell(
-  //                       onTap: () => _selectDate(e),
-  //                       borderRadius: BorderRadius.circular(100),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -465,7 +347,9 @@ class _ChartsPageState extends State<ChartsPage> {
                         if (index >= filledReadings.length) {
                           return null;
                         }
-                        return filledReadings[index].light;
+                        return (filledReadings[index].light ?? 0.0) > 601
+                            ? 601
+                            : filledReadings[index].light;
                       },
                       minValue: 0,
                       maxValue: 601,

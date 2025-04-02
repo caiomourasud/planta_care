@@ -9,9 +9,9 @@ class DeviceService {
       return "Low";
     } else if (lightValue < 161) {
       return "Medium";
-    } else if (lightValue < 401) {
+    } else if (lightValue < 501) {
       return "Bright";
-    } else if (lightValue < 601) {
+    } else if (lightValue < 801) {
       return "Strong";
     } else {
       return "Intense";
