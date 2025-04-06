@@ -45,6 +45,11 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
 
   MyPlantModel? get plant => widget.plant ?? _plant;
 
+  String get _imagePath =>
+      plant?.localUrl ??
+      plant?.category?.localUrl ??
+      'assets/images/where_are_your_plants.png';
+
   @override
   void initState() {
     super.initState();
@@ -200,13 +205,15 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                 icon: const Icon(Icons.arrow_back),
               ),
             ),
-            trailing: Skeleton.keep(
-              child: PlantaAppBarButton(
-                context: context,
-                onPressed: () {},
-                icon: const Icon(Icons.more_vert),
-              ),
-            ),
+            trailing: widget.onNext == null
+                ? Skeleton.keep(
+                    child: PlantaAppBarButton(
+                      context: context,
+                      onPressed: () {},
+                      icon: const Icon(Icons.more_vert),
+                    ),
+                  )
+                : null,
           ),
           overlayItem: _isLoading
               ? const SizedBox()
@@ -223,7 +230,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                         ),
                         child: Skeleton.keep(
                           child: Image.asset(
-                            'assets/images/where_are_your_plants.png',
+                            _imagePath,
                             height: MediaQuery.sizeOf(context).height * 0.26,
                           ),
                         ),

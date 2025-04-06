@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/app/components/my_plant_horizontal_card.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_vertical_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
@@ -172,78 +173,11 @@ class _MyPlacePageState extends State<MyPlacePage> {
               MyPlantsVerticalList<MyPlantModel>(
                 title: 'My Plants',
                 items: _plants,
-                itemBuilder: (item, index) => Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          height: 60.0,
-                          width: 60.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/images/plants/${index + 1}.png',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                item.name ?? 'Plant',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                              Text(
-                                'Keep your plant alive watering.',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface
-                                          .withAlpha(120),
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        SizedBox(
-                          width: 40.0,
-                          height: 40.0,
-                          child: IconButton(
-                            style: IconButton.styleFrom(
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              shape: const CircleBorder(),
-                            ),
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 18.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                itemBuilder: (item, index) => MyPlantHorizontalCard(
+                  plant: item,
+                  onTap: () {
+                    context.push('/home/plant-details/${item.id}');
+                  },
                 ),
               ),
               SizedBox(height: 96.0 + MediaQuery.paddingOf(context).bottom),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/pages/add_plant/add_plant_page.dart';
 import 'package:planta_care/app/pages/initial/my_locations/my_locations_page.dart';
+import 'package:planta_care/app/pages/initial/popular_plants_page/popular_plants_page.dart';
 import 'package:planta_care/app/pages/initial/settings/settings_page.dart';
 import 'package:planta_care/app/pages/my_place/my_place_page.dart';
 import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
@@ -137,6 +138,15 @@ class AppRouter {
                             child: PlantDetailsPage(
                               plantId: state.pathParameters['plantId'],
                             ),
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        name: 'popular-plants',
+                        path: '/popular-plants',
+                        pageBuilder: (context, state) {
+                          return const CupertinoPage(
+                            child: PopularPlantsPage(),
                           );
                         },
                       ),

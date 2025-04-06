@@ -29,6 +29,8 @@ mixin _$MyPlantModel {
   PlantHealthStatus? get healthStatus;
   DateTime? get createdAt;
   DateTime? get updatedAt;
+  Category? get category;
+  String? get localUrl;
 
   /// Create a copy of MyPlantModel
   /// with the given fields replaced by the non-null parameter values.
@@ -69,7 +71,11 @@ mixin _$MyPlantModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.localUrl, localUrl) ||
+                other.localUrl == localUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -89,11 +95,13 @@ mixin _$MyPlantModel {
       plantId,
       healthStatus,
       createdAt,
-      updatedAt);
+      updatedAt,
+      category,
+      localUrl);
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl)';
   }
 }
 
@@ -117,7 +125,9 @@ abstract mixin class $MyPlantModelCopyWith<$Res> {
       int? plantId,
       PlantHealthStatus? healthStatus,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      Category? category,
+      String? localUrl});
 }
 
 /// @nodoc
@@ -146,6 +156,8 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
     Object? healthStatus = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? category = freezed,
+    Object? localUrl = freezed,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -204,6 +216,14 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
+      localUrl: freezed == localUrl
+          ? _self.localUrl
+          : localUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -225,7 +245,9 @@ class _MyPlantModel implements MyPlantModel {
       this.plantId,
       this.healthStatus,
       this.createdAt,
-      this.updatedAt})
+      this.updatedAt,
+      this.category,
+      this.localUrl})
       : _images = images;
   factory _MyPlantModel.fromJson(Map<String, dynamic> json) =>
       _$MyPlantModelFromJson(json);
@@ -266,6 +288,10 @@ class _MyPlantModel implements MyPlantModel {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final Category? category;
+  @override
+  final String? localUrl;
 
   /// Create a copy of MyPlantModel
   /// with the given fields replaced by the non-null parameter values.
@@ -310,7 +336,11 @@ class _MyPlantModel implements MyPlantModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.localUrl, localUrl) ||
+                other.localUrl == localUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -330,11 +360,13 @@ class _MyPlantModel implements MyPlantModel {
       plantId,
       healthStatus,
       createdAt,
-      updatedAt);
+      updatedAt,
+      category,
+      localUrl);
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl)';
   }
 }
 
@@ -360,7 +392,9 @@ abstract mixin class _$MyPlantModelCopyWith<$Res>
       int? plantId,
       PlantHealthStatus? healthStatus,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      Category? category,
+      String? localUrl});
 }
 
 /// @nodoc
@@ -390,6 +424,8 @@ class __$MyPlantModelCopyWithImpl<$Res>
     Object? healthStatus = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? category = freezed,
+    Object? localUrl = freezed,
   }) {
     return _then(_MyPlantModel(
       id: freezed == id
@@ -448,6 +484,14 @@ class __$MyPlantModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
+      localUrl: freezed == localUrl
+          ? _self.localUrl
+          : localUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

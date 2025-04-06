@@ -9,8 +9,11 @@ import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
+import 'package:planta_care/app/enums/category.dart';
+import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/plant_model.dart';
 import 'package:planta_care/app/pages/initial/categories/charts_page.dart';
+import 'package:planta_care/app/pages/initial/popular_plants_page/square_popular_plant_card.dart';
 import 'package:planta_care/app/routes/app_router.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -187,155 +190,96 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ),
                     ),
                     const SizedBox(height: 20.0),
-                    MyPlantsHorizontalList(
-                      aspectRatioItem: 7 / 5,
+                    MyPlantsHorizontalList<Category>(
+                      aspectRatioItem: 7 / 4.8,
                       title: 'Categories',
                       minCardWidth: 120,
                       onViewAllPressed: () {},
-                      items: const [
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                        '10',
-                      ],
+                      items: Category.values,
                       itemBuilder: (item, height) {
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 44.0,
+                        return GestureDetector(
+                          onTap: () {
+                            context.push('/categories/${item.id}');
+                          },
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 32.0),
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 0,
+                                        child: ListTile(
+                                          onTap: () {
+                                            context
+                                                .push('/categories/${item.id}');
+                                          },
+                                          contentPadding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          title: const SizedBox(
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    child: Card(
-                                      margin: EdgeInsets.zero,
-                                      elevation: 0,
-                                      child: Center(child: Text(item)),
+                                    IgnorePointer(
+                                      ignoring: true,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 4.0,
+                                        ),
+                                        child: Image.asset(
+                                          item.localUrl,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Image.asset(
-                                    'assets/images/plants/$item.png',
-                                    height: 100,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              'Category $item',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                              const SizedBox(height: 2.0),
+                              Container(
+                                constraints: const BoxConstraints(
+                                  minHeight: 38.0,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    item.title,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(height: 0.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
                     const SizedBox(height: 20.0),
-                    MyPlantsHorizontalList(
+                    MyPlantsHorizontalList<PopularPlant>(
                       title: 'Popular Plants',
                       aspectRatioItem: 7 / 5.7,
-                      onViewAllPressed: () {},
-                      items: const [
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                      ],
+                      onViewAllPressed: () {
+                        context.push('/home/popular-plants');
+                      },
+                      items: PopularPlant.values.reversed.take(5).toList(),
                       itemBuilder: (item, height) {
-                        return Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        'assets/images/plants/$item.png',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                SizedBox(
-                                  height: 52.0,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              'Plant $item',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                            ),
-                                            Text(
-                                              'Indoor',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSurface
-                                                        .withAlpha(120),
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 40.0,
-                                        height: 40.0,
-                                        child: IconButton(
-                                          style: IconButton.styleFrom(
-                                            side: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                            shape: const CircleBorder(),
-                                          ),
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.arrow_forward,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            size: 18.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        return SquarePopularPlantCard(
+                          plant: item,
+                          onTap: () {
+                            context.push('/home/popular-plants');
+                          },
                         );
                       },
                     ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/services/color_service.dart';
 import 'package:planta_care/firebase/device_collection.dart';
 
 class MyPlantSquareCard extends StatefulWidget {
@@ -22,12 +23,25 @@ class MyPlantSquareCard extends StatefulWidget {
 class _MyPlantSquareCardState extends State<MyPlantSquareCard> {
   DeviceModel? _device;
   StreamSubscription? _deviceSubscription;
+  Color? _averageColor;
+
+  String get _imagePath =>
+      widget.plant.localUrl ??
+      widget.plant.category?.localUrl ??
+      'assets/images/where_are_your_plants.png';
 
   @override
   void initState() {
     super.initState();
-
+    _getAverageColor(_imagePath);
     _getDevice();
+  }
+
+  Future<void> _getAverageColor(String imagePath) async {
+    final Color averageColor = await ColorService.getAverageColor(imagePath);
+    setState(() {
+      _averageColor = averageColor;
+    });
   }
 
   Future<void> _getDevice() async {
@@ -99,14 +113,13 @@ class _MyPlantSquareCardState extends State<MyPlantSquareCard> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: _averageColor ??
+                      Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    'assets/images/plants/3.png',
-                  ),
+                  child: Image.asset(_imagePath),
                 ),
               ),
             ),

@@ -35,6 +35,8 @@ _MyPlantModel _$MyPlantModelFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      category: $enumDecodeNullable(_$CategoryEnumMap, json['category']),
+      localUrl: json['localUrl'] as String?,
     );
 
 Map<String, dynamic> _$MyPlantModelToJson(_MyPlantModel instance) =>
@@ -53,6 +55,8 @@ Map<String, dynamic> _$MyPlantModelToJson(_MyPlantModel instance) =>
       'healthStatus': _$PlantHealthStatusEnumMap[instance.healthStatus],
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'category': _$CategoryEnumMap[instance.category],
+      'localUrl': instance.localUrl,
     };
 
 const _$LastWateredEnumMap = {
@@ -68,4 +72,15 @@ const _$PlantHealthStatusEnumMap = {
   PlantHealthStatus.needsAttention: 'needsAttention',
   PlantHealthStatus.sick: 'sick',
   PlantHealthStatus.dying: 'dying',
+};
+
+const _$CategoryEnumMap = {
+  Category.foliage: 'foliage',
+  Category.flowering: 'flowering',
+  Category.succulentsAndCacti: 'succulentsAndCacti',
+  Category.aromatics: 'aromatics',
+  Category.trees: 'trees',
+  Category.shrubs: 'shrubs',
+  Category.vegetables: 'vegetables',
+  Category.herbs: 'herbs',
 };

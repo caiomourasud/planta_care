@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
+import 'package:planta_care/app/enums/category.dart';
 import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/enums/plant_health_status.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
+import 'package:planta_care/app/pages/add_plant/select_category_page.dart';
 import 'package:planta_care/app/pages/plant_details/plant_details_page.dart';
 import 'package:planta_care/app/pages/add_plant/when_did_you_last_water_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/where_is_your_plant_placed.dart';
@@ -36,6 +38,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
   String? _plantName;
   String? _plantLocationId;
   LastWatered? _lastWatered;
+  Category? _category;
 
   final MyPlantModel _plant = MyPlantModel(
     name: '',
@@ -64,6 +67,18 @@ class _AddPlantPageState extends State<AddPlantPage> {
                       _lastWatered = value;
                       Navigator.pushNamed(
                         context,
+                        '/select-category',
+                      );
+                    },
+                    onGoBack: () => Navigator.pop(context),
+                  );
+              break;
+            case '/select-category':
+              builder = (context) => SelectCategoryPage(
+                    onNext: (value) {
+                      _category = value;
+                      Navigator.pushNamed(
+                        context,
                         '/where-is-the-plant-placed',
                       );
                     },
@@ -88,6 +103,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
                   name: _plantName,
                   locationId: _plantLocationId,
                   lastWatered: _lastWatered,
+                  category: _category,
                 );
                 return PlantDetailsPage(
                   plant: updatePlant,

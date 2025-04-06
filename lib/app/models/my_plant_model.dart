@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:planta_care/app/enums/category.dart';
 import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/enums/plant_health_status.dart';
 
@@ -22,6 +23,8 @@ abstract class MyPlantModel with _$MyPlantModel {
     PlantHealthStatus? healthStatus,
     DateTime? createdAt,
     DateTime? updatedAt,
+    Category? category,
+    String? localUrl,
   }) = _MyPlantModel;
 
   factory MyPlantModel.fromJson(Map<String, dynamic> json) =>
