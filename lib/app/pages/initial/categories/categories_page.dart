@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
-import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
+import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/enums/category.dart';
@@ -161,8 +161,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
-                        actionButton: PlantaOutlinedButton(
+                        actionButton: PlantaFilledButton(
                           context: context,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
@@ -173,8 +177,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
+                                    fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                             ),
                           ),

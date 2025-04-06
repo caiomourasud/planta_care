@@ -15,6 +15,7 @@ import 'package:planta_care/app/routes/app_router.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/location_collection.dart';
 import 'package:planta_care/firebase/plant_collection.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MyPlacePage extends StatefulWidget {
   const MyPlacePage({super.key});
@@ -24,6 +25,8 @@ class MyPlacePage extends StatefulWidget {
 }
 
 class _MyPlacePageState extends State<MyPlacePage> {
+  bool _isLoadingMyLocations = false;
+  bool _isLoadingMyPlants = false;
   List<PlantSubLocationModel> _plantSubLocations = [];
   List<MyPlantModel> _plants = [];
 
@@ -33,8 +36,10 @@ class _MyPlacePageState extends State<MyPlacePage> {
   @override
   void initState() {
     super.initState();
-    _listenToPlants();
-    _listenToPlantSubLocations();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _listenToPlants();
+      _listenToPlantSubLocations();
+    });
   }
 
   @override
@@ -45,16 +50,23 @@ class _MyPlacePageState extends State<MyPlacePage> {
   }
 
   Future<void> _listenToPlants() async {
+    setState(() {
+      _isLoadingMyPlants = true;
+    });
     _plantsSubscription =
         PlantCollection.listenToPlants(Auth.currentUser?.email)
             .listen((plants) {
       setState(() {
         _plants = plants;
+        _isLoadingMyPlants = false;
       });
     });
   }
 
   Future<void> _listenToPlantSubLocations() async {
+    setState(() {
+      _isLoadingMyLocations = true;
+    });
     _plantSubLocationsSubscription =
         LocationCollection.listenToLocations(Auth.currentUser?.email)
             .listen((locations) {
@@ -71,6 +83,7 @@ class _MyPlacePageState extends State<MyPlacePage> {
         _plantSubLocations.sort((a, b) =>
             (b.createdAt?.compareTo(a.createdAt ?? DateTime.now()) ?? 0)
                 .toInt());
+        _isLoadingMyLocations = false;
       });
     });
   }
@@ -112,32 +125,42 @@ class _MyPlacePageState extends State<MyPlacePage> {
                 onViewAllPressed: () {
                   context.push('/my-place/my-locations');
                 },
-                items: _plantSubLocations,
+                items: _plantSubLocations.isEmpty
+                    ? const [
+                        PlantSubLocationModel(id: '1'),
+                        PlantSubLocationModel(id: '2'),
+                        PlantSubLocationModel(id: '3'),
+                      ]
+                    : _plantSubLocations,
                 itemBuilder: (item, height) {
-                  return Card(
-                    clipBehavior: Clip.hardEdge,
-                    margin: EdgeInsets.zero,
-                    elevation: 0,
-                    child: ListTile(
-                      onTap: () {},
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: LocationIcon(location: item),
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            item.name ?? 'Location',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
+                  return Skeletonizer(
+                    enabled: _isLoadingMyLocations &&
+                        _plantSubLocations.isEmpty == true,
+                    child: Card(
+                      clipBehavior: Clip.hardEdge,
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
+                      child: ListTile(
+                        onTap: () {},
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: LocationIcon(location: item),
+                            ),
+                            const SizedBox(height: 8.0),
+                            Text(
+                              item.name ?? 'Location',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -152,11 +175,17 @@ class _MyPlacePageState extends State<MyPlacePage> {
                       'Living room plants enhance beauty, air relaxing ambiance.',
                   actionButton: PlantaFilledButton(
                     context: context,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
                       ),
-                      child: Text('Add plant'),
+                      child: Text(
+                        'Add plant',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                      ),
                     ),
                     onPressed: () {
                       context.push('/add-plant');
@@ -172,12 +201,21 @@ class _MyPlacePageState extends State<MyPlacePage> {
               const SizedBox(height: 20.0),
               MyPlantsVerticalList<MyPlantModel>(
                 title: 'My Plants',
-                items: _plants,
-                itemBuilder: (item, index) => MyPlantHorizontalCard(
-                  plant: item,
-                  onTap: () {
-                    context.push('/home/plant-details/${item.id}');
-                  },
+                items: _plants.isEmpty
+                    ? const [
+                        MyPlantModel(id: '1'),
+                        MyPlantModel(id: '2'),
+                        MyPlantModel(id: '3'),
+                      ]
+                    : _plants,
+                itemBuilder: (item, index) => Skeletonizer(
+                  enabled: _isLoadingMyPlants && _plants.isEmpty == true,
+                  child: MyPlantHorizontalCard(
+                    plant: item,
+                    onTap: () {
+                      context.push('/home/plant-details/${item.id}');
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 96.0 + MediaQuery.paddingOf(context).bottom),

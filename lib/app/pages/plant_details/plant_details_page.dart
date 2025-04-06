@@ -376,7 +376,10 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
               ),
               const SizedBox(height: 12.0),
               Text(
-                'Has been used for medical purposes for more than 2.000 years, treahng various ailments. Ancient ovilizations reled on its healing properties for pain relaf and wellness',
+                plant?.description == null ||
+                        plant?.description?.isEmpty == true
+                    ? 'No description'
+                    : plant?.description ?? '',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context)
                           .colorScheme

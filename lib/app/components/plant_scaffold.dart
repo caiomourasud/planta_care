@@ -29,6 +29,7 @@ class PlantScaffold extends StatefulWidget {
     this.bottomSheet,
     this.upperBodyTitle,
     this.scrollController,
+    this.backgroundColor,
     super.key,
   });
 
@@ -41,6 +42,7 @@ class PlantScaffold extends StatefulWidget {
   final Widget? bottomSheet;
   final Widget? upperBodyTitle;
   final ScrollController? scrollController;
+  final Color? backgroundColor;
 
   @override
   State<PlantScaffold> createState() => _PlantScaffoldState();
@@ -73,6 +75,8 @@ class _PlantScaffoldState extends State<PlantScaffold> {
           ),
           child: Scaffold(
             resizeToAvoidBottomInset: true,
+            backgroundColor: widget.backgroundColor ??
+                Theme.of(context).scaffoldBackgroundColor,
             bottomSheet: _bottomSheetVisible == true
                 ? Padding(
                     padding: EdgeInsets.only(
