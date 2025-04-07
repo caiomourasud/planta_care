@@ -4,6 +4,7 @@ import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/lists/plant_list_tile_group.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/routes/app_router.dart';
+import 'package:planta_care/app/services/theme_service.dart';
 import 'package:planta_care/firebase/auth.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,6 +15,19 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  ThemeMode? themeMode;
+
+  @override
+  void initState() {
+    super.initState();
+    getThemeMode();
+  }
+
+  Future<void> getThemeMode() async {
+    themeMode = await ThemeService.getThemeMode(Auth.currentUser?.email);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryScrollController(
@@ -50,6 +64,37 @@ class _SettingsPageState extends State<SettingsPage> {
                   leadingIcon: Icons.sensors_outlined,
                   label: 'Connected Devices',
                   onTap: () {},
+                ),
+              ],
+            ),
+            const SizedBox(height: 20.0),
+            PlantListTileGroup(
+              leadingColor:
+                  Theme.of(context).colorScheme.onSurface.withAlpha(20),
+              title: 'Theme',
+              items: [
+                PlantListTileGroupItem(
+                  leadingIcon: themeMode == ThemeMode.dark
+                      ? Icons.dark_mode_outlined
+                      : themeMode == ThemeMode.light
+                          ? Icons.light_mode_outlined
+                          : Icons.brightness_4_outlined,
+                  customTrailing: const SizedBox(),
+                  label: themeMode == ThemeMode.dark
+                      ? 'Dark Mode'
+                      : themeMode == ThemeMode.light
+                          ? 'Light Mode'
+                          : 'System',
+                  onTap: () async {
+                    await ThemeService.toggleTheme(
+                      context,
+                      Auth.currentUser?.email,
+                    );
+                    themeMode = await ThemeService.getThemeMode(
+                        Auth.currentUser?.email);
+
+                    setState(() {});
+                  },
                 ),
               ],
             ),

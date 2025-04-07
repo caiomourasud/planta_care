@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:planta_care/app/services/theme_service.dart';
 import 'package:planta_care/app_locale/app_locale.dart';
 import 'package:planta_care/app/routes/app_router.dart';
+import 'package:planta_care/firebase/auth.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -11,6 +13,7 @@ class AppWidget extends StatefulWidget {
 }
 
 class _AppWidgetState extends State<AppWidget> {
+  ThemeMode? _themeMode;
   final FlutterLocalization _localization = FlutterLocalization.instance;
 
   @override
@@ -19,8 +22,31 @@ class _AppWidgetState extends State<AppWidget> {
       mapLocales: AppLocale.mapLocales,
       initLanguageCode: 'en',
     );
+    getThemeMode();
     super.initState();
   }
+
+  Future<void> getThemeMode() async {
+    _themeMode = await ThemeService.getThemeMode(Auth.currentUser?.email);
+    setState(() {});
+  }
+
+  ThemeData lightTheme = ThemeData(
+    fontFamily: 'Urbanist',
+    scaffoldBackgroundColor: const Color(0xFFEBF1F1),
+    colorScheme: const ColorScheme.light(
+      primary: Color(0xFF81b434),
+    ),
+    useMaterial3: true,
+  );
+  ThemeData darkTheme = ThemeData(
+    fontFamily: 'Urbanist',
+    scaffoldBackgroundColor: const Color(0xFF2A2B2B),
+    colorScheme: const ColorScheme.dark(
+      primary: Color(0xFF81b434),
+    ),
+    useMaterial3: true,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +65,8 @@ class _AppWidgetState extends State<AppWidget> {
         }
         return const Locale('en', 'US');
       },
-      theme: ThemeData(
-        fontFamily: 'Urbanist',
-        scaffoldBackgroundColor: const Color(0xFFEBF1F1),
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xFF81b434),
-        ),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        fontFamily: 'Urbanist',
-        scaffoldBackgroundColor: const Color(0xFF2A2B2B),
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF81b434),
-        ),
-        useMaterial3: true,
-      ),
+      theme: _themeMode == ThemeMode.dark ? darkTheme : lightTheme,
+      darkTheme: _themeMode == ThemeMode.light ? lightTheme : darkTheme,
       routerConfig: AppRouter.router,
     );
   }

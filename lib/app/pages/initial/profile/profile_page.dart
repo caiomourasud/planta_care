@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
-import 'package:planta_care/app/components/planta_sliding_segmented_control.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/models/plant_sub_location_model.dart';
@@ -22,7 +21,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? _selectedSegment;
   StreamSubscription? _plantsSubscription;
   StreamSubscription? _locationsSubscription;
 
@@ -169,26 +167,26 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 20.0),
-            PlantaSlidingSegmentedControl<String>(
-              backgroundColor:
-                  Theme.of(context).colorScheme.onSurface.withAlpha(20),
-              groupValue: _selectedSegment ?? 'Plants',
-              onValueChanged: (value) {
-                setState(() {
-                  _selectedSegment = value;
-                });
-              },
-              children: const ['Plants', 'Locations', 'Photos'],
-              itemBuilder: (item, selected) => Text(
-                item,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: selected
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.onSurface,
-                    fontWeight: selected ? FontWeight.bold : FontWeight.normal),
-              ),
-            ),
+            // const SizedBox(height: 20.0),
+            // PlantaSlidingSegmentedControl<String>(
+            //   backgroundColor:
+            //       Theme.of(context).colorScheme.onSurface.withAlpha(20),
+            //   groupValue: _selectedSegment ?? 'Plants',
+            //   onValueChanged: (value) {
+            //     setState(() {
+            //       _selectedSegment = value;
+            //     });
+            //   },
+            //   children: const ['Plants', 'Locations', 'Photos'],
+            //   itemBuilder: (item, selected) => Text(
+            //     item,
+            //     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            //         color: selected
+            //             ? Theme.of(context).colorScheme.onPrimary
+            //             : Theme.of(context).colorScheme.onSurface,
+            //         fontWeight: selected ? FontWeight.bold : FontWeight.normal),
+            //   ),
+            // ),
             const SizedBox(height: 20.0),
             PromotionalCard(
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -206,6 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
               actionButton: PlantaFilledButton(
                 context: context,
                 backgroundColor: Theme.of(context).colorScheme.surface,
+                foregroundColor: Theme.of(context).colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16.0,
@@ -213,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     'Learn more',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                   ),

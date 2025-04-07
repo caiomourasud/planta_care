@@ -96,21 +96,24 @@ class _SquarePopularPlantCardState extends State<SquarePopularPlantCard> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 40.0,
-                    height: 40.0,
-                    child: IconButton(
-                      style: IconButton.styleFrom(
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
+                  IgnorePointer(
+                    ignoring: true,
+                    child: SizedBox(
+                      width: 40.0,
+                      height: 40.0,
+                      child: IconButton(
+                        style: IconButton.styleFrom(
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          shape: const CircleBorder(),
                         ),
-                        shape: const CircleBorder(),
-                      ),
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.add,
-                        color: Theme.of(context).colorScheme.primary,
-                        size: 18.0,
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.add,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 18.0,
+                        ),
                       ),
                     ),
                   ),

@@ -281,9 +281,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       items: PopularPlant.values.reversed.take(5).toList(),
                       itemBuilder: (item, height) {
                         return SquarePopularPlantCard(
+                          key: Key(item.id),
                           plant: item,
                           onTap: () {
-                            context.push('/home/popular-plants');
+                            context
+                                .push('/add-plant?popularPlantId=${item.id}');
                           },
                         );
                       },

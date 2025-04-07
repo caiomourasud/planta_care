@@ -41,7 +41,7 @@ class _HorizontalPopularPlantCardState
       clipBehavior: Clip.hardEdge,
       elevation: 0,
       child: ListTile(
-        onTap: () {},
+        onTap: widget.onTap,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.0,
           vertical: 4.0,
@@ -89,23 +89,26 @@ class _HorizontalPopularPlantCardState
               ),
             ),
             const SizedBox(width: 16.0),
-            IconButton(
-              style: IconButton.styleFrom(
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
+            IgnorePointer(
+              ignoring: true,
+              child: IconButton(
+                style: IconButton.styleFrom(
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  shape: const CircleBorder(),
                 ),
-                shape: const CircleBorder(),
-              ),
-              onPressed: widget.onTap,
-              icon: Container(
-                height: 38.0,
-                width: 28.0,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4.0,
-                ),
-                child: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.primary,
+                onPressed: widget.onTap,
+                icon: Container(
+                  height: 38.0,
+                  width: 28.0,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4.0,
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ),

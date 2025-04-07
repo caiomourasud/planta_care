@@ -199,7 +199,9 @@ class _HomePageState extends State<HomePage> {
                   items: PopularPlant.values.take(5).toList(),
                   itemBuilder: (item, index) => HorizontalPopularPlantCard(
                     plant: item,
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/add-plant?popularPlantId=${item.name}');
+                    },
                   ),
                 ),
                 SizedBox(height: 96.0 + MediaQuery.paddingOf(context).bottom),

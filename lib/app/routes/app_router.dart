@@ -89,9 +89,11 @@ class AppRouter {
           GoRoute(
             name: 'add-plant',
             path: '/add-plant',
-            pageBuilder: (context, state) => const CupertinoPage(
+            pageBuilder: (context, state) => CupertinoPage(
               fullscreenDialog: true,
-              child: AddPlantPage(),
+              child: AddPlantPage(
+                popularPlantId: state.uri.queryParameters['popularPlantId'],
+              ),
             ),
             redirect: const AuthGuard().isNotLogged,
           ),

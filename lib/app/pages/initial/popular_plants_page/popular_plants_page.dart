@@ -41,7 +41,9 @@ class PopularPlantsPage extends StatelessWidget {
             children: [
               ...PopularPlant.values.map((plant) => HorizontalPopularPlantCard(
                     plant: plant,
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/add-plant?popularPlantId=${plant.name}');
+                    },
                   )),
               const SizedBox(height: 100.0),
             ],

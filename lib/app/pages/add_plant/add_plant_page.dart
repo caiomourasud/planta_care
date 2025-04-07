@@ -4,6 +4,7 @@ import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/enums/category.dart';
 import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/enums/plant_health_status.dart';
+import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/select_category_page.dart';
@@ -28,17 +29,32 @@ class AddPlantStep {
 }
 
 class AddPlantPage extends StatefulWidget {
-  const AddPlantPage({super.key});
+  const AddPlantPage({
+    this.popularPlantId,
+    super.key,
+  });
+
+  final String? popularPlantId;
 
   @override
   State<AddPlantPage> createState() => _AddPlantPageState();
 }
 
 class _AddPlantPageState extends State<AddPlantPage> {
+  PopularPlant? _popularPlant;
   String? _plantName;
   String? _plantLocationId;
   LastWatered? _lastWatered;
   Category? _category;
+
+  @override
+  void initState() {
+    final popularPlant = widget.popularPlantId;
+    if (popularPlant != null) {
+      _popularPlant = PopularPlant.values.byName(popularPlant);
+    }
+    super.initState();
+  }
 
   final MyPlantModel _plant = MyPlantModel(
     name: '',
@@ -127,6 +143,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
             case '/':
             default:
               builder = (context) => NameYourPlantPage(
+                    popularPlantId: _popularPlant?.name,
                     onNext: (value) async {
                       _plantName = value;
                       Navigator.pushNamed(
