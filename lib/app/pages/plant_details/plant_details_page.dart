@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
@@ -42,6 +43,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
   PlantSubLocationModel? _location;
   StreamSubscription? _deviceSubscription;
   bool _isLoading = false;
+  Timer? _timer;
 
   MyPlantModel? get plant => widget.plant ?? _plant;
 
@@ -76,6 +78,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
   @override
   void dispose() {
     _deviceSubscription?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -118,6 +121,12 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
       plant?.deviceId ?? '',
       true,
     );
+    _timer = Timer.periodic(const Duration(milliseconds: 2200), (timer) async {
+      await DeviceCollection.setRealTimeEnabled(
+        plant?.deviceId ?? '',
+        true,
+      );
+    });
   }
 
   String _formatTimestamp(DateTime? timestamp) {
@@ -193,7 +202,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
   Widget build(BuildContext context) {
     final location = _location;
     return PrimaryScrollController(
-      controller: ScrollControllers.getController('/home/plant-details'),
+      controller: ScrollControllers.getController('/plant-details'),
       child: Skeletonizer(
         enabled: _isLoading,
         child: PlantScaffold(
@@ -205,12 +214,21 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                 icon: const Icon(Icons.arrow_back),
               ),
             ),
-            trailing: widget.onNext == null
+            trailing: widget.onNext == null &&
+                    plant?.deviceId != null &&
+                    plant?.deviceId != '' &&
+                    !_isLoading
                 ? Skeleton.keep(
                     child: PlantaAppBarButton(
                       context: context,
-                      onPressed: () {},
-                      icon: const Icon(Icons.more_vert),
+                      onPressed: () {
+                        context.push(
+                            '/plant-details/${plant?.id}/charts/${plant?.id}');
+                      },
+                      icon: Icon(
+                        Icons.bar_chart_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   )
                 : null,

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/pages/add_plant/add_plant_page.dart';
+import 'package:planta_care/app/pages/initial/explorer/categories/categories_page.dart';
+import 'package:planta_care/app/pages/initial/explorer/charts_page.dart';
 import 'package:planta_care/app/pages/initial/my_locations/my_locations_page.dart';
 import 'package:planta_care/app/pages/initial/popular_plants_page/popular_plants_page.dart';
 import 'package:planta_care/app/pages/initial/settings/settings_page.dart';
@@ -9,7 +11,7 @@ import 'package:planta_care/app/pages/onboarding/experience_level_page.dart';
 import 'package:planta_care/app/pages/onboarding/get_started_page.dart';
 import 'package:planta_care/app/pages/auth/sign_up_page.dart';
 import 'package:planta_care/app/pages/auth/sign_in_page.dart';
-import 'package:planta_care/app/pages/initial/categories/categories_page.dart';
+import 'package:planta_care/app/pages/initial/explorer/explorer_page.dart';
 import 'package:planta_care/app/pages/initial/diagnosis/diagnosis_page.dart';
 import 'package:planta_care/app/pages/initial/home/home_page.dart';
 import 'package:planta_care/app/pages/initial/initial_page.dart';
@@ -26,8 +28,8 @@ final _shellNavigatorHomeKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellHome');
 final _shellNavigatorMyPlaceKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellMyPlace');
-final _shellNavigatorCategoriesKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellCategories');
+final _shellNavigatorExplorerKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellExplorer');
 final _shellNavigatorDiagnosisKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellDiagnosis');
 final _shellNavigatorPremiumKey =
@@ -97,6 +99,36 @@ class AppRouter {
             ),
             redirect: const AuthGuard().isNotLogged,
           ),
+          GoRoute(
+            name: 'plant-details',
+            path: '/plant-details/:plantId',
+            pageBuilder: (context, state) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ScrollControllers.getController('/plant-details');
+              });
+              return CupertinoPage(
+                child: PlantDetailsPage(
+                  plantId: state.pathParameters['plantId'],
+                ),
+              );
+            },
+            routes: [
+              GoRoute(
+                name: 'charts',
+                path: '/charts/:plantId',
+                pageBuilder: (context, state) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    ScrollControllers.getController('/plant-details/charts');
+                  });
+                  return CupertinoPage(
+                    child: ChartsPage(
+                      plantId: state.pathParameters['plantId'] ?? '',
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
           StatefulShellRoute.indexedStack(
             builder: (context, state, initialNavigationShell) {
               navigationShell = initialNavigationShell;
@@ -127,21 +159,6 @@ class AppRouter {
                           child: ProfilePage(),
                         ),
                         redirect: const AuthGuard().isNotLogged,
-                      ),
-                      GoRoute(
-                        name: 'plant-details',
-                        path: '/plant-details/:plantId',
-                        pageBuilder: (context, state) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            ScrollControllers.getController(
-                                '/home/plant-details');
-                          });
-                          return CupertinoPage(
-                            child: PlantDetailsPage(
-                              plantId: state.pathParameters['plantId'],
-                            ),
-                          );
-                        },
                       ),
                       GoRoute(
                         name: 'popular-plants',
@@ -202,22 +219,31 @@ class AppRouter {
                 ],
               ),
               StatefulShellBranch(
-                navigatorKey: _shellNavigatorCategoriesKey,
+                navigatorKey: _shellNavigatorExplorerKey,
                 routes: [
+                  GoRoute(
+                    name: 'explorer',
+                    path: '/explorer',
+                    pageBuilder: (context, state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScrollControllers.getController('/explorer');
+                      });
+                      return const NoTransitionPage(
+                        child: ExplorerPage(),
+                      );
+                    },
+                  ),
                   GoRoute(
                     name: 'categories',
                     path: '/categories',
                     pageBuilder: (context, state) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        ScrollControllers.getController('/categories');
+                        ScrollControllers.getController('/explorer/categories');
                       });
-                      return const NoTransitionPage(
+                      return const CupertinoPage(
                         child: CategoriesPage(),
                       );
                     },
-                    routes: const [
-                      // TODO: Add routes for categories page
-                    ],
                   ),
                 ],
               ),

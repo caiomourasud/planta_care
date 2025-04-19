@@ -12,18 +12,17 @@ import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/enums/category.dart';
 import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/plant_model.dart';
-import 'package:planta_care/app/pages/initial/categories/charts_page.dart';
 import 'package:planta_care/app/pages/initial/popular_plants_page/square_popular_plant_card.dart';
 import 'package:planta_care/app/routes/app_router.dart';
 
-class CategoriesPage extends StatefulWidget {
-  const CategoriesPage({super.key});
+class ExplorerPage extends StatefulWidget {
+  const ExplorerPage({super.key});
 
   @override
-  State<CategoriesPage> createState() => _CategoriesPageState();
+  State<ExplorerPage> createState() => _ExplorerPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> {
+class _ExplorerPageState extends State<ExplorerPage> {
   List<PlantModel> _searchPlants = [];
 
   Timer? _debounceTimer;
@@ -61,18 +60,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       context.push('/home/profile');
                     },
                     icon: const Icon(Icons.person),
-                  ),
-                  PlantaAppBarButton(
-                    context: context,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ChartsPage(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.notifications),
                   ),
                 ],
               ),
@@ -138,15 +125,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12.0),
-                          PlantaAppBarButton(
-                            context: context,
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.tune_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -199,13 +177,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       aspectRatioItem: 7 / 4.8,
                       title: 'Categories',
                       minCardWidth: 120,
-                      onViewAllPressed: () {},
+                      onViewAllPressed: () {
+                        context.push('/categories');
+                      },
                       items: Category.values,
                       itemBuilder: (item, height) {
                         return GestureDetector(
-                          onTap: () {
-                            context.push('/categories/${item.id}');
-                          },
+                          onTap: () {},
                           child: Column(
                             children: [
                               Expanded(
@@ -218,10 +196,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                         margin: EdgeInsets.zero,
                                         elevation: 0,
                                         child: ListTile(
-                                          onTap: () {
-                                            context
-                                                .push('/categories/${item.id}');
-                                          },
+                                          onTap: () {},
                                           contentPadding: EdgeInsets.zero,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:

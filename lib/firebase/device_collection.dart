@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/device_reading_model.dart';
@@ -88,12 +89,12 @@ class DeviceCollection {
       return false;
     }
     try {
-      await _deviceDoc(deviceId)?.update(
-        {'realTimeEnabled': enabled},
-      );
+      final databaseReference =
+          FirebaseDatabase.instance.ref('devices/$deviceId');
+      await databaseReference.update({'realTimeEnabled': enabled});
       return true;
     } catch (e) {
-      debugPrint('Failed to set real time enabled => $e');
+      debugPrint('Failed to set real time enabled in real time database => $e');
     }
     return false;
   }

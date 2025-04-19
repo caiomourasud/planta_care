@@ -213,7 +213,7 @@ class _MyPlacePageState extends State<MyPlacePage> {
                   child: MyPlantHorizontalCard(
                     plant: item,
                     onTap: () {
-                      context.push('/home/plant-details/${item.id}');
+                      context.push('/plant-details/${item.id}');
                     },
                   ),
                 ),

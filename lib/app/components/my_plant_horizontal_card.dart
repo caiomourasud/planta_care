@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
-import 'package:planta_care/app/services/color_service.dart';
 
 class MyPlantHorizontalCard extends StatefulWidget {
   const MyPlantHorizontalCard({
@@ -17,29 +16,10 @@ class MyPlantHorizontalCard extends StatefulWidget {
 }
 
 class _MyPlantHorizontalCardState extends State<MyPlantHorizontalCard> {
-  Color? _averageColor;
-
   String get _imagePath =>
       widget.plant.localUrl ??
       widget.plant.category?.localUrl ??
       'assets/images/where_are_your_plants.png';
-
-  @override
-  void initState() {
-    super.initState();
-    _getAverageColor();
-  }
-
-  Future<void> _getAverageColor() async {
-    final averageColor = await ColorService.getAverageColor(
-      widget.plant.localUrl ??
-          widget.plant.category?.localUrl ??
-          'assets/images/where_are_your_plants.png',
-    );
-    setState(() {
-      _averageColor = averageColor;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +37,7 @@ class _MyPlantHorizontalCardState extends State<MyPlantHorizontalCard> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color:
-                    _averageColor ?? Theme.of(context).scaffoldBackgroundColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               height: 60.0,

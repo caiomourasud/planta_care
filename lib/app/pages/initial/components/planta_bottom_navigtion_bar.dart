@@ -131,7 +131,7 @@ class PlantaBottomNavigationBar extends StatelessWidget {
             _buildButton(
               context,
               2,
-              tooltip: 'Categories',
+              tooltip: 'Explorer',
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/search.svg',
                 width: 22.0,

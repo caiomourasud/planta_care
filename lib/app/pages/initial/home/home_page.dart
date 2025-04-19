@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                         key: Key(item.id ?? ''),
                         plant: item,
                         onTap: () {
-                          context.push('/home/plant-details/${item.id}');
+                          context.push('/plant-details/${item.id}');
                         },
                       ),
                     );

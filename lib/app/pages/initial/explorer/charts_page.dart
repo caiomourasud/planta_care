@@ -7,23 +7,41 @@ import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/device_reading_model.dart';
+import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/device_collection.dart';
+import 'package:planta_care/firebase/plant_collection.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ChartsPage extends StatefulWidget {
-  const ChartsPage({super.key});
+  const ChartsPage({
+    required this.plantId,
+    super.key,
+  });
 
+  final String plantId;
   @override
   State<ChartsPage> createState() => _ChartsPageState();
 }
 
 class _ChartsPageState extends State<ChartsPage> {
+  bool _isLoading = true;
   List<DeviceReadingModel> readings = [];
   List<DeviceReadingModel> filledReadings = [];
   DateTime selectedDate = DateTime.now();
   List<DateTime> weekDates = [];
 
   DeviceModel? device;
+  String deviceId = '';
+  DateTime? firstDay;
+
+  MyPlantModel? plant;
+
+  String get _imagePath =>
+      plant?.localUrl ??
+      plant?.category?.localUrl ??
+      'assets/images/where_are_your_plants.png';
 
   @override
   void initState() {
@@ -38,18 +56,32 @@ class _ChartsPageState extends State<ChartsPage> {
     _getData();
   }
 
+  Future<void> _getPlant() async {
+    final plant = await PlantCollection.getPlantById(
+        widget.plantId, Auth.currentUser?.email ?? '');
+    if (mounted) {
+      setState(() {
+        this.plant = plant;
+        deviceId = plant?.deviceId ?? '';
+        firstDay = plant?.deviceAddedAt ?? DateTime.now();
+      });
+    }
+  }
+
   Future<void> _getData() async {
+    await _getPlant();
     _listenToReadings();
   }
 
-  _listenToReadings() {
-    DeviceCollection.listenToReadings('3C:8A:1F:AF:7E:A4',
+  void _listenToReadings() {
+    DeviceCollection.listenToReadings(deviceId,
             date: selectedDate.toIso8601String())
         .listen((result) {
       if (mounted) {
         setState(() {
           readings = result;
           filledReadings = _fillMissingReadings(result);
+          _isLoading = false;
         });
       }
     });
@@ -207,27 +239,33 @@ class _ChartsPageState extends State<ChartsPage> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-      ),
-      upperBodyTitle: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
-        child: Text(
-          'Charts',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+        trailing: Skeletonizer(
+          enabled: _isLoading,
+          child: Image.asset(
+            _imagePath,
+            height: MediaQuery.sizeOf(context).height * 0.26,
+          ),
         ),
       ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: SizedBox(
         height: MediaQuery.of(context).size.height - kToolbarHeight * 3,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 20.0),
-            // _weekDays(weekDates),
+            Text(
+              DateFormat('EEEE, dd MMMM').format(selectedDate),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20.0),
             TableCalendar(
               headerVisible: false,
-              firstDay: DateTime.utc(2020, 10, 16),
+              firstDay: firstDay ?? DateTime(2025, 3, 16),
               lastDay: DateTime.now(),
               focusedDay: selectedDate,
               selectedDayPredicate: (day) {
@@ -295,6 +333,7 @@ class _ChartsPageState extends State<ChartsPage> {
             const SizedBox(height: 10.0),
             Expanded(
               child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -357,7 +396,7 @@ class _ChartsPageState extends State<ChartsPage> {
                       highColor: Colors.orange.shade200,
                       lowColor: Colors.blue.shade200,
                     ),
-                    const SizedBox(height: 130.0),
+                    const SizedBox(height: 100.0),
                   ],
                 ),
               ),

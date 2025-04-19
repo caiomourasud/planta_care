@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:planta_care/app/enums/popular_plant.dart';
+import 'package:planta_care/app/enums/category.dart';
 
-class HorizontalPopularPlantCard extends StatefulWidget {
-  const HorizontalPopularPlantCard({
-    required this.plant,
+class HorizontalCategoryCard extends StatefulWidget {
+  const HorizontalCategoryCard({
+    required this.category,
     super.key,
     this.onTap,
   });
 
-  final PopularPlant plant;
+  final Category category;
   final void Function()? onTap;
 
   @override
-  State<HorizontalPopularPlantCard> createState() =>
-      _HorizontalPopularPlantCardState();
+  State<HorizontalCategoryCard> createState() => _HorizontalCategoryCardState();
 }
 
-class _HorizontalPopularPlantCardState
-    extends State<HorizontalPopularPlantCard> {
+class _HorizontalCategoryCardState extends State<HorizontalCategoryCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,7 +40,7 @@ class _HorizontalPopularPlantCardState
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  widget.plant.localUrl,
+                  widget.category.localUrl,
                 ),
               ),
             ),
@@ -52,13 +50,13 @@ class _HorizontalPopularPlantCardState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    widget.plant.title,
+                    widget.category.title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   Text(
-                    widget.plant.description,
+                    widget.category.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -69,30 +67,6 @@ class _HorizontalPopularPlantCardState
                         ),
                   ),
                 ],
-              ),
-            ),
-            const SizedBox(width: 16.0),
-            IgnorePointer(
-              ignoring: true,
-              child: IconButton(
-                style: IconButton.styleFrom(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  shape: const CircleBorder(),
-                ),
-                onPressed: widget.onTap,
-                icon: Container(
-                  height: 38.0,
-                  width: 28.0,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 4.0,
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
               ),
             ),
           ],

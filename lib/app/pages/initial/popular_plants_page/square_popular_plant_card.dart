@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planta_care/app/enums/popular_plant.dart';
-import 'package:planta_care/app/services/color_service.dart';
 
 class SquarePopularPlantCard extends StatefulWidget {
   const SquarePopularPlantCard({
@@ -17,21 +16,6 @@ class SquarePopularPlantCard extends StatefulWidget {
 }
 
 class _SquarePopularPlantCardState extends State<SquarePopularPlantCard> {
-  Color? _averageColor;
-
-  @override
-  void initState() {
-    super.initState();
-    getAverageColor(widget.plant.localUrl);
-  }
-
-  Future<void> getAverageColor(String imagePath) async {
-    final Color averageColor = await ColorService.getAverageColor(imagePath);
-    setState(() {
-      _averageColor = averageColor;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,8 +37,7 @@ class _SquarePopularPlantCardState extends State<SquarePopularPlantCard> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: _averageColor ??
-                      Theme.of(context).scaffoldBackgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Padding(
