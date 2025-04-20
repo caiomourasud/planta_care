@@ -120,6 +120,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
                   locationId: _plantLocationId,
                   lastWatered: _lastWatered,
                   category: _category,
+                  localUrl: _popularPlant?.localUrl ?? _category?.localUrl,
                 );
                 return PlantDetailsPage(
                   plant: updatePlant,

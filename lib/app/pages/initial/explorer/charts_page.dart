@@ -231,6 +231,7 @@ class _ChartsPageState extends State<ChartsPage> {
   @override
   Widget build(BuildContext context) {
     return PlantScaffold(
+      avoidScroll: true,
       appBar: PlantAppBar(
         leading: PlantaAppBarButton(
           context: context,
@@ -322,8 +323,11 @@ class _ChartsPageState extends State<ChartsPage> {
                   return Center(
                     child: Text(
                       text,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withAlpha(120),
                           ),
                     ),
                   );
@@ -396,7 +400,9 @@ class _ChartsPageState extends State<ChartsPage> {
                       highColor: Colors.orange.shade200,
                       lowColor: Colors.blue.shade200,
                     ),
-                    const SizedBox(height: 100.0),
+                    SizedBox(
+                      height: MediaQuery.paddingOf(context).bottom + 12.0,
+                    ),
                   ],
                 ),
               ),

@@ -4,8 +4,8 @@ import 'package:planta_care/app/components/lists/horizontal_list.dart';
 class MyPlantsHorizontalList<T> extends StatelessWidget {
   const MyPlantsHorizontalList({
     required this.title,
-    required this.onViewAllPressed,
     required this.itemBuilder,
+    this.onViewAllPressed,
     this.minCardWidth,
     this.aspectRatioItem,
     this.items = const [],
@@ -13,8 +13,8 @@ class MyPlantsHorizontalList<T> extends StatelessWidget {
   });
 
   final String title;
-  final VoidCallback onViewAllPressed;
   final Widget Function(T object, double height) itemBuilder;
+  final VoidCallback? onViewAllPressed;
   final double? minCardWidth;
   final double? aspectRatioItem;
   final List<T> items;
@@ -35,21 +35,22 @@ class MyPlantsHorizontalList<T> extends StatelessWidget {
                       ),
                 ),
               ),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  foregroundColor: Theme.of(context).colorScheme.onSurface,
+              if (onViewAllPressed != null)
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  onPressed: onViewAllPressed,
+                  child: Text(
+                    'View all',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
-                onPressed: onViewAllPressed,
-                child: Text(
-                  'View all',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
             ],
           ),
         ),

@@ -30,6 +30,7 @@ class PlantScaffold extends StatefulWidget {
     this.upperBodyTitle,
     this.scrollController,
     this.backgroundColor,
+    this.avoidScroll = false,
     super.key,
   });
 
@@ -43,6 +44,7 @@ class PlantScaffold extends StatefulWidget {
   final Widget? upperBodyTitle;
   final ScrollController? scrollController;
   final Color? backgroundColor;
+  final bool avoidScroll;
 
   @override
   State<PlantScaffold> createState() => _PlantScaffoldState();
@@ -132,6 +134,9 @@ class _PlantScaffoldState extends State<PlantScaffold> {
                             removeBottom: true,
                             child: Scrollbar(
                               child: SingleChildScrollView(
+                                physics: widget.avoidScroll
+                                    ? const NeverScrollableScrollPhysics()
+                                    : null,
                                 primary: true,
                                 padding: EdgeInsets.only(
                                   left: widget.contentPadding?.left ?? 20.0,

@@ -1,18 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/buttons/planta_outlined_button.dart';
-import 'package:planta_care/app/components/plant_scaffold.dart';
+import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
+import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/models/plant_sub_location_model.dart';
-import 'package:planta_care/app/routes/app_router.dart';
-import 'package:planta_care/app/services/plant_sub_location_service.dart';
+import 'package:planta_care/app/pages/initial/popular_plants_page/square_popular_plant_card.dart';
+import 'package:planta_care/app/pages/plant_details/components/location_section.dart';
+import 'package:planta_care/app/pages/plant_details/components/plant_care_section.dart';
+import 'package:planta_care/app/pages/plant_details/components/sliver_plant_name_delegate.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/device_collection.dart';
 import 'package:planta_care/firebase/location_collection.dart';
@@ -38,12 +40,40 @@ class PlantDetailsPage extends StatefulWidget {
 }
 
 class _PlantDetailsPageState extends State<PlantDetailsPage> {
+  final _controller = DraggableScrollableController();
   MyPlantModel? _plant;
   DeviceModel? _device;
   PlantSubLocationModel? _location;
   StreamSubscription? _deviceSubscription;
+
   bool _isLoading = false;
   Timer? _timer;
+  double _imageHeight = 210;
+  double _titlePadding = 0.0;
+  double _titlePaddingTop = kToolbarHeight;
+
+  double draggableDrawerSize = 0.0;
+
+  double get appBarHeight =>
+      kToolbarHeight + MediaQuery.of(context).viewPadding.top;
+
+  double get screenHeightWithoutAppBar =>
+      MediaQuery.of(context).size.height - appBarHeight;
+
+  double pixelsToSizeFullScreen(double pixels) {
+    return pixels / screenHeightWithoutAppBar;
+  }
+
+  double get minChildSize =>
+      pixelsToSizeFullScreen(screenHeightWithoutAppBar - 250);
+
+  double get maxChildSize =>
+      pixelsToSizeFullScreen(screenHeightWithoutAppBar - (appBarHeight - 16.0));
+
+  double get renderBorderRadious =>
+      draggableDrawerSize > (maxChildSize - pixelsToSizeFullScreen(7.5))
+          ? (maxChildSize - draggableDrawerSize) * 2000 / maxChildSize
+          : 20;
 
   MyPlantModel? get plant => widget.plant ?? _plant;
 
@@ -55,10 +85,52 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
   @override
   void initState() {
     super.initState();
+    _controller.addListener(() {
+      setState(() {
+        draggableDrawerSize =
+            _controller.pixels / MediaQuery.of(context).size.height;
+        double minScrollExtent =
+            minChildSize * MediaQuery.of(context).size.height;
+        double maxScrollExtent =
+            maxChildSize * MediaQuery.of(context).size.height;
 
+        if (_controller.pixels < minScrollExtent) {
+          _imageHeight = kToolbarHeight;
+        } else if (_controller.pixels > maxScrollExtent) {
+          _imageHeight = kToolbarHeight;
+        } else {
+          double scrollRange = maxScrollExtent - minScrollExtent;
+          double imageHeightRange = 210 - kToolbarHeight;
+          double scrollPosition = _controller.pixels - minScrollExtent;
+          _imageHeight =
+              210 - (scrollPosition / scrollRange) * imageHeightRange;
+        }
+        double scrollRange = maxScrollExtent - minScrollExtent;
+
+        if (_controller.pixels <= minScrollExtent) {
+          _titlePadding = 0.0;
+        } else if (_controller.pixels >= maxScrollExtent) {
+          _titlePadding = 82.0;
+        } else {
+          double scrollPosition = _controller.pixels - minScrollExtent;
+          _titlePadding = (scrollPosition / scrollRange) * 82.0;
+        }
+        _titlePaddingTop = kToolbarHeight -
+            ((_controller.pixels - minScrollExtent) / scrollRange) *
+                kToolbarHeight;
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getData();
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(() {});
+    _deviceSubscription?.cancel();
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> _getData() async {
@@ -73,13 +145,6 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
     setState(() {
       _isLoading = false;
     });
-  }
-
-  @override
-  void dispose() {
-    _deviceSubscription?.cancel();
-    _timer?.cancel();
-    super.dispose();
   }
 
   Future<void> _getPlant() async {
@@ -160,158 +225,432 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
     );
   }
 
-  Widget _buildCare({
-    Widget? icon,
-    String? title,
-    void Function()? onTap,
-  }) {
-    return AspectRatio(
-      aspectRatio: 1.0,
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
-        minVerticalPadding: 0,
-        minTileHeight: 0,
-        minLeadingWidth: 0,
-        onTap: onTap,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
-          ),
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        tileColor: Theme.of(context).colorScheme.surface,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            icon ?? const SizedBox.shrink(),
-            const SizedBox(height: 4.0),
-            Text(
-              title ?? '',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final location = _location;
-    return PrimaryScrollController(
-      controller: ScrollControllers.getController('/plant-details'),
-      child: Skeletonizer(
-        enabled: _isLoading,
-        child: PlantScaffold(
-          appBar: PlantAppBar(
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.surface.withAlpha(
+                  (draggableDrawerSize >= (maxChildSize - 0.001) ? 255 : 0),
+                ),
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leadingWidth: 80,
             leading: Skeleton.keep(
-              child: PlantaAppBarButton(
-                context: context,
-                onPressed: widget.onGoBack ?? () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Center(
+                  child: PlantaAppBarButton(
+                    context: context,
+                    onPressed: widget.onGoBack ??
+                        () {
+                          context.pop();
+                        },
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                ),
               ),
             ),
-            trailing: widget.onNext == null &&
-                    plant?.deviceId != null &&
-                    plant?.deviceId != '' &&
-                    !_isLoading
-                ? Skeleton.keep(
-                    child: PlantaAppBarButton(
-                      context: context,
-                      onPressed: () {
-                        context.push(
-                            '/plant-details/${plant?.id}/charts/${plant?.id}');
-                      },
-                      icon: Icon(
-                        Icons.bar_chart_outlined,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  )
-                : null,
-          ),
-          overlayItem: _isLoading
-              ? const SizedBox()
-              : Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  padding: const EdgeInsets.only(
-                    right: 20.0,
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 32.0,
-                        ),
-                        child: Skeleton.keep(
-                          child: Image.asset(
-                            _imagePath,
-                            height: MediaQuery.sizeOf(context).height * 0.26,
+            actions: [
+              widget.onNext == null &&
+                      plant?.deviceId != null &&
+                      plant?.deviceId != '' &&
+                      !_isLoading
+                  ? Skeleton.keep(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Center(
+                          child: PlantaAppBarButton(
+                            context: context,
+                            onPressed: () {
+                              context.push(
+                                  '/plant-details/${plant?.id}/charts/${plant?.id}');
+                            },
+                            icon: Icon(
+                              Icons.bar_chart_outlined,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
                       ),
-                      if (plant?.deviceId != null &&
-                          plant?.deviceId != '' &&
-                          !_isLoading)
-                        Expanded(
-                          child: Skeletonizer(
-                            enabled: _device == null,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        _buildData(
-                                            'Light', _device?.lightLevel ?? ''),
-                                        const SizedBox(height: 8.0),
-                                        _buildData('Humidity',
-                                            '${_device?.humidity}%'),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 12.0),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        _buildData('Temperature',
-                                            '${_device?.temperature}°C'),
-                                        const SizedBox(height: 8.0),
-                                        _buildData('Moisture',
-                                            '${_device?.moisture}%'),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 20.0),
-                                Skeleton.keep(
-                                  child: Text(
-                                    'Last Update:',
+                    )
+                  : const SizedBox(),
+              if (plant?.deviceId == null ||
+                  plant?.deviceId == '' && _imageHeight < 180)
+                Skeleton.keep(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Center(
+                      child: Tooltip(
+                        message: 'Add a device',
+                        child: PlantaAppBarButton(
+                          context: context,
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.add,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          ),
+        ),
+        DraggableScrollableSheet(
+          controller: _controller,
+          initialChildSize: minChildSize,
+          minChildSize: minChildSize,
+          maxChildSize: maxChildSize,
+          builder: (context, scrollController) {
+            return Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(renderBorderRadious),
+                  topRight: Radius.circular(renderBorderRadious),
+                ),
+              ),
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    child: CustomScrollView(
+                      controller: scrollController,
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Container(
+                            color: Theme.of(context).colorScheme.surface,
+                            height: 40.0,
+                          ),
+                        ),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          floating: true,
+                          delegate: SliverPlantNameDelegate(
+                            child: Container(
+                              color: Theme.of(context).colorScheme.surface,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    plant?.name ?? 'Plant Name',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodySmall
+                                        .headlineMedium
                                         ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface
-                                              .withAlpha(120),
+                                          fontWeight: FontWeight.bold,
                                         ),
                                   ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0,
                                 ),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      const SizedBox(height: 20.0),
+                                      Text(
+                                        plant?.description == null ||
+                                                plant?.description?.isEmpty ==
+                                                    true
+                                            ? 'No description'
+                                            : plant?.description ?? '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withAlpha(120),
+                                            ),
+                                      ),
+                                      const SizedBox(height: 20.0),
+                                      const PlantCareSection(),
+                                      const SizedBox(height: 20.0),
+                                      LocationSection(location: location),
+                                      const SizedBox(height: 20.0),
+                                      Skeleton.keep(
+                                        child: Text(
+                                          'Category',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8.0),
+                                      if (location != null)
+                                        ListTile(
+                                          onTap: () {},
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withAlpha(20),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                          ),
+                                          tileColor: Theme.of(context)
+                                              .colorScheme
+                                              .surface,
+                                          title: Row(
+                                            children: [
+                                              Icon(
+                                                plant?.category?.icon ??
+                                                    Icons.dashboard_customize,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                              const SizedBox(width: 16.0),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    plant?.category?.title ??
+                                                        'Category',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium
+                                                        ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    plant?.category
+                                                            ?.description ??
+                                                        '',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium
+                                                        ?.copyWith(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .colorScheme
+                                                              .onSurface
+                                                              .withAlpha(120),
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    ]),
+                              ),
+                              const SizedBox(height: 16.0),
+                              widget.onNext == null
+                                  ? MyPlantsHorizontalList<PopularPlant>(
+                                      title: 'Popular Plants',
+                                      aspectRatioItem: 7 / 5.7,
+                                      items: PopularPlant.values.toList(),
+                                      itemBuilder: (item, height) {
+                                        return SquarePopularPlantCard(
+                                          key: Key(item.id),
+                                          plant: item,
+                                          onTap: () {
+                                            context.push(
+                                                '/add-plant?popularPlantId=${item.id}');
+                                          },
+                                        );
+                                      },
+                                    )
+                                  : Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                      ),
+                                      width: double.infinity,
+                                      child: PlantaFilledButton(
+                                        context: context,
+                                        onPressed: () => widget.onNext?.call(),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0,
+                                            vertical: 12.0,
+                                          ),
+                                          child: Text(
+                                            'Add Plant',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.paddingOf(context).bottom + 12.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        AnimatedContainer(
+          margin: EdgeInsets.only(
+            left: _titlePadding,
+            top: MediaQuery.paddingOf(context).top + _titlePaddingTop,
+          ),
+          alignment: Alignment.centerLeft,
+          duration: const Duration(milliseconds: 30),
+          curve: Curves.easeOut,
+          height: _imageHeight,
+          child: Row(
+            children: [
+              Skeletonizer(
+                enabled: _isLoading,
+                child: Image.asset(
+                  _imagePath,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(top: _imageHeight >= 150 ? 22.0 : 12.0),
+                    child: Column(
+                      children: [
+                        if (plant?.deviceId != null &&
+                            plant?.deviceId != '' &&
+                            !_isLoading)
+                          Expanded(
+                            child: Skeletonizer(
+                              enabled: _device == null,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 50.0,
+                                              ),
+                                              child: _buildData('Light',
+                                                  _device?.lightLevel ?? ''),
+                                            ),
+                                            if (_imageHeight >= 150) ...[
+                                              const SizedBox(height: 8.0),
+                                              _buildData('Temperature',
+                                                  '${_device?.temperature}°C'),
+                                            ]
+                                          ],
+                                        ),
+                                        const SizedBox(width: 12.0),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            _buildData('Moisture',
+                                                '${_device?.moisture}%'),
+                                            if (_imageHeight >= 150) ...[
+                                              const SizedBox(height: 8.0),
+                                              _buildData('Humidity',
+                                                  '${_device?.humidity}%'),
+                                            ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    if (_imageHeight >= 200) ...[
+                                      const SizedBox(height: 20.0),
+                                      Skeleton.keep(
+                                        child: Text(
+                                          'Last Update:',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withAlpha(120),
+                                              ),
+                                        ),
+                                      ),
+                                      Text(
+                                        _formatTimestamp(_device?.timestamp),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withAlpha(120),
+                                            ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        else if (_imageHeight >= 180)
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 20.0),
                                 Text(
-                                  _formatTimestamp(_device?.timestamp),
+                                  'Monitor your plant',
+                                  textAlign: TextAlign.center,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodySmall
+                                      .bodyMedium
                                       ?.copyWith(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -319,228 +658,38 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                             .withAlpha(120),
                                       ),
                                 ),
+                                const SizedBox(height: 12.0),
+                                Center(
+                                  child: PlantaOutlinedButton(
+                                    context: context,
+                                    onPressed: () {},
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add),
+                                          SizedBox(width: 4.0),
+                                          Text('Add a device'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        )
-                      else
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 20.0),
-                            Text(
-                              'Monitor your plant',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withAlpha(120),
-                                  ),
-                            ),
-                            const SizedBox(height: 12.0),
-                            PlantaOutlinedButton(
-                              context: context,
-                              onPressed: () {},
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.add),
-                                    SizedBox(width: 4.0),
-                                    Text('Add a device'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-          bottomSheet: widget.onNext == null
-              ? null
-              : SizedBox(
-                  width: double.infinity,
-                  child: PlantaFilledButton(
-                    context: context,
-                    onPressed: () => widget.onNext?.call(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 12.0,
-                      ),
-                      child: Text(
-                        'Add Plant',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20.0),
-              Text(
-                plant?.name ?? 'Plant Name',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 12.0),
-              Text(
-                plant?.description == null ||
-                        plant?.description?.isEmpty == true
-                    ? 'No description'
-                    : plant?.description ?? '',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(120),
-                    ),
-              ),
-              const SizedBox(height: 16.0),
-              Skeleton.keep(
-                child: Text(
-                  'Plant Care',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Row(
-                spacing: 16.0,
-                children: [
-                  Expanded(
-                    child: _buildCare(
-                      icon: SvgPicture.asset(
-                        'assets/svg/icons/my_place.svg',
-                        width: 20.0,
-                        height: 20.0,
-                        colorFilter: ColorFilter.mode(
-                          Theme.of(context).colorScheme.primary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      title: 'Easy',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildCare(
-                      icon: const Icon(
-                        Icons.water_drop,
-                        color: Colors.blue,
-                      ),
-                      title: 'Low',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildCare(
-                      icon: const Icon(
-                        Icons.sunny,
-                        color: Colors.orange,
-                      ),
-                      title: 'Medium',
-                      onTap: () {},
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildCare(
-                      icon: const Icon(
-                        Icons.warning_rounded,
-                        color: Colors.red,
-                      ),
-                      title: 'Toxic',
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Skeleton.keep(
-                child: Text(
-                  'Location',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              if (location != null)
-                ListTile(
-                  onTap: () {},
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color:
-                          Theme.of(context).colorScheme.onSurface.withAlpha(20),
-                    ),
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  tileColor: Theme.of(context).colorScheme.surface,
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 8.0),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: PlantSubLocationService
-                                      .getIconColorByPlantLocationModel(
-                                          location)
-                                  ?.withAlpha(40) ??
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(20),
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Icon(
-                          PlantSubLocationService.getIconByPlantLocationModel(
-                                  location) ??
-                              Icons.dashboard_customize,
-                          color: PlantSubLocationService
-                                  .getIconColorByPlantLocationModel(location) ??
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(120),
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        location.name ?? 'Location',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        location.description ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(120),
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 100.0),
+              )
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
