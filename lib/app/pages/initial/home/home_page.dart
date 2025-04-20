@@ -164,33 +164,35 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20.0),
-                MyPlantsHorizontalList<MyPlantModel>(
-                  title: 'My Plants',
-                  aspectRatioItem: 7 / 5.7,
-                  onViewAllPressed: () {
-                    AppRouter.navigationShell?.goBranch(1);
-                  },
-                  items: _plants.isEmpty
-                      ? const [
-                          MyPlantModel(id: '1'),
-                          MyPlantModel(id: '2'),
-                          MyPlantModel(id: '3'),
-                        ]
-                      : _plants,
-                  itemBuilder: (item, height) {
-                    return Skeletonizer(
-                      enabled: _isLoading && _plants.isEmpty == true,
-                      child: MyPlantSquareCard(
-                        key: Key(item.id ?? ''),
-                        plant: item,
-                        onTap: () {
-                          context.push('/plant-details/${item.id}');
-                        },
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 20.0),
+                if (_plants.isNotEmpty || _isLoading) ...[
+                  MyPlantsHorizontalList<MyPlantModel>(
+                    title: 'My Plants',
+                    aspectRatioItem: 7 / 5.7,
+                    onViewAllPressed: () {
+                      AppRouter.navigationShell?.goBranch(1);
+                    },
+                    items: _plants.isEmpty
+                        ? const [
+                            MyPlantModel(id: '1'),
+                            MyPlantModel(id: '2'),
+                            MyPlantModel(id: '3'),
+                          ]
+                        : _plants,
+                    itemBuilder: (item, height) {
+                      return Skeletonizer(
+                        enabled: _isLoading && _plants.isEmpty == true,
+                        child: MyPlantSquareCard(
+                          key: Key(item.id ?? ''),
+                          plant: item,
+                          onTap: () {
+                            context.push('/plant-details/${item.id}');
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20.0),
+                ],
                 MyPlantsVerticalList<PopularPlant>(
                   title: 'Popular Plants',
                   onViewAllPressed: () {

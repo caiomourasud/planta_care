@@ -367,7 +367,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: [
-                                      const SizedBox(height: 20.0),
+                                      const SizedBox(height: 8.0),
                                       Text(
                                         plant?.description == null ||
                                                 plant?.description?.isEmpty ==
@@ -385,7 +385,9 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                             ),
                                       ),
                                       const SizedBox(height: 20.0),
-                                      const PlantCareSection(),
+                                      PlantCareSection(
+                                        myPlant: plant,
+                                      ),
                                       const SizedBox(height: 20.0),
                                       LocationSection(location: location),
                                       const SizedBox(height: 20.0),
@@ -543,19 +545,19 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(width: 16.0),
+              SizedBox(width: _titlePadding / 6),
               Expanded(
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Container(
-                    padding:
-                        EdgeInsets.only(top: _imageHeight >= 150 ? 22.0 : 12.0),
-                    child: Column(
-                      children: [
-                        if (plant?.deviceId != null &&
-                            plant?.deviceId != '' &&
-                            !_isLoading)
-                          Expanded(
+                child: Container(
+                  padding:
+                      EdgeInsets.only(top: _imageHeight >= 150 ? 22.0 : 12.0),
+                  child: Column(
+                    children: [
+                      if (plant?.deviceId != null &&
+                          plant?.deviceId != '' &&
+                          !_isLoading)
+                        Expanded(
+                          child: IgnorePointer(
+                            ignoring: true,
                             child: Skeletonizer(
                               enabled: _device == null,
                               child: SingleChildScrollView(
@@ -585,7 +587,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                             ]
                                           ],
                                         ),
-                                        const SizedBox(width: 12.0),
+                                        SizedBox(width: _imageHeight / 10),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -635,54 +637,53 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                 ),
                               ),
                             ),
-                          )
-                        else if (_imageHeight >= 180)
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(height: 20.0),
-                                Text(
-                                  'Monitor your plant',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withAlpha(120),
-                                      ),
-                                ),
-                                const SizedBox(height: 12.0),
-                                Center(
-                                  child: PlantaOutlinedButton(
-                                    context: context,
-                                    onPressed: () {},
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.add),
-                                          SizedBox(width: 4.0),
-                                          Text('Add a device'),
-                                        ],
-                                      ),
+                          ),
+                        )
+                      else if (_imageHeight >= 180)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 20.0),
+                              Text(
+                                'Monitor your plant',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withAlpha(120),
+                                    ),
+                              ),
+                              const SizedBox(height: 12.0),
+                              Center(
+                                child: PlantaOutlinedButton(
+                                  context: context,
+                                  onPressed: () {},
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.add),
+                                        SizedBox(width: 4.0),
+                                        Text('Add a device'),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ),
               )

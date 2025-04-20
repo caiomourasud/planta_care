@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:planta_care/app/components/tint_widget_by_level.dart';
+import 'package:planta_care/app/enums/toxicity_level.dart';
+import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PlantCareSection extends StatelessWidget {
-  const PlantCareSection({super.key});
+  const PlantCareSection({
+    required this.myPlant,
+    super.key,
+  });
+
+  final MyPlantModel? myPlant;
 
   @override
   Widget build(BuildContext context) {
     Widget buildCare({
       Widget? icon,
       String? title,
+      Color? color,
+      double? level,
       void Function()? onTap,
     }) {
       return AspectRatio(
@@ -60,55 +70,66 @@ class PlantCareSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8.0),
-        Row(
-          spacing: 16.0,
-          children: [
-            Expanded(
-              child: buildCare(
+        MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          removeBottom: true,
+          child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 4,
+            mainAxisSpacing: 16.0,
+            crossAxisSpacing: 16.0,
+            shrinkWrap: true,
+            children: [
+              buildCare(
                 icon: SvgPicture.asset(
                   'assets/svg/icons/my_place.svg',
                   width: 20.0,
                   height: 20.0,
                   colorFilter: ColorFilter.mode(
-                    Theme.of(context).colorScheme.primary,
+                    myPlant?.maintenanceDifficulty?.color ??
+                        Theme.of(context).colorScheme.primary,
                     BlendMode.srcIn,
                   ),
                 ),
-                title: 'Easy',
+                title: myPlant?.maintenanceDifficulty?.title,
                 onTap: () {},
               ),
-            ),
-            Expanded(
-              child: buildCare(
-                icon: const Icon(
-                  Icons.water_drop,
-                  color: Colors.blue,
+              buildCare(
+                icon: TintWidgetByLevel(
+                  level: myPlant?.wateringNeeds?.level ?? 0.5,
+                  color: Colors.lightBlueAccent,
+                  child: Icon(
+                    Icons.water_drop,
+                    color: Colors.grey[400],
+                  ),
                 ),
-                title: 'Low',
+                title: myPlant?.wateringNeeds?.title,
                 onTap: () {},
               ),
-            ),
-            Expanded(
-              child: buildCare(
-                icon: const Icon(
-                  Icons.sunny,
-                  color: Colors.orange,
+              buildCare(
+                icon: TintWidgetByLevel(
+                  level: myPlant?.lightNeeds?.level ?? 0.5,
+                  color: Colors.orangeAccent,
+                  child: Icon(
+                    Icons.sunny,
+                    color: Colors.grey[400],
+                  ),
                 ),
-                title: 'Medium',
+                title: myPlant?.lightNeeds?.title,
                 onTap: () {},
               ),
-            ),
-            Expanded(
-              child: buildCare(
-                icon: const Icon(
-                  Icons.warning_rounded,
-                  color: Colors.red,
+              if (myPlant?.toxicity == ToxicityLevel.toxic)
+                buildCare(
+                  icon: const Icon(
+                    Icons.warning_rounded,
+                    color: Colors.red,
+                  ),
+                  title: myPlant?.toxicity?.title,
+                  onTap: () {},
                 ),
-                title: 'Toxic',
-                onTap: () {},
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

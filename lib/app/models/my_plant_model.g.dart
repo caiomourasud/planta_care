@@ -37,6 +37,18 @@ _MyPlantModel _$MyPlantModelFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['updatedAt'] as String),
       category: $enumDecodeNullable(_$CategoryEnumMap, json['category']),
       localUrl: json['localUrl'] as String?,
+      maintenanceDifficulty: $enumDecodeNullable(
+              _$PlantMaintenanceDifficultyEnumMap,
+              json['maintenanceDifficulty']) ??
+          PlantMaintenanceDifficulty.easy,
+      wateringNeeds:
+          $enumDecodeNullable(_$WateringNeedsEnumMap, json['wateringNeeds']) ??
+              WateringNeeds.low,
+      lightNeeds:
+          $enumDecodeNullable(_$LightNeedsEnumMap, json['lightNeeds']) ??
+              LightNeeds.low,
+      toxicity: $enumDecodeNullable(_$ToxicityLevelEnumMap, json['toxicity']) ??
+          ToxicityLevel.nonToxic,
     );
 
 Map<String, dynamic> _$MyPlantModelToJson(_MyPlantModel instance) =>
@@ -57,6 +69,11 @@ Map<String, dynamic> _$MyPlantModelToJson(_MyPlantModel instance) =>
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'category': _$CategoryEnumMap[instance.category],
       'localUrl': instance.localUrl,
+      'maintenanceDifficulty':
+          _$PlantMaintenanceDifficultyEnumMap[instance.maintenanceDifficulty],
+      'wateringNeeds': _$WateringNeedsEnumMap[instance.wateringNeeds],
+      'lightNeeds': _$LightNeedsEnumMap[instance.lightNeeds],
+      'toxicity': _$ToxicityLevelEnumMap[instance.toxicity],
     };
 
 const _$LastWateredEnumMap = {
@@ -83,4 +100,27 @@ const _$CategoryEnumMap = {
   Category.shrubs: 'shrubs',
   Category.vegetables: 'vegetables',
   Category.herbs: 'herbs',
+};
+
+const _$PlantMaintenanceDifficultyEnumMap = {
+  PlantMaintenanceDifficulty.easy: 'easy',
+  PlantMaintenanceDifficulty.medium: 'medium',
+  PlantMaintenanceDifficulty.hard: 'hard',
+};
+
+const _$WateringNeedsEnumMap = {
+  WateringNeeds.low: 'low',
+  WateringNeeds.medium: 'medium',
+  WateringNeeds.high: 'high',
+};
+
+const _$LightNeedsEnumMap = {
+  LightNeeds.low: 'low',
+  LightNeeds.medium: 'medium',
+  LightNeeds.high: 'high',
+};
+
+const _$ToxicityLevelEnumMap = {
+  ToxicityLevel.nonToxic: 'nonToxic',
+  ToxicityLevel.toxic: 'toxic',
 };

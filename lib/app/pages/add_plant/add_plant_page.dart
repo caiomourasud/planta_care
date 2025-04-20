@@ -121,6 +121,12 @@ class _AddPlantPageState extends State<AddPlantPage> {
                   lastWatered: _lastWatered,
                   category: _category,
                   localUrl: _popularPlant?.localUrl ?? _category?.localUrl,
+                  description:
+                      _popularPlant?.largeDescription ?? _category?.description,
+                  maintenanceDifficulty: _popularPlant?.maintenanceDifficulty,
+                  wateringNeeds: _popularPlant?.wateringNeeds,
+                  lightNeeds: _popularPlant?.lightNeeds,
+                  toxicity: _popularPlant?.toxicity,
                 );
                 return PlantDetailsPage(
                   plant: updatePlant,

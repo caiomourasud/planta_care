@@ -31,6 +31,10 @@ mixin _$MyPlantModel {
   DateTime? get updatedAt;
   Category? get category;
   String? get localUrl;
+  PlantMaintenanceDifficulty? get maintenanceDifficulty;
+  WateringNeeds? get wateringNeeds;
+  LightNeeds? get lightNeeds;
+  ToxicityLevel? get toxicity;
 
   /// Create a copy of MyPlantModel
   /// with the given fields replaced by the non-null parameter values.
@@ -75,33 +79,46 @@ mixin _$MyPlantModel {
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.localUrl, localUrl) ||
-                other.localUrl == localUrl));
+                other.localUrl == localUrl) &&
+            (identical(other.maintenanceDifficulty, maintenanceDifficulty) ||
+                other.maintenanceDifficulty == maintenanceDifficulty) &&
+            (identical(other.wateringNeeds, wateringNeeds) ||
+                other.wateringNeeds == wateringNeeds) &&
+            (identical(other.lightNeeds, lightNeeds) ||
+                other.lightNeeds == lightNeeds) &&
+            (identical(other.toxicity, toxicity) ||
+                other.toxicity == toxicity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      description,
-      const DeepCollectionEquality().hash(images),
-      lastWatered,
-      lastWatering,
-      lastFertilization,
-      deviceId,
-      deviceAddedAt,
-      locationId,
-      plantId,
-      healthStatus,
-      createdAt,
-      updatedAt,
-      category,
-      localUrl);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        description,
+        const DeepCollectionEquality().hash(images),
+        lastWatered,
+        lastWatering,
+        lastFertilization,
+        deviceId,
+        deviceAddedAt,
+        locationId,
+        plantId,
+        healthStatus,
+        createdAt,
+        updatedAt,
+        category,
+        localUrl,
+        maintenanceDifficulty,
+        wateringNeeds,
+        lightNeeds,
+        toxicity
+      ]);
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl, maintenanceDifficulty: $maintenanceDifficulty, wateringNeeds: $wateringNeeds, lightNeeds: $lightNeeds, toxicity: $toxicity)';
   }
 }
 
@@ -127,7 +144,11 @@ abstract mixin class $MyPlantModelCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       Category? category,
-      String? localUrl});
+      String? localUrl,
+      PlantMaintenanceDifficulty? maintenanceDifficulty,
+      WateringNeeds? wateringNeeds,
+      LightNeeds? lightNeeds,
+      ToxicityLevel? toxicity});
 }
 
 /// @nodoc
@@ -158,6 +179,10 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
     Object? updatedAt = freezed,
     Object? category = freezed,
     Object? localUrl = freezed,
+    Object? maintenanceDifficulty = freezed,
+    Object? wateringNeeds = freezed,
+    Object? lightNeeds = freezed,
+    Object? toxicity = freezed,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -224,6 +249,22 @@ class _$MyPlantModelCopyWithImpl<$Res> implements $MyPlantModelCopyWith<$Res> {
           ? _self.localUrl
           : localUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      maintenanceDifficulty: freezed == maintenanceDifficulty
+          ? _self.maintenanceDifficulty
+          : maintenanceDifficulty // ignore: cast_nullable_to_non_nullable
+              as PlantMaintenanceDifficulty?,
+      wateringNeeds: freezed == wateringNeeds
+          ? _self.wateringNeeds
+          : wateringNeeds // ignore: cast_nullable_to_non_nullable
+              as WateringNeeds?,
+      lightNeeds: freezed == lightNeeds
+          ? _self.lightNeeds
+          : lightNeeds // ignore: cast_nullable_to_non_nullable
+              as LightNeeds?,
+      toxicity: freezed == toxicity
+          ? _self.toxicity
+          : toxicity // ignore: cast_nullable_to_non_nullable
+              as ToxicityLevel?,
     ));
   }
 }
@@ -247,7 +288,11 @@ class _MyPlantModel implements MyPlantModel {
       this.createdAt,
       this.updatedAt,
       this.category,
-      this.localUrl})
+      this.localUrl,
+      this.maintenanceDifficulty = PlantMaintenanceDifficulty.easy,
+      this.wateringNeeds = WateringNeeds.low,
+      this.lightNeeds = LightNeeds.low,
+      this.toxicity = ToxicityLevel.nonToxic})
       : _images = images;
   factory _MyPlantModel.fromJson(Map<String, dynamic> json) =>
       _$MyPlantModelFromJson(json);
@@ -292,6 +337,18 @@ class _MyPlantModel implements MyPlantModel {
   final Category? category;
   @override
   final String? localUrl;
+  @override
+  @JsonKey()
+  final PlantMaintenanceDifficulty? maintenanceDifficulty;
+  @override
+  @JsonKey()
+  final WateringNeeds? wateringNeeds;
+  @override
+  @JsonKey()
+  final LightNeeds? lightNeeds;
+  @override
+  @JsonKey()
+  final ToxicityLevel? toxicity;
 
   /// Create a copy of MyPlantModel
   /// with the given fields replaced by the non-null parameter values.
@@ -340,33 +397,46 @@ class _MyPlantModel implements MyPlantModel {
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.localUrl, localUrl) ||
-                other.localUrl == localUrl));
+                other.localUrl == localUrl) &&
+            (identical(other.maintenanceDifficulty, maintenanceDifficulty) ||
+                other.maintenanceDifficulty == maintenanceDifficulty) &&
+            (identical(other.wateringNeeds, wateringNeeds) ||
+                other.wateringNeeds == wateringNeeds) &&
+            (identical(other.lightNeeds, lightNeeds) ||
+                other.lightNeeds == lightNeeds) &&
+            (identical(other.toxicity, toxicity) ||
+                other.toxicity == toxicity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      description,
-      const DeepCollectionEquality().hash(_images),
-      lastWatered,
-      lastWatering,
-      lastFertilization,
-      deviceId,
-      deviceAddedAt,
-      locationId,
-      plantId,
-      healthStatus,
-      createdAt,
-      updatedAt,
-      category,
-      localUrl);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        description,
+        const DeepCollectionEquality().hash(_images),
+        lastWatered,
+        lastWatering,
+        lastFertilization,
+        deviceId,
+        deviceAddedAt,
+        locationId,
+        plantId,
+        healthStatus,
+        createdAt,
+        updatedAt,
+        category,
+        localUrl,
+        maintenanceDifficulty,
+        wateringNeeds,
+        lightNeeds,
+        toxicity
+      ]);
 
   @override
   String toString() {
-    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl)';
+    return 'MyPlantModel(id: $id, name: $name, description: $description, images: $images, lastWatered: $lastWatered, lastWatering: $lastWatering, lastFertilization: $lastFertilization, deviceId: $deviceId, deviceAddedAt: $deviceAddedAt, locationId: $locationId, plantId: $plantId, healthStatus: $healthStatus, createdAt: $createdAt, updatedAt: $updatedAt, category: $category, localUrl: $localUrl, maintenanceDifficulty: $maintenanceDifficulty, wateringNeeds: $wateringNeeds, lightNeeds: $lightNeeds, toxicity: $toxicity)';
   }
 }
 
@@ -394,7 +464,11 @@ abstract mixin class _$MyPlantModelCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       Category? category,
-      String? localUrl});
+      String? localUrl,
+      PlantMaintenanceDifficulty? maintenanceDifficulty,
+      WateringNeeds? wateringNeeds,
+      LightNeeds? lightNeeds,
+      ToxicityLevel? toxicity});
 }
 
 /// @nodoc
@@ -426,6 +500,10 @@ class __$MyPlantModelCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? category = freezed,
     Object? localUrl = freezed,
+    Object? maintenanceDifficulty = freezed,
+    Object? wateringNeeds = freezed,
+    Object? lightNeeds = freezed,
+    Object? toxicity = freezed,
   }) {
     return _then(_MyPlantModel(
       id: freezed == id
@@ -492,6 +570,22 @@ class __$MyPlantModelCopyWithImpl<$Res>
           ? _self.localUrl
           : localUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      maintenanceDifficulty: freezed == maintenanceDifficulty
+          ? _self.maintenanceDifficulty
+          : maintenanceDifficulty // ignore: cast_nullable_to_non_nullable
+              as PlantMaintenanceDifficulty?,
+      wateringNeeds: freezed == wateringNeeds
+          ? _self.wateringNeeds
+          : wateringNeeds // ignore: cast_nullable_to_non_nullable
+              as WateringNeeds?,
+      lightNeeds: freezed == lightNeeds
+          ? _self.lightNeeds
+          : lightNeeds // ignore: cast_nullable_to_non_nullable
+              as LightNeeds?,
+      toxicity: freezed == toxicity
+          ? _self.toxicity
+          : toxicity // ignore: cast_nullable_to_non_nullable
+              as ToxicityLevel?,
     ));
   }
 }

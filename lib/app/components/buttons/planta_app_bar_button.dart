@@ -5,10 +5,11 @@ class PlantaAppBarButton extends IconButton {
     required BuildContext context,
     required super.icon,
     super.onPressed,
+    EdgeInsets? padding,
     super.key,
   }) : super(
           style: IconButton.styleFrom(
-            padding: const EdgeInsets.all(14.0),
+            padding: padding ?? const EdgeInsets.all(14.0),
             backgroundColor: Theme.of(context).colorScheme.surface,
             foregroundColor:
                 Theme.of(context).colorScheme.onSurface.withAlpha(180),

@@ -51,6 +51,34 @@ class _ChartsPageState extends State<ChartsPage> {
     });
   }
 
+  bool _canGoBackDate() {
+    final dateAux = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+    );
+    final firstDayAux = DateTime(
+      firstDay?.year ?? 2025,
+      firstDay?.month ?? 3,
+      firstDay?.day ?? 16,
+    );
+    return firstDayAux.isBefore(dateAux);
+  }
+
+  bool _canGoForwardDate() {
+    final dateAux = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+    );
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    return today.isAfter(dateAux);
+  }
+
   void _selectDate(DateTime date) async {
     selectedDate = DateTime(date.year, date.month, date.day);
     _getData();
@@ -94,13 +122,28 @@ class _ChartsPageState extends State<ChartsPage> {
     final minutes = dateTime.minute;
     if (minutes < 15) {
       return DateTime(
-          dateTime.year, dateTime.month, dateTime.day, dateTime.hour, 0);
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        0,
+      );
     } else if (minutes < 45) {
       return DateTime(
-          dateTime.year, dateTime.month, dateTime.day, dateTime.hour, 30);
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        30,
+      );
     } else {
       return DateTime(
-          dateTime.year, dateTime.month, dateTime.day, dateTime.hour + 1, 0);
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour + 1,
+        0,
+      );
     }
   }
 
@@ -112,7 +155,8 @@ class _ChartsPageState extends State<ChartsPage> {
     Map<DateTime, DeviceReadingModel> readingMap = {
       for (int i = 0; i < 48; i++)
         startTime.add(Duration(minutes: i * 30)): DeviceReadingModel(
-            timestamp: startTime.add(Duration(minutes: i * 30)))
+          timestamp: startTime.add(Duration(minutes: i * 30)),
+        )
     };
 
     for (var reading in readings) {
@@ -201,13 +245,13 @@ class _ChartsPageState extends State<ChartsPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '00:00',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(120),
-                  ),
-            ),
+            Text('00:00',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(120),
+                    )),
             Text(
               '12:00',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -255,15 +299,70 @@ class _ChartsPageState extends State<ChartsPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 20.0),
-            Text(
-              DateFormat('EEEE, dd MMMM').format(selectedDate),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Row(
+                children: [
+                  PlantaAppBarButton(
+                    context: context,
+                    icon: const Icon(Icons.chevron_left),
+                    padding: const EdgeInsets.all(10.0),
+                    onPressed: _canGoBackDate()
+                        ? () {
+                            _selectDate(selectedDate.subtract(
+                              const Duration(days: 1),
+                            ));
+                          }
+                        : null,
                   ),
-              textAlign: TextAlign.center,
+                  const SizedBox(width: 56.0),
+                  Expanded(
+                    child: Text(
+                      DateFormat('EEEE, dd MMMM').format(selectedDate),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Today',
+                    child: PlantaAppBarButton(
+                      context: context,
+                      icon: Icon(
+                        Icons.today,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 20.0,
+                      ),
+                      padding: const EdgeInsets.all(10.0),
+                      onPressed: () {
+                        final today = DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day,
+                        );
+                        _selectDate(today);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  PlantaAppBarButton(
+                    context: context,
+                    icon: const Icon(Icons.chevron_right),
+                    padding: const EdgeInsets.all(10.0),
+                    onPressed: _canGoForwardDate()
+                        ? () {
+                            _selectDate(selectedDate.add(
+                              const Duration(days: 1),
+                            ));
+                          }
+                        : null,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 12.0),
             TableCalendar(
               headerVisible: false,
               firstDay: firstDay ?? DateTime(2025, 3, 16),

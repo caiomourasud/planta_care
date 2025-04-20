@@ -30,6 +30,10 @@ class _SquarePopularPlantCardState extends State<SquarePopularPlantCard> {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
+          side: BorderSide(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            width: 1.0,
+          ),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

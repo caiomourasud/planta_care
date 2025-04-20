@@ -45,7 +45,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
   @override
   Widget build(BuildContext context) {
     return PrimaryScrollController(
-      controller: ScrollControllers.getController('/categories'),
+      controller: ScrollControllers.getController('/explorer'),
       child: KeyboardDismissOnTap(
         child: Scaffold(
           appBar: AppBar(
