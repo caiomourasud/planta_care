@@ -116,27 +116,6 @@ class Auth {
     }
   }
 
-  // Future<bool> deleteUser({
-  //   required IVUSAIDUser? ivusaidUser,
-  //   required String password,
-  // }) async {
-  //   try {
-  //     User? user = _firebaseAuth.currentUser;
-  //     AuthCredential credentials = EmailAuthProvider.credential(
-  //       email: ivusaidUser?.email ?? '',
-  //       password: password,
-  //     );
-  //     UserCredential? result =
-  //         await user?.reauthenticateWithCredential(credentials);
-  //     if (result == null) return false;
-  //     await UserCollection().deleteUser(ivusaidUser: ivusaidUser);
-  //     await result.user?.delete();
-  //     return true;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
-
   static Future<void> signOut({
     BuildContext? context,
   }) async {

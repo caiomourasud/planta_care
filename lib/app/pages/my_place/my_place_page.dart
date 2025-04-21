@@ -119,54 +119,56 @@ class _MyPlacePageState extends State<MyPlacePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20.0),
-              MyPlantsHorizontalList(
-                title: 'My Locations',
-                aspectRatioItem: 4 / 7,
-                onViewAllPressed: () {
-                  context.push('/my-place/my-locations');
-                },
-                items: _plantSubLocations.isEmpty
-                    ? const [
-                        PlantSubLocationModel(id: '1'),
-                        PlantSubLocationModel(id: '2'),
-                        PlantSubLocationModel(id: '3'),
-                      ]
-                    : _plantSubLocations,
-                itemBuilder: (item, height) {
-                  return Skeletonizer(
-                    enabled: _isLoadingMyLocations &&
-                        _plantSubLocations.isEmpty == true,
-                    child: Card(
-                      clipBehavior: Clip.hardEdge,
-                      margin: EdgeInsets.zero,
-                      elevation: 0,
-                      child: ListTile(
-                        onTap: () {},
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: LocationIcon(location: item),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              item.name ?? 'Location',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ],
+              if (_plantSubLocations.isNotEmpty || _isLoadingMyLocations) ...[
+                MyPlantsHorizontalList(
+                  title: 'My Locations',
+                  aspectRatioItem: 4 / 7,
+                  onViewAllPressed: () {
+                    context.push('/my-place/my-locations');
+                  },
+                  items: _plantSubLocations.isEmpty
+                      ? const [
+                          PlantSubLocationModel(id: '1'),
+                          PlantSubLocationModel(id: '2'),
+                          PlantSubLocationModel(id: '3'),
+                        ]
+                      : _plantSubLocations,
+                  itemBuilder: (item, height) {
+                    return Skeletonizer(
+                      enabled: _isLoadingMyLocations &&
+                          _plantSubLocations.isEmpty == true,
+                      child: Card(
+                        clipBehavior: Clip.hardEdge,
+                        margin: EdgeInsets.zero,
+                        elevation: 0,
+                        child: ListTile(
+                          onTap: () {},
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: LocationIcon(location: item),
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                item.name ?? 'Location',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20.0),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20.0),
+              ],
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: PromotionalCard(

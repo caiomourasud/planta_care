@@ -14,6 +14,7 @@ abstract class UserModel with _$UserModel {
   const factory UserModel({
     String? uid,
     String? name,
+    String? profession,
     DateTime? birthDate,
     String? email,
     String? internationalAreaCode,

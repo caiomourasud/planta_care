@@ -8,10 +8,12 @@ import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/models/plant_sub_location_model.dart';
+import 'package:planta_care/app/models/user_model.dart';
 import 'package:planta_care/app/routes/app_router.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/location_collection.dart';
 import 'package:planta_care/firebase/plant_collection.dart';
+import 'package:planta_care/firebase/user_collection.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,21 +25,24 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   StreamSubscription? _plantsSubscription;
   StreamSubscription? _locationsSubscription;
+  StreamSubscription? _userSubscription;
 
   List<MyPlantModel>? _plants;
   List<PlantSubLocationModel>? _locations;
-
+  UserModel? _user;
   @override
   void initState() {
     super.initState();
     _listenToPlants();
     _listenToLocations();
+    _listenToUser();
   }
 
   @override
   void dispose() {
     _plantsSubscription?.cancel();
     _locationsSubscription?.cancel();
+    _userSubscription?.cancel();
     super.dispose();
   }
 
@@ -61,6 +66,16 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  _listenToUser() {
+    _userSubscription =
+        UserCollection.listenToUser(Auth.currentUser?.email ?? '')
+            .listen((user) {
+      setState(() {
+        _user = user;
+      });
+    });
+  }
+
   Widget _buildKeyValueVertical(String key, String value) {
     return Column(
       children: [
@@ -74,6 +89,27 @@ class _ProfilePageState extends State<ProfilePage> {
           value,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitleAndDescription(String title, String description) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(80),
+              ),
+        ),
+        Text(
+          description,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
       ],
@@ -127,14 +163,14 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Caio Moura',
+                  _user?.name ?? '',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                 ),
                 Text(
-                  'Flutter Developer',
+                  _user?.profession ?? _user?.email ?? '',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context)
                             .colorScheme
@@ -142,6 +178,23 @@ class _ProfilePageState extends State<ProfilePage> {
                             .withAlpha(120),
                       ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 20.0),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTitleAndDescription(
+                      'Experience Level', _user?.experienceLevel?.title ?? ''),
+                ),
+                const SizedBox(width: 20.0),
+                if (_user?.city != null && _user?.country != null) ...[
+                  Expanded(
+                    child: _buildTitleAndDescription(
+                        'Location', '${_user?.city}, ${_user?.country}'),
+                  ),
+                  const SizedBox(height: 20.0),
+                ],
               ],
             ),
             const SizedBox(height: 20.0),
@@ -167,26 +220,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            // const SizedBox(height: 20.0),
-            // PlantaSlidingSegmentedControl<String>(
-            //   backgroundColor:
-            //       Theme.of(context).colorScheme.onSurface.withAlpha(20),
-            //   groupValue: _selectedSegment ?? 'Plants',
-            //   onValueChanged: (value) {
-            //     setState(() {
-            //       _selectedSegment = value;
-            //     });
-            //   },
-            //   children: const ['Plants', 'Locations', 'Photos'],
-            //   itemBuilder: (item, selected) => Text(
-            //     item,
-            //     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            //         color: selected
-            //             ? Theme.of(context).colorScheme.onPrimary
-            //             : Theme.of(context).colorScheme.onSurface,
-            //         fontWeight: selected ? FontWeight.bold : FontWeight.normal),
-            //   ),
-            // ),
             const SizedBox(height: 20.0),
             PromotionalCard(
               backgroundColor: Theme.of(context).colorScheme.primary,

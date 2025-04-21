@@ -17,6 +17,7 @@ import 'package:planta_care/app/pages/initial/home/home_page.dart';
 import 'package:planta_care/app/pages/initial/initial_page.dart';
 import 'package:planta_care/app/pages/initial/premium/premium_page.dart';
 import 'package:planta_care/app/pages/initial/profile/profile_page.dart';
+import 'package:planta_care/app/pages/onboarding/personal_info.dart';
 import 'package:planta_care/app/pages/onboarding/where_are_your_plants.dart';
 import 'package:planta_care/app/pages/plant_details/plant_details_page.dart';
 import 'package:planta_care/app/routes/guards/auth_guard.dart';
@@ -69,6 +70,14 @@ class AppRouter {
             path: '/get-started',
             builder: (BuildContext context, GoRouterState state) {
               return const GetStartedPage();
+            },
+            redirect: const AuthGuard().isNotLogged,
+          ),
+          GoRoute(
+            name: 'personal-info',
+            path: '/personal-info',
+            builder: (BuildContext context, GoRouterState state) {
+              return const PersonalInfoPage();
             },
             redirect: const AuthGuard().isNotLogged,
           ),

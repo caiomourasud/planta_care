@@ -9,6 +9,7 @@ import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal
 import 'package:planta_care/app/components/plants_list.dart/my_plants_vertical_list.dart';
 import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/models/user_model.dart';
 import 'package:planta_care/app/pages/initial/popular_plants_page/horizontal_popular_plant_card.dart';
 import 'package:planta_care/app/routes/app_router.dart';
 import 'package:planta_care/firebase/auth.dart';
@@ -24,9 +25,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  StreamSubscription? _plantsSubscription;
+  StreamSubscription? _userSubscription;
+
   bool _isLoading = false;
   List<MyPlantModel> _plants = [];
-  StreamSubscription? _plantsSubscription;
+  UserModel? _user;
+
+  String? get name => _user?.name?.split(' ').first;
 
   @override
   void initState() {
@@ -37,38 +43,49 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _plantsSubscription?.cancel();
+    _userSubscription?.cancel();
     super.dispose();
   }
 
   Future<void> _getData() async {
     await Future.wait([
-      _getUser(),
+      _listenToUser(),
       _listenToPlants(),
     ]);
   }
 
-  Future<void> _getUser() async {
-    final user = await UserCollection.getUserById(Auth.currentUser?.email);
+  Future<void> _listenToUser() async {
+    _userSubscription =
+        UserCollection.listenToUser(Auth.currentUser?.email ?? '')
+            .listen((user) {
+      setState(() {
+        _user = user;
+        final plantLocations = user?.plantLocations;
+        final experienceLevel = user?.experienceLevel;
+        final onboardingSkipped = user?.onboardingSkipped;
 
-    debugPrint(user.toString());
-
-    final plantLocations = user?.plantLocations;
-    final experienceLevel = user?.experienceLevel;
-    final onboardingSkipped = user?.onboardingSkipped;
-
-    if ((plantLocations == null || plantLocations.isEmpty) &&
-        onboardingSkipped == false) {
-      if (mounted) {
-        context.go('/get-started');
-        return;
-      }
-    }
-    if (experienceLevel == null && onboardingSkipped == false) {
-      if (mounted) {
-        context.go('/experience-level');
-        return;
-      }
-    }
+        if ((plantLocations == null || plantLocations.isEmpty) &&
+            onboardingSkipped == false) {
+          if (mounted) {
+            context.go('/get-started');
+            return;
+          }
+        }
+        if (user?.profession == null ||
+            (user?.city == null || user?.country == null)) {
+          if (mounted) {
+            context.go('/personal-info');
+            return;
+          }
+        }
+        if (experienceLevel == null && onboardingSkipped == false) {
+          if (mounted) {
+            context.go('/experience-level');
+            return;
+          }
+        }
+      });
+    });
   }
 
   Future<void> _listenToPlants() async {
@@ -83,12 +100,6 @@ class _HomePageState extends State<HomePage> {
         _isLoading = false;
       });
     });
-  }
-
-  @override
-  void didUpdateWidget(HomePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _getUser();
   }
 
   @override
@@ -117,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi Caio!',
+                            'Hi $name!',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
@@ -126,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                           ),
                           Text(
-                            'Curitiba, BR',
+                            '${_user?.city}, ${_user?.country}',
                             style:
                                 Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: Theme.of(context)

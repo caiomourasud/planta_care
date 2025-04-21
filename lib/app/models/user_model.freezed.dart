@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$UserModel {
   String? get uid;
   String? get name;
+  String? get profession;
   DateTime? get birthDate;
   String? get email;
   String? get internationalAreaCode;
@@ -55,6 +56,8 @@ mixin _$UserModel {
             other is UserModel &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.profession, profession) ||
+                other.profession == profession) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
             (identical(other.email, email) || other.email == email) &&
@@ -95,6 +98,7 @@ mixin _$UserModel {
         runtimeType,
         uid,
         name,
+        profession,
         birthDate,
         email,
         internationalAreaCode,
@@ -118,7 +122,7 @@ mixin _$UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
+    return 'UserModel(uid: $uid, name: $name, profession: $profession, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
   }
 }
 
@@ -130,6 +134,7 @@ abstract mixin class $UserModelCopyWith<$Res> {
   $Res call(
       {String? uid,
       String? name,
+      String? profession,
       DateTime? birthDate,
       String? email,
       String? internationalAreaCode,
@@ -166,6 +171,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
   $Res call({
     Object? uid = freezed,
     Object? name = freezed,
+    Object? profession = freezed,
     Object? birthDate = freezed,
     Object? email = freezed,
     Object? internationalAreaCode = freezed,
@@ -194,6 +200,10 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       name: freezed == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profession: freezed == profession
+          ? _self.profession
+          : profession // ignore: cast_nullable_to_non_nullable
               as String?,
       birthDate: freezed == birthDate
           ? _self.birthDate
@@ -281,6 +291,7 @@ class _UserModel implements UserModel {
   const _UserModel(
       {this.uid,
       this.name,
+      this.profession,
       this.birthDate,
       this.email,
       this.internationalAreaCode,
@@ -309,6 +320,8 @@ class _UserModel implements UserModel {
   final String? uid;
   @override
   final String? name;
+  @override
+  final String? profession;
   @override
   final DateTime? birthDate;
   @override
@@ -381,6 +394,8 @@ class _UserModel implements UserModel {
             other is _UserModel &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.profession, profession) ||
+                other.profession == profession) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
             (identical(other.email, email) || other.email == email) &&
@@ -421,6 +436,7 @@ class _UserModel implements UserModel {
         runtimeType,
         uid,
         name,
+        profession,
         birthDate,
         email,
         internationalAreaCode,
@@ -444,7 +460,7 @@ class _UserModel implements UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
+    return 'UserModel(uid: $uid, name: $name, profession: $profession, birthDate: $birthDate, email: $email, internationalAreaCode: $internationalAreaCode, phone: $phone, city: $city, state: $state, country: $country, plantLocations: $plantLocations, experienceLevel: $experienceLevel, profilePhotoUrl: $profilePhotoUrl, emailVerified: $emailVerified, timezone: $timezone, accountType: $accountType, createdAt: $createdAt, updatedAt: $updatedAt, languagePreference: $languagePreference, units: $units, themePreference: $themePreference, onboardingSkipped: $onboardingSkipped)';
   }
 }
 
@@ -459,6 +475,7 @@ abstract mixin class _$UserModelCopyWith<$Res>
   $Res call(
       {String? uid,
       String? name,
+      String? profession,
       DateTime? birthDate,
       String? email,
       String? internationalAreaCode,
@@ -495,6 +512,7 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
   $Res call({
     Object? uid = freezed,
     Object? name = freezed,
+    Object? profession = freezed,
     Object? birthDate = freezed,
     Object? email = freezed,
     Object? internationalAreaCode = freezed,
@@ -523,6 +541,10 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
       name: freezed == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profession: freezed == profession
+          ? _self.profession
+          : profession // ignore: cast_nullable_to_non_nullable
               as String?,
       birthDate: freezed == birthDate
           ? _self.birthDate

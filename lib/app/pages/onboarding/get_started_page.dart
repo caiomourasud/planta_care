@@ -60,7 +60,7 @@ class GetStartedPage extends StatelessWidget {
               ),
             ),
             onSwipe: () {
-              context.push('/where-are-your-plants');
+              context.push('/personal-info');
             },
           )
         ],

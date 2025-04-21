@@ -38,7 +38,11 @@ class UserCollection {
     return false;
   }
 
-  static Future<bool> updateUser(UserModel user) async {
+  static Future<bool> updateUser(UserModel? user) async {
+    if (user == null) {
+      debugPrint('User is null');
+      return false;
+    }
     try {
       await _userDoc(user.email)?.set(
         user.copyWith(updatedAt: DateTime.now()).toJson(),
@@ -117,5 +121,16 @@ class UserCollection {
     return _userDoc(userId)
         ?.get()
         .then((value) => UserModel.fromJson(value.data() ?? {}));
+  }
+
+  static Stream<UserModel?> listenToUser(String? userId) {
+    if (userId == null) {
+      debugPrint('User ID is null');
+      return Stream.value(null);
+    }
+    return _userDoc(userId)
+            ?.snapshots()
+            .map((value) => UserModel.fromJson(value.data() ?? {})) ??
+        Stream.value(null);
   }
 }
