@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:planta_care/app/components/tint_widget_by_level.dart';
 import 'package:planta_care/app/enums/toxicity_level.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/pages/plant_details/components/plant_care_section_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PlantCareSection extends StatelessWidget {
@@ -13,11 +14,73 @@ class PlantCareSection extends StatelessWidget {
 
   final MyPlantModel? myPlant;
 
+  Widget _wateringDescription(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          '${myPlant?.plantCare?.wateringDescription}',
+        ),
+        const SizedBox(height: 16.0),
+        Text(
+          'Watering Frequency:',
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 4.0),
+        RichText(
+          text: TextSpan(
+            text: 'Watering should be done every ',
+            style: Theme.of(context).textTheme.bodyMedium,
+            children: <TextSpan>[
+              TextSpan(
+                text: '${myPlant?.plantCare?.wateringFrequencyDays} days.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16.0),
+        Text(
+          'Watering Moisture Threshold:',
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 4.0),
+        RichText(
+          text: TextSpan(
+            text:
+                'The next watering should occur when the soil moisture reaches ',
+            style: Theme.of(context).textTheme.bodyMedium,
+            children: <TextSpan>[
+              TextSpan(
+                text: '${myPlant?.plantCare?.wateringMoistureThreshold}%',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              TextSpan(
+                text: '.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget buildCare({
       Widget? icon,
       String? title,
+      String? careTitle,
+      String? description,
       Color? color,
       double? level,
       void Function()? onTap,
@@ -31,7 +94,22 @@ class PlantCareSection extends StatelessWidget {
             minVerticalPadding: 0,
             minTileHeight: 0,
             minLeadingWidth: 0,
-            onTap: onTap,
+            onTap: () {
+              PlantCareSectionBottomSheet.show(
+                context,
+                icon: icon,
+                title: title,
+                careTitle: careTitle,
+                description: title == 'Watering'
+                    ? _wateringDescription(context)
+                    : Text(
+                        description ?? '',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                color: color,
+                level: level,
+              );
+            },
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
@@ -46,7 +124,7 @@ class PlantCareSection extends StatelessWidget {
                 icon ?? const SizedBox.shrink(),
                 const SizedBox(height: 4.0),
                 Text(
-                  title ?? '',
+                  careTitle ?? '',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
@@ -87,46 +165,50 @@ class PlantCareSection extends StatelessWidget {
                   width: 20.0,
                   height: 20.0,
                   colorFilter: ColorFilter.mode(
-                    myPlant?.maintenanceDifficulty?.color ??
+                    myPlant?.plantCare?.maintenanceDifficulty?.color ??
                         Theme.of(context).colorScheme.primary,
                     BlendMode.srcIn,
                   ),
                 ),
-                title: myPlant?.maintenanceDifficulty?.title,
-                onTap: () {},
+                careTitle: myPlant?.plantCare?.maintenanceDifficulty?.title,
+                title: 'Maintenance',
+                description: myPlant?.plantCare?.maintenanceDescription,
               ),
               buildCare(
                 icon: TintWidgetByLevel(
-                  level: myPlant?.wateringNeeds?.level ?? 0.5,
+                  level: myPlant?.plantCare?.wateringNeeds?.level ?? 0.5,
                   color: Colors.lightBlueAccent,
                   child: Icon(
                     Icons.water_drop,
                     color: Colors.grey[400],
                   ),
                 ),
-                title: myPlant?.wateringNeeds?.title,
-                onTap: () {},
+                careTitle: myPlant?.plantCare?.wateringNeeds?.title,
+                title: 'Watering',
+                description: myPlant?.plantCare?.wateringDescription,
               ),
               buildCare(
                 icon: TintWidgetByLevel(
-                  level: myPlant?.lightNeeds?.level ?? 0.5,
+                  level: myPlant?.plantCare?.lightNeeds?.level ?? 0.5,
                   color: Colors.orangeAccent,
                   child: Icon(
                     Icons.sunny,
                     color: Colors.grey[400],
                   ),
                 ),
-                title: myPlant?.lightNeeds?.title,
-                onTap: () {},
+                careTitle: myPlant?.plantCare?.lightNeeds?.title,
+                title: 'Light',
+                description: myPlant?.plantCare?.lightDescription,
               ),
-              if (myPlant?.toxicity == ToxicityLevel.toxic)
+              if (myPlant?.plantCare?.toxicity == ToxicityLevel.toxic)
                 buildCare(
                   icon: const Icon(
                     Icons.warning_rounded,
                     color: Colors.red,
                   ),
-                  title: myPlant?.toxicity?.title,
-                  onTap: () {},
+                  careTitle: myPlant?.plantCare?.toxicity?.title,
+                  title: 'Toxicity',
+                  description: myPlant?.plantCare?.toxicityDescription,
                 ),
             ],
           ),

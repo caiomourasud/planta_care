@@ -6,6 +6,7 @@ import 'package:planta_care/app/enums/last_watered.dart';
 import 'package:planta_care/app/enums/plant_health_status.dart';
 import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/models/plant_care_model.dart';
 import 'package:planta_care/app/pages/add_plant/name_your_plant.dart';
 import 'package:planta_care/app/pages/add_plant/select_category_page.dart';
 import 'package:planta_care/app/pages/plant_details/plant_details_page.dart';
@@ -122,11 +123,25 @@ class _AddPlantPageState extends State<AddPlantPage> {
                   category: _category,
                   localUrl: _popularPlant?.localUrl ?? _category?.localUrl,
                   description:
-                      _popularPlant?.largeDescription ?? _category?.description,
-                  maintenanceDifficulty: _popularPlant?.maintenanceDifficulty,
-                  wateringNeeds: _popularPlant?.wateringNeeds,
-                  lightNeeds: _popularPlant?.lightNeeds,
-                  toxicity: _popularPlant?.toxicity,
+                      _popularPlant?.description ?? _category?.description,
+                  plantCare: PlantCare(
+                    maintenanceDifficulty: _popularPlant?.maintenanceDifficulty,
+                    maintenanceDescription:
+                        _popularPlant?.maintenanceDescription ?? '',
+                    wateringNeeds: _popularPlant?.wateringNeeds,
+                    wateringDescription:
+                        _popularPlant?.wateringDescription ?? '',
+                    lightNeeds: _popularPlant?.lightNeeds,
+                    lightDescription: _popularPlant?.lightDescription ?? '',
+                    toxicity: _popularPlant?.toxicity,
+                    toxicityDescription:
+                        _popularPlant?.toxicityDescription ?? '',
+                    wateringFrequencyDays:
+                        _popularPlant?.wateringFrequencyDays ?? 0,
+                    wateringMoistureThreshold:
+                        _popularPlant?.wateringMoistureThreshold ?? 0,
+                    lightFrequencyDays: _popularPlant?.lightFrequencyDays ?? 0,
+                  ),
                 );
                 return PlantDetailsPage(
                   plant: updatePlant,

@@ -30,10 +30,17 @@ class PlantCollection {
       return false;
     }
     try {
-      await _plantsCollection(userId)?.doc(plant.id).set(plant.toJson());
-      return true;
+      final plantJson = plant.toJson();
+      plantJson['plantCare'] = plant.plantCare?.toJson() ?? {};
+      final newPlant = await _plantsCollection(userId)?.add(plantJson);
+      if (newPlant != null) {
+        await _plantsCollection(userId)?.doc(newPlant.id).update({
+          'id': newPlant.id,
+        });
+      }
+      return newPlant != null;
     } catch (e) {
-      debugPrint('Error creating location: $e');
+      debugPrint('Error creating plant: $e');
       return false;
     }
   }

@@ -133,7 +133,8 @@ class _MyPlantSquareCardState extends State<MyPlantSquareCard> {
                             _statusIcon(
                               color: const Color(0xFF23BD59),
                               icon: Icons.water_drop_rounded,
-                              value: _device?.moisture?.toString() ?? '',
+                              value: (_device?.moisturePercentage ?? 0.0)
+                                  .toString(),
                               unit: '%',
                             ),
                             _statusIcon(

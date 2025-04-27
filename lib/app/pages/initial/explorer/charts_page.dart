@@ -446,9 +446,9 @@ class _ChartsPageState extends State<ChartsPage> {
                         if (index >= filledReadings.length) {
                           return null;
                         }
-                        return filledReadings[index].moisture;
+                        return filledReadings[index].moisturePercentage;
                       },
-                      minValue: 30,
+                      minValue: 0,
                       maxValue: 100,
                       lowColor: Colors.blueGrey.shade200,
                       highColor: Colors.green.shade200,

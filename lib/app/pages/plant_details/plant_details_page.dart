@@ -538,11 +538,14 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
           height: _imageHeight,
           child: Row(
             children: [
-              Skeletonizer(
-                enabled: _isLoading,
-                child: Image.asset(
-                  _imagePath,
-                  fit: BoxFit.contain,
+              AspectRatio(
+                aspectRatio: 20 / 21,
+                child: Skeletonizer(
+                  enabled: _isLoading,
+                  child: Image.asset(
+                    _imagePath,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               SizedBox(width: _titlePadding / 6),
@@ -594,7 +597,7 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             _buildData('Moisture',
-                                                '${_device?.moisture}%'),
+                                                '${_device?.moisturePercentage ?? 0.0}%'),
                                             if (_imageHeight >= 150) ...[
                                               const SizedBox(height: 8.0),
                                               _buildData('Humidity',
