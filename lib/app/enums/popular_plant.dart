@@ -12,37 +12,26 @@ enum PopularPlant {
     description: 'Hardy and ideal for indoor spaces.',
     category: Category.foliage,
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Pothos is a hardy plant that thrives in a variety of '
-        'indoor environments. It is known for its trailing vines '
-        'and heart-shaped leaves, making it a popular choice for '
-        'hanging baskets and shelves. Pothos is also excellent at '
-        'purifying the air, removing toxins such as formaldehyde '
-        'and benzene.',
-    wateringNeeds: WateringNeeds.low,
-    wateringDescription: 'Pothos is a hardy plant that thrives in a variety of '
-        'indoor environments. It is known for its trailing vines '
-        'and heart-shaped leaves, making it a popular choice for '
-        'hanging baskets and shelves. Pothos is also excellent at '
-        'purifying the air, removing toxins such as formaldehyde '
-        'and benzene.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription: 'Pothos is a hardy plant that thrives in a variety of '
-        'indoor environments. It is known for its trailing vines '
-        'and heart-shaped leaves, making it a popular choice for '
-        'hanging baskets and shelves. Pothos is also excellent at '
-        'purifying the air, removing toxins such as formaldehyde '
-        'and benzene.',
-    lightFrequencyDays: 14,
-    toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription: 'Pothos is a hardy plant that thrives in a variety of '
-        'indoor environments. It is known for its trailing vines '
-        'and heart-shaped leaves, making it a popular choice for '
-        'hanging baskets and shelves. Pothos is also excellent at '
-        'purifying the air, removing toxins such as formaldehyde '
-        'and benzene.',
+    maintenanceDescription: 'Pothos are incredibly easy to care for, '
+        'known for their resilient nature. They '
+        'thrive in a variety of lighting conditions '
+        'and only need occasional watering.',
+    wateringNeeds: WateringNeeds.medium,
+    wateringDescription: 'Water the Pothos when the top 2-3 cm of '
+        'the soil feel dry to the touch. Typically, '
+        'they require watering every 7 to 10 days, '
+        'depending on temperature and humidity.',
+    wateringFrequencyDays: 8,
+    wateringMoistureThreshold: 40,
+    lightNeeds: LightNeeds.medium,
+    lightDescription: 'Pothos thrive in bright, indirect light '
+        'but can also tolerate low light. However, '
+        'they may grow more slowly in low light '
+        'conditions.',
+    toxicity: ToxicityLevel.toxic,
+    toxicityDescription: 'Pothos are toxic to pets and humans if '
+        'ingested, causing symptoms like vomiting '
+        'or oral irritation.',
   ),
   snakePlant(
     id: 'snakePlant',
@@ -51,36 +40,26 @@ enum PopularPlant {
     description: 'Air-purifying and low maintenance.',
     category: Category.foliage,
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription: 'The Snake Plant, also known as Sansevieria, is a '
-        'resilient plant that can survive in low light and '
-        'with infrequent watering. Its upright, sword-like '
-        'leaves are not only striking but also effective at '
-        'filtering indoor air, making it a great addition to '
-        'bedrooms and living spaces.',
+    maintenanceDescription: 'Snake Plants are incredibly hardy and '
+        'thrive on minimal care. They are drought-tolerant, '
+        'adaptable to various lighting conditions, and ideal '
+        'for busy or beginner plant owners.',
     wateringNeeds: WateringNeeds.low,
-    wateringDescription: 'The Snake Plant, also known as Sansevieria, is a '
-        'resilient plant that can survive in low light and '
-        'with infrequent watering. Its upright, sword-like '
-        'leaves are not only striking but also effective at '
-        'filtering indoor air, making it a great addition to '
-        'bedrooms and living spaces.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
+    wateringDescription: 'Water the Snake Plant only when the soil '
+        'is completely dry, typically every 14 to 21 days. '
+        'Overwatering should be avoided to prevent '
+        'root rot.',
+    wateringFrequencyDays: 17,
+    wateringMoistureThreshold: 25,
     lightNeeds: LightNeeds.low,
-    lightDescription: 'The Snake Plant, also known as Sansevieria, is a '
-        'resilient plant that can survive in low light and '
-        'with infrequent watering. Its upright, sword-like '
-        'leaves are not only striking but also effective at '
-        'filtering indoor air, making it a great addition to '
-        'bedrooms and living spaces.',
-    lightFrequencyDays: 14,
-    toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription: 'The Snake Plant, also known as Sansevieria, is a '
-        'resilient plant that can survive in low light and '
-        'with infrequent watering. Its upright, sword-like '
-        'leaves are not only striking but also effective at '
-        'filtering indoor air, making it a great addition to '
-        'bedrooms and living spaces.',
+    lightDescription: 'Snake Plants prefer bright, indirect '
+        'light but can tolerate low-light and '
+        'even some direct sunlight, making them '
+        'highly versatile indoors.',
+    toxicity: ToxicityLevel.toxic,
+    toxicityDescription: 'Snake Plants are toxic to pets and '
+        'humans if ingested, potentially causing '
+        'nausea or gastrointestinal upset.',
   ),
   zzPlant(
     id: 'zzPlant',
@@ -91,33 +70,25 @@ enum PopularPlant {
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
     wateringNeeds: WateringNeeds.low,
     lightNeeds: LightNeeds.low,
-    toxicity: ToxicityLevel.nonToxic,
-    maintenanceDescription:
-        'The ZZ Plant is a hardy indoor plant that can tolerate '
-        'low light and drought conditions. Its glossy, dark green '
-        'leaves add a touch of elegance to any room. The ZZ Plant '
-        'is also known for its ability to improve indoor air quality '
-        'by removing pollutants.',
-    wateringDescription:
-        'The ZZ Plant is a hardy indoor plant that can tolerate '
-        'low light and drought conditions. Its glossy, dark green '
-        'leaves add a touch of elegance to any room. The ZZ Plant '
-        'is also known for its ability to improve indoor air quality '
-        'by removing pollutants.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightDescription: 'The ZZ Plant is a hardy indoor plant that can tolerate '
-        'low light and drought conditions. Its glossy, dark green '
-        'leaves add a touch of elegance to any room. The ZZ Plant '
-        'is also known for its ability to improve indoor air quality '
-        'by removing pollutants.',
-    lightFrequencyDays: 14,
-    toxicityDescription:
-        'The ZZ Plant is a hardy indoor plant that can tolerate '
-        'low light and drought conditions. Its glossy, dark green '
-        'leaves add a touch of elegance to any room. The ZZ Plant '
-        'is also known for its ability to improve indoor air quality '
-        'by removing pollutants.',
+    toxicity: ToxicityLevel.toxic,
+    maintenanceDescription: 'ZZ Plants are extremely low-maintenance '
+        'and perfect for beginners. They tolerate '
+        'neglect, low light, and infrequent watering '
+        'with ease.',
+    wateringDescription: 'Allow the soil to dry out completely '
+        'between waterings. Water approximately '
+        'every 14 to 21 days, depending on the '
+        'environment and season.',
+    wateringFrequencyDays: 17,
+    wateringMoistureThreshold: 30,
+    lightDescription: 'ZZ Plants thrive in low to medium '
+        'indirect light but can also tolerate '
+        'low-light environments, making them '
+        'ideal for indoor spaces with limited '
+        'natural light.',
+    toxicityDescription: 'ZZ Plants are toxic to pets and '
+        'humans if ingested, causing irritation '
+        'or stomach discomfort.',
   ),
   peaceLily(
     id: 'peaceLily',
@@ -125,33 +96,28 @@ enum PopularPlant {
     title: 'Peace Lily',
     description: 'Blooms indoors and purifies air.',
     category: Category.flowering,
-    maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Peace Lilies are popular for their beautiful white blooms and '
-        'ability to thrive in low light. They are excellent at purifying '
-        'the air, removing toxins such as ammonia and formaldehyde. '
-        'Peace Lilies prefer moist soil and should be watered regularly.',
-    wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'Peace Lilies are popular for their beautiful white blooms and '
-        'ability to thrive in low light. They are excellent at purifying '
-        'the air, removing toxins such as ammonia and formaldehyde. '
-        'Peace Lilies prefer moist soil and should be watered regularly.',
-    wateringFrequencyDays: 14,
+    maintenanceDifficulty: PlantMaintenanceDifficulty.medium,
+    maintenanceDescription: 'Peace Lilies are fairly easy to care for, '
+        'requiring consistent moisture and thriving '
+        'in lower light conditions. They benefit from '
+        'regular watering and occasional misting to '
+        'maintain humidity.',
+    wateringNeeds: WateringNeeds.medium,
+    wateringDescription: 'Water the Peace Lily when the top of '
+        'the soil starts to dry out, usually once '
+        'every 5 to 7 days. Ensure the soil remains '
+        'slightly moist but not soggy.',
+    wateringFrequencyDays: 6,
     wateringMoistureThreshold: 50,
     lightNeeds: LightNeeds.low,
-    lightDescription:
-        'Peace Lilies are popular for their beautiful white blooms and '
-        'ability to thrive in low light. They are excellent at purifying '
-        'the air, removing toxins such as ammonia and formaldehyde. '
-        'Peace Lilies prefer moist soil and should be watered regularly.',
-    lightFrequencyDays: 14,
+    lightDescription: 'Peace Lilies do well in low to medium '
+        'indirect light and can tolerate lower '
+        'light environments better than many other '
+        'houseplants.',
     toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'Peace Lilies are popular for their beautiful white blooms and '
-        'ability to thrive in low light. They are excellent at purifying '
-        'the air, removing toxins such as ammonia and formaldehyde. '
-        'Peace Lilies prefer moist soil and should be watered regularly.',
+    toxicityDescription: 'Peace Lilies are toxic to pets and '
+        'humans if ingested, potentially causing '
+        'oral irritation and digestive upset.',
   ),
   monstera(
     id: 'monstera',
@@ -159,37 +125,28 @@ enum PopularPlant {
     title: 'Monstera',
     description: 'Exotic and highly decorative foliage.',
     category: Category.foliage,
-    maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Monstera, also known as the Swiss Cheese Plant, is famous for '
-        'its large, perforated leaves. It is a fast-growing plant that '
-        'can add a tropical feel to any space. Monstera prefers bright, '
-        'indirect light and should be watered when the top inch of soil '
-        'is dry.',
-    wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'Monstera, also known as the Swiss Cheese Plant, is famous for '
-        'its large, perforated leaves. It is a fast-growing plant that '
-        'can add a tropical feel to any space. Monstera prefers bright, '
-        'indirect light and should be watered when the top inch of soil '
-        'is dry.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription:
-        'Monstera, also known as the Swiss Cheese Plant, is famous for '
-        'its large, perforated leaves. It is a fast-growing plant that '
-        'can add a tropical feel to any space. Monstera prefers bright, '
-        'indirect light and should be watered when the top inch of soil '
-        'is dry.',
-    lightFrequencyDays: 14,
-    toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'Monstera, also known as the Swiss Cheese Plant, is famous for '
-        'its large, perforated leaves. It is a fast-growing plant that '
-        'can add a tropical feel to any space. Monstera prefers bright, '
-        'indirect light and should be watered when the top inch of soil '
-        'is dry.',
+    maintenanceDifficulty: PlantMaintenanceDifficulty.medium,
+    maintenanceDescription: 'Monstera plants are relatively easy to '
+        'care for but require regular attention '
+        'to watering and light. They thrive in '
+        'humid environments with moderate '
+        'maintenance.',
+    wateringNeeds: WateringNeeds.medium,
+    wateringDescription: 'Water the Monstera when the top 2-5 cm '
+        'of soil feel dry to the touch. Typically, '
+        'watering is needed every 7 to 10 days '
+        'depending on the environment.',
+    wateringFrequencyDays: 8,
+    wateringMoistureThreshold: 45,
+    lightNeeds: LightNeeds.medium,
+    lightDescription: 'Monstera prefers bright, indirect light '
+        'but can tolerate lower light levels. '
+        'Direct sunlight should be avoided to '
+        'prevent leaf scorching.',
+    toxicity: ToxicityLevel.toxic,
+    toxicityDescription: 'Monstera plants are toxic to pets '
+        'and humans if ingested, causing irritation '
+        'and digestive upset.',
   ),
   bostonFern(
     id: 'bostonFern',
@@ -197,33 +154,28 @@ enum PopularPlant {
     title: 'Boston Fern',
     description: 'Classic shade-loving hanging plant.',
     category: Category.foliage,
-    maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    wateringNeeds: WateringNeeds.low,
-    lightNeeds: LightNeeds.low,
+    maintenanceDifficulty: PlantMaintenanceDifficulty.medium,
+    wateringNeeds: WateringNeeds.medium,
+    lightNeeds: LightNeeds.medium,
     toxicity: ToxicityLevel.nonToxic,
-    maintenanceDescription:
-        'Boston Ferns are classic houseplants known for their lush, '
-        'feathery fronds. They thrive in humid environments and '
-        'prefer indirect light. Regular misting and watering are '
-        'essential to keep the Boston Fern healthy and vibrant.',
-    wateringDescription:
-        'Boston Ferns are classic houseplants known for their lush, '
-        'feathery fronds. They thrive in humid environments and '
-        'prefer indirect light. Regular misting and watering are '
-        'essential to keep the Boston Fern healthy and vibrant.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightDescription:
-        'Boston Ferns are classic houseplants known for their lush, '
-        'feathery fronds. They thrive in humid environments and '
-        'prefer indirect light. Regular misting and watering are '
-        'essential to keep the Boston Fern healthy and vibrant.',
-    lightFrequencyDays: 14,
-    toxicityDescription:
-        'Boston Ferns are classic houseplants known for their lush, '
-        'feathery fronds. They thrive in humid environments and '
-        'prefer indirect light. Regular misting and watering are '
-        'essential to keep the Boston Fern healthy and vibrant.',
+    maintenanceDescription: 'Boston Ferns require a bit more attention, '
+        'thriving in consistently moist soil and '
+        'high humidity environments. Regular misting '
+        'and attentive watering help them stay lush '
+        'and healthy.',
+    wateringDescription: 'Keep the soil consistently moist but '
+        'not soggy. Water the Boston Fern every '
+        '3 to 5 days, adjusting based on the '
+        'humidity and temperature.',
+    wateringFrequencyDays: 4,
+    wateringMoistureThreshold: 55,
+    lightDescription: 'Boston Ferns prefer bright, indirect '
+        'light and can tolerate some shade. '
+        'Direct sunlight should be avoided to '
+        'prevent leaf burn.',
+    toxicityDescription: 'Boston Ferns are non-toxic to pets '
+        'and humans, making them a safe option for '
+        'households with animals.',
   ),
   echeveria(
     id: 'echeveria',
@@ -232,32 +184,27 @@ enum PopularPlant {
     description: 'Perfect for forgetful waterers.',
     category: Category.succulentsAndCacti,
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Echeveria is a popular succulent known for its rosette shape '
-        'and vibrant colors. It requires minimal care and is perfect '
-        'for those who tend to forget to water their plants. Echeveria '
-        'thrives in bright light and should be watered sparingly.',
+    maintenanceDescription: 'Echeverias are low-maintenance succulents '
+        'that thrive with minimal care, requiring '
+        'only occasional watering and plenty of light '
+        'to stay healthy and vibrant.',
     wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'Echeveria is a popular succulent known for its rosette shape '
-        'and vibrant colors. It requires minimal care and is perfect '
-        'for those who tend to forget to water their plants. Echeveria '
-        'thrives in bright light and should be watered sparingly.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription:
-        'Echeveria is a popular succulent known for its rosette shape '
-        'and vibrant colors. It requires minimal care and is perfect '
-        'for those who tend to forget to water their plants. Echeveria '
-        'thrives in bright light and should be watered sparingly.',
-    lightFrequencyDays: 14,
+    wateringDescription: 'Allow the soil to dry out completely '
+        'before watering Echeveria thoroughly. '
+        'Typically, it needs watering every '
+        '14 to 21 days depending on the climate '
+        'and season.',
+    wateringFrequencyDays: 18,
+    wateringMoistureThreshold: 35,
+    lightNeeds: LightNeeds.high,
+    lightDescription: 'Echeverias prefer bright, direct '
+        'sunlight for several hours a day. '
+        'A sunny windowsill or outdoor spot '
+        'with strong light is ideal for their growth.',
     toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'Echeveria is a popular succulent known for its rosette shape '
-        'and vibrant colors. It requires minimal care and is perfect '
-        'for those who tend to forget to water their plants. Echeveria '
-        'thrives in bright light and should be watered sparingly.',
+    toxicityDescription: 'Echeverias are non-toxic to pets '
+        'and humans, making them a safe and '
+        'attractive choice for indoor spaces.',
   ),
   cereusCactus(
     id: 'cereusCactus',
@@ -266,36 +213,28 @@ enum PopularPlant {
     description: 'Sun-loving and very resilient.',
     category: Category.succulentsAndCacti,
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'The Cereus Cactus is a sun-loving plant that is extremely '
-        'resilient and easy to care for. It is known for its tall, '
-        'columnar shape and can produce beautiful night-blooming '
-        'flowers. The Cereus Cactus prefers well-draining soil and '
-        'should be watered infrequently.',
+    maintenanceDescription: 'Cereus Cactus is a low-maintenance '
+        'plant that thrives in dry conditions '
+        'and requires minimal attention, making '
+        'it ideal for beginners or busy owners.',
     wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'The Cereus Cactus is a sun-loving plant that is extremely '
-        'resilient and easy to care for. It is known for its tall, '
-        'columnar shape and can produce beautiful night-blooming '
-        'flowers. The Cereus Cactus prefers well-draining soil and '
-        'should be watered infrequently.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription:
-        'The Cereus Cactus is a sun-loving plant that is extremely '
-        'resilient and easy to care for. It is known for its tall, '
-        'columnar shape and can produce beautiful night-blooming '
-        'flowers. The Cereus Cactus prefers well-draining soil and '
-        'should be watered infrequently.',
-    lightFrequencyDays: 14,
+    wateringDescription: 'Water the Cereus Cactus deeply but '
+        'infrequently, allowing the soil to '
+        'dry out completely between waterings. '
+        'Typically, it needs watering every '
+        '21 to 30 days.',
+    wateringFrequencyDays: 25,
+    wateringMoistureThreshold: 30,
+    lightNeeds: LightNeeds.high,
+    lightDescription: 'Cereus Cactus loves full sun and '
+        'should be placed in a bright, sunny '
+        'spot to grow vigorously and maintain '
+        'its shape.',
     toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'The Cereus Cactus is a sun-loving plant that is extremely '
-        'resilient and easy to care for. It is known for its tall, '
-        'columnar shape and can produce beautiful night-blooming '
-        'flowers. The Cereus Cactus prefers well-draining soil and '
-        'should be watered infrequently.',
+    toxicityDescription: 'Cereus Cactus is generally considered '
+        'non-toxic to pets and humans, although '
+        'its sharp spines can cause physical '
+        'injury if touched.',
   ),
   anthurium(
     id: 'anthurium',
@@ -303,37 +242,32 @@ enum PopularPlant {
     title: 'Anthurium',
     description: 'Tropical plant with striking flowers.',
     category: Category.flowering,
-    maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Anthuriums are tropical plants known for their striking, '
-        'heart-shaped flowers and glossy leaves. They thrive in warm, '
-        'humid environments and prefer bright, indirect light. '
-        'Anthuriums should be watered regularly to keep the soil '
-        'moist but not soggy.',
-    wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'Anthuriums are tropical plants known for their striking, '
-        'heart-shaped flowers and glossy leaves. They thrive in warm, '
-        'humid environments and prefer bright, indirect light. '
-        'Anthuriums should be watered regularly to keep the soil '
-        'moist but not soggy.',
-    wateringFrequencyDays: 14,
-    wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription:
-        'Anthuriums are tropical plants known for their striking, '
-        'heart-shaped flowers and glossy leaves. They thrive in warm, '
-        'humid environments and prefer bright, indirect light. '
-        'Anthuriums should be watered regularly to keep the soil '
-        'moist but not soggy.',
-    lightFrequencyDays: 14,
-    toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'Anthuriums are tropical plants known for their striking, '
-        'heart-shaped flowers and glossy leaves. They thrive in warm, '
-        'humid environments and prefer bright, indirect light. '
-        'Anthuriums should be watered regularly to keep the soil '
-        'moist but not soggy.',
+    maintenanceDifficulty: PlantMaintenanceDifficulty.medium,
+    maintenanceDescription: 'Anthuriums require moderate care, '
+        'thriving with consistent moisture '
+        'and warm, humid environments. They '
+        'prefer a stable routine and occasional '
+        'attention to keep their foliage and '
+        'blooms healthy.',
+    wateringNeeds: WateringNeeds.medium,
+    wateringDescription: 'Water the Anthurium when the top '
+        '2-3 cm of soil feel dry, keeping the '
+        'soil slightly moist but never soggy. '
+        'It typically needs watering every '
+        '7 to 10 days depending on the '
+        'environment.',
+    wateringFrequencyDays: 8,
+    wateringMoistureThreshold: 60,
+    lightNeeds: LightNeeds.medium,
+    lightDescription: 'Anthuriums prefer bright, indirect '
+        'light and will struggle in direct '
+        'sun or very low light conditions. '
+        'A spot near a bright window with filtered '
+        'light is ideal.',
+    toxicity: ToxicityLevel.toxic,
+    toxicityDescription: 'Anthuriums are toxic to pets and '
+        'humans if ingested, causing oral '
+        'irritation and digestive discomfort.',
   ),
   pilea(
     id: 'pilea',
@@ -342,36 +276,22 @@ enum PopularPlant {
     description: 'Highly popular in modern décor.',
     category: Category.foliage,
     maintenanceDifficulty: PlantMaintenanceDifficulty.easy,
-    maintenanceDescription:
-        'Pilea Peperomioides, also known as the Chinese Money Plant, '
-        'is highly popular in modern décor for its unique, round '
-        'leaves. It is easy to care for and thrives in bright, '
-        'indirect light. Pilea should be watered when the soil '
-        'is dry to the touch.',
+    maintenanceDescription: 'The Pilea Peperomioides is a low-maintenance '
+        'plant that thrives with minimal attention, '
+        'making it perfect for beginners.',
     wateringNeeds: WateringNeeds.low,
-    wateringDescription:
-        'Pilea Peperomioides, also known as the Chinese Money Plant, '
-        'is highly popular in modern décor for its unique, round '
-        'leaves. It is easy to care for and thrives in bright, '
-        'indirect light. Pilea should be watered when the soil '
-        'is dry to the touch.',
+    wateringDescription: 'Water the Pilea every two weeks or when '
+        'the top layer of soil feels dry, ensuring '
+        'the roots do not sit in water.',
     wateringFrequencyDays: 14,
     wateringMoistureThreshold: 50,
-    lightNeeds: LightNeeds.low,
-    lightDescription:
-        'Pilea Peperomioides, also known as the Chinese Money Plant, '
-        'is highly popular in modern décor for its unique, round '
-        'leaves. It is easy to care for and thrives in bright, '
-        'indirect light. Pilea should be watered when the soil '
-        'is dry to the touch.',
-    lightFrequencyDays: 14,
+    lightNeeds: LightNeeds.medium,
+    lightDescription: 'Pilea prefers bright, indirect light but '
+        'can tolerate lower light conditions for short periods.',
     toxicity: ToxicityLevel.nonToxic,
-    toxicityDescription:
-        'Pilea Peperomioides, also known as the Chinese Money Plant, '
-        'is highly popular in modern décor for its unique, round '
-        'leaves. It is easy to care for and thrives in bright, '
-        'indirect light. Pilea should be watered when the soil '
-        'is dry to the touch.',
+    toxicityDescription: 'Pilea Peperomioides is non-toxic and '
+        'safe for pets and humans, making it a '
+        'great choice for households with animals.',
   );
 
   const PopularPlant({
@@ -388,7 +308,6 @@ enum PopularPlant {
     required this.wateringMoistureThreshold,
     required this.lightNeeds,
     required this.lightDescription,
-    required this.lightFrequencyDays,
     required this.toxicity,
     required this.toxicityDescription,
   });
@@ -406,7 +325,6 @@ enum PopularPlant {
   final int wateringMoistureThreshold;
   final LightNeeds lightNeeds;
   final String lightDescription;
-  final int lightFrequencyDays;
   final ToxicityLevel toxicity;
   final String toxicityDescription;
 }

@@ -489,12 +489,18 @@ class _ChartsPageState extends State<ChartsPage> {
                         if (index >= filledReadings.length) {
                           return null;
                         }
-                        return (filledReadings[index].light ?? 0.0) > 601
-                            ? 601
-                            : filledReadings[index].light;
+                        return filledReadings[index].light;
                       },
                       minValue: 0,
-                      maxValue: 601,
+                      maxValue: filledReadings.isNotEmpty
+                          ? filledReadings
+                              .map((e) => e.light ?? 0.0)
+                              .reduce((a, b) => a > b ? a : b)
+                          : 0.0 > 601
+                              ? filledReadings
+                                  .map((e) => e.light ?? 0.0)
+                                  .reduce((a, b) => a > b ? a : b)
+                              : 601,
                       unit: 'lux',
                       highColor: Colors.orange.shade200,
                       lowColor: Colors.blue.shade200,

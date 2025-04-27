@@ -140,7 +140,6 @@ class _AddPlantPageState extends State<AddPlantPage> {
                         _popularPlant?.wateringFrequencyDays ?? 0,
                     wateringMoistureThreshold:
                         _popularPlant?.wateringMoistureThreshold ?? 0,
-                    lightFrequencyDays: _popularPlant?.lightFrequencyDays ?? 0,
                   ),
                 );
                 return PlantDetailsPage(

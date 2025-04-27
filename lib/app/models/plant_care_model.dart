@@ -20,7 +20,6 @@ abstract class PlantCare with _$PlantCare {
     @Default(0) int? wateringMoistureThreshold,
     @Default(LightNeeds.low) LightNeeds? lightNeeds,
     String? lightDescription,
-    @Default(0) int? lightFrequencyDays,
     @Default(ToxicityLevel.toxic) ToxicityLevel? toxicity,
     String? toxicityDescription,
   }) = _PlantCare;
