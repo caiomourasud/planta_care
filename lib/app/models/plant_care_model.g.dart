@@ -24,7 +24,6 @@ _PlantCare _$PlantCareFromJson(Map<String, dynamic> json) => _PlantCare(
           $enumDecodeNullable(_$LightNeedsEnumMap, json['lightNeeds']) ??
               LightNeeds.low,
       lightDescription: json['lightDescription'] as String?,
-      lightFrequencyDays: (json['lightFrequencyDays'] as num?)?.toInt() ?? 0,
       toxicity: $enumDecodeNullable(_$ToxicityLevelEnumMap, json['toxicity']) ??
           ToxicityLevel.toxic,
       toxicityDescription: json['toxicityDescription'] as String?,
@@ -41,7 +40,6 @@ Map<String, dynamic> _$PlantCareToJson(_PlantCare instance) =>
       'wateringMoistureThreshold': instance.wateringMoistureThreshold,
       'lightNeeds': _$LightNeedsEnumMap[instance.lightNeeds],
       'lightDescription': instance.lightDescription,
-      'lightFrequencyDays': instance.lightFrequencyDays,
       'toxicity': _$ToxicityLevelEnumMap[instance.toxicity],
       'toxicityDescription': instance.toxicityDescription,
     };

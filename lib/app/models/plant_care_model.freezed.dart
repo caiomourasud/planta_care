@@ -23,7 +23,6 @@ mixin _$PlantCare {
   int? get wateringMoistureThreshold;
   LightNeeds? get lightNeeds;
   String? get lightDescription;
-  int? get lightFrequencyDays;
   ToxicityLevel? get toxicity;
   String? get toxicityDescription;
 
@@ -59,8 +58,6 @@ mixin _$PlantCare {
                 other.lightNeeds == lightNeeds) &&
             (identical(other.lightDescription, lightDescription) ||
                 other.lightDescription == lightDescription) &&
-            (identical(other.lightFrequencyDays, lightFrequencyDays) ||
-                other.lightFrequencyDays == lightFrequencyDays) &&
             (identical(other.toxicity, toxicity) ||
                 other.toxicity == toxicity) &&
             (identical(other.toxicityDescription, toxicityDescription) ||
@@ -79,13 +76,12 @@ mixin _$PlantCare {
       wateringMoistureThreshold,
       lightNeeds,
       lightDescription,
-      lightFrequencyDays,
       toxicity,
       toxicityDescription);
 
   @override
   String toString() {
-    return 'PlantCare(maintenanceDifficulty: $maintenanceDifficulty, maintenanceDescription: $maintenanceDescription, wateringNeeds: $wateringNeeds, wateringDescription: $wateringDescription, wateringFrequencyDays: $wateringFrequencyDays, wateringMoistureThreshold: $wateringMoistureThreshold, lightNeeds: $lightNeeds, lightDescription: $lightDescription, lightFrequencyDays: $lightFrequencyDays, toxicity: $toxicity, toxicityDescription: $toxicityDescription)';
+    return 'PlantCare(maintenanceDifficulty: $maintenanceDifficulty, maintenanceDescription: $maintenanceDescription, wateringNeeds: $wateringNeeds, wateringDescription: $wateringDescription, wateringFrequencyDays: $wateringFrequencyDays, wateringMoistureThreshold: $wateringMoistureThreshold, lightNeeds: $lightNeeds, lightDescription: $lightDescription, toxicity: $toxicity, toxicityDescription: $toxicityDescription)';
   }
 }
 
@@ -103,7 +99,6 @@ abstract mixin class $PlantCareCopyWith<$Res> {
       int? wateringMoistureThreshold,
       LightNeeds? lightNeeds,
       String? lightDescription,
-      int? lightFrequencyDays,
       ToxicityLevel? toxicity,
       String? toxicityDescription});
 }
@@ -128,7 +123,6 @@ class _$PlantCareCopyWithImpl<$Res> implements $PlantCareCopyWith<$Res> {
     Object? wateringMoistureThreshold = freezed,
     Object? lightNeeds = freezed,
     Object? lightDescription = freezed,
-    Object? lightFrequencyDays = freezed,
     Object? toxicity = freezed,
     Object? toxicityDescription = freezed,
   }) {
@@ -165,10 +159,6 @@ class _$PlantCareCopyWithImpl<$Res> implements $PlantCareCopyWith<$Res> {
           ? _self.lightDescription
           : lightDescription // ignore: cast_nullable_to_non_nullable
               as String?,
-      lightFrequencyDays: freezed == lightFrequencyDays
-          ? _self.lightFrequencyDays
-          : lightFrequencyDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       toxicity: freezed == toxicity
           ? _self.toxicity
           : toxicity // ignore: cast_nullable_to_non_nullable
@@ -194,7 +184,6 @@ class _PlantCare implements PlantCare {
       this.wateringMoistureThreshold = 0,
       this.lightNeeds = LightNeeds.low,
       this.lightDescription,
-      this.lightFrequencyDays = 0,
       this.toxicity = ToxicityLevel.toxic,
       this.toxicityDescription});
   factory _PlantCare.fromJson(Map<String, dynamic> json) =>
@@ -221,9 +210,6 @@ class _PlantCare implements PlantCare {
   final LightNeeds? lightNeeds;
   @override
   final String? lightDescription;
-  @override
-  @JsonKey()
-  final int? lightFrequencyDays;
   @override
   @JsonKey()
   final ToxicityLevel? toxicity;
@@ -267,8 +253,6 @@ class _PlantCare implements PlantCare {
                 other.lightNeeds == lightNeeds) &&
             (identical(other.lightDescription, lightDescription) ||
                 other.lightDescription == lightDescription) &&
-            (identical(other.lightFrequencyDays, lightFrequencyDays) ||
-                other.lightFrequencyDays == lightFrequencyDays) &&
             (identical(other.toxicity, toxicity) ||
                 other.toxicity == toxicity) &&
             (identical(other.toxicityDescription, toxicityDescription) ||
@@ -287,13 +271,12 @@ class _PlantCare implements PlantCare {
       wateringMoistureThreshold,
       lightNeeds,
       lightDescription,
-      lightFrequencyDays,
       toxicity,
       toxicityDescription);
 
   @override
   String toString() {
-    return 'PlantCare(maintenanceDifficulty: $maintenanceDifficulty, maintenanceDescription: $maintenanceDescription, wateringNeeds: $wateringNeeds, wateringDescription: $wateringDescription, wateringFrequencyDays: $wateringFrequencyDays, wateringMoistureThreshold: $wateringMoistureThreshold, lightNeeds: $lightNeeds, lightDescription: $lightDescription, lightFrequencyDays: $lightFrequencyDays, toxicity: $toxicity, toxicityDescription: $toxicityDescription)';
+    return 'PlantCare(maintenanceDifficulty: $maintenanceDifficulty, maintenanceDescription: $maintenanceDescription, wateringNeeds: $wateringNeeds, wateringDescription: $wateringDescription, wateringFrequencyDays: $wateringFrequencyDays, wateringMoistureThreshold: $wateringMoistureThreshold, lightNeeds: $lightNeeds, lightDescription: $lightDescription, toxicity: $toxicity, toxicityDescription: $toxicityDescription)';
   }
 }
 
@@ -314,7 +297,6 @@ abstract mixin class _$PlantCareCopyWith<$Res>
       int? wateringMoistureThreshold,
       LightNeeds? lightNeeds,
       String? lightDescription,
-      int? lightFrequencyDays,
       ToxicityLevel? toxicity,
       String? toxicityDescription});
 }
@@ -339,7 +321,6 @@ class __$PlantCareCopyWithImpl<$Res> implements _$PlantCareCopyWith<$Res> {
     Object? wateringMoistureThreshold = freezed,
     Object? lightNeeds = freezed,
     Object? lightDescription = freezed,
-    Object? lightFrequencyDays = freezed,
     Object? toxicity = freezed,
     Object? toxicityDescription = freezed,
   }) {
@@ -376,10 +357,6 @@ class __$PlantCareCopyWithImpl<$Res> implements _$PlantCareCopyWith<$Res> {
           ? _self.lightDescription
           : lightDescription // ignore: cast_nullable_to_non_nullable
               as String?,
-      lightFrequencyDays: freezed == lightFrequencyDays
-          ? _self.lightFrequencyDays
-          : lightFrequencyDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       toxicity: freezed == toxicity
           ? _self.toxicity
           : toxicity // ignore: cast_nullable_to_non_nullable
