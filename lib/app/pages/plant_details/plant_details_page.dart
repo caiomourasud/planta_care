@@ -13,6 +13,7 @@ import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/models/plant_sub_location_model.dart';
 import 'package:planta_care/app/pages/initial/popular_plants_page/square_popular_plant_card.dart';
 import 'package:planta_care/app/pages/plant_details/components/activity_end_drawer_content.dart';
+import 'package:planta_care/app/pages/plant_details/components/irrigation_card.dart';
 import 'package:planta_care/app/pages/plant_details/components/location_section.dart';
 import 'package:planta_care/app/pages/plant_details/components/plant_care_section.dart';
 import 'package:planta_care/app/pages/plant_details/components/sliver_plant_name_delegate.dart';
@@ -89,39 +90,41 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      setState(() {
-        draggableDrawerSize =
-            _controller.pixels / MediaQuery.of(context).size.height;
-        double minScrollExtent =
-            minChildSize * MediaQuery.of(context).size.height;
-        double maxScrollExtent =
-            maxChildSize * MediaQuery.of(context).size.height;
+      if (mounted) {
+        setState(() {
+          draggableDrawerSize =
+              _controller.pixels / MediaQuery.of(context).size.height;
+          double minScrollExtent =
+              minChildSize * MediaQuery.of(context).size.height;
+          double maxScrollExtent =
+              maxChildSize * MediaQuery.of(context).size.height;
 
-        if (_controller.pixels < minScrollExtent) {
-          _imageHeight = kToolbarHeight;
-        } else if (_controller.pixels > maxScrollExtent) {
-          _imageHeight = kToolbarHeight;
-        } else {
+          if (_controller.pixels < minScrollExtent) {
+            _imageHeight = kToolbarHeight;
+          } else if (_controller.pixels > maxScrollExtent) {
+            _imageHeight = kToolbarHeight;
+          } else {
+            double scrollRange = maxScrollExtent - minScrollExtent;
+            double imageHeightRange = 210 - kToolbarHeight;
+            double scrollPosition = _controller.pixels - minScrollExtent;
+            _imageHeight =
+                210 - (scrollPosition / scrollRange) * imageHeightRange;
+          }
           double scrollRange = maxScrollExtent - minScrollExtent;
-          double imageHeightRange = 210 - kToolbarHeight;
-          double scrollPosition = _controller.pixels - minScrollExtent;
-          _imageHeight =
-              210 - (scrollPosition / scrollRange) * imageHeightRange;
-        }
-        double scrollRange = maxScrollExtent - minScrollExtent;
 
-        if (_controller.pixels <= minScrollExtent) {
-          _titlePadding = 0.0;
-        } else if (_controller.pixels >= maxScrollExtent) {
-          _titlePadding = 82.0;
-        } else {
-          double scrollPosition = _controller.pixels - minScrollExtent;
-          _titlePadding = (scrollPosition / scrollRange) * 82.0;
-        }
-        _titlePaddingTop = kToolbarHeight -
-            ((_controller.pixels - minScrollExtent) / scrollRange) *
-                kToolbarHeight;
-      });
+          if (_controller.pixels <= minScrollExtent) {
+            _titlePadding = 0.0;
+          } else if (_controller.pixels >= maxScrollExtent) {
+            _titlePadding = 82.0;
+          } else {
+            double scrollPosition = _controller.pixels - minScrollExtent;
+            _titlePadding = (scrollPosition / scrollRange) * 82.0;
+          }
+          _titlePaddingTop = kToolbarHeight -
+              ((_controller.pixels - minScrollExtent) / scrollRange) *
+                  kToolbarHeight;
+        });
+      }
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getData();
@@ -424,6 +427,10 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                           myPlant: plant,
                                         ),
                                         const SizedBox(height: 20.0),
+                                        IrrigationCard(
+                                          plantId: plant?.id,
+                                        ),
+                                        const SizedBox(height: 20.0),
                                         LocationSection(location: location),
                                         const SizedBox(height: 20.0),
                                         Skeleton.keep(
@@ -576,13 +583,12 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
               children: [
                 AspectRatio(
                   aspectRatio: 20 / 21,
-                  child: Skeletonizer(
-                    enabled: _isLoading,
-                    child: Image.asset(
-                      _imagePath,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: _isLoading
+                      ? const SizedBox()
+                      : Image.asset(
+                          _imagePath,
+                          fit: BoxFit.contain,
+                        ),
                 ),
                 SizedBox(width: _titlePadding / 6),
                 Expanded(

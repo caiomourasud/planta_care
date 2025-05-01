@@ -25,11 +25,11 @@ class PlantActivityCollection {
     }
   }
 
-  static Future<bool> createPlantActivity(
+  static Future<bool> addPlantActivity({
     String? userId,
     String? plantId,
     PlantActivity? plantActivity,
-  ) async {
+  }) async {
     if (plantActivity == null) {
       debugPrint('Not able to create plant activity, plant activity is null.');
       return false;
@@ -104,8 +104,10 @@ class PlantActivityCollection {
       debugPrint('Not able to retrieve plants collection, User id is null.');
       return Stream.value([]);
     }
-    return _plantActivitiesCollection(userId, plantId)?.snapshots().map(
-            (event) => event.docs
+    return _plantActivitiesCollection(userId, plantId)
+            ?.orderBy('actionDate', descending: true)
+            .snapshots()
+            .map((event) => event.docs
                 .map((e) => PlantActivity.fromJson(e.data()).copyWith(id: e.id))
                 .toList()) ??
         Stream.value([]);

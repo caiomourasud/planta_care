@@ -17,6 +17,7 @@ abstract class PlantActivity with _$PlantActivity {
     String? title,
     String? image,
     PlantActivityType? actionType,
+    DateTime? actionDate,
     DateTime? createdAt,
     String? notes,
   }) = _PlantActivity;

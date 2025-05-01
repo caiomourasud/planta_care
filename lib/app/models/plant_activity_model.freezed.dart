@@ -19,6 +19,7 @@ mixin _$PlantActivity {
   String? get title;
   String? get image;
   PlantActivityType? get actionType;
+  DateTime? get actionDate;
   DateTime? get createdAt;
   String? get notes;
 
@@ -43,6 +44,8 @@ mixin _$PlantActivity {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.actionType, actionType) ||
                 other.actionType == actionType) &&
+            (identical(other.actionDate, actionDate) ||
+                other.actionDate == actionDate) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.notes, notes) || other.notes == notes));
@@ -50,12 +53,12 @@ mixin _$PlantActivity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, image, actionType, createdAt, notes);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, image, actionType, actionDate, createdAt, notes);
 
   @override
   String toString() {
-    return 'PlantActivity(id: $id, title: $title, image: $image, actionType: $actionType, createdAt: $createdAt, notes: $notes)';
+    return 'PlantActivity(id: $id, title: $title, image: $image, actionType: $actionType, actionDate: $actionDate, createdAt: $createdAt, notes: $notes)';
   }
 }
 
@@ -70,6 +73,7 @@ abstract mixin class $PlantActivityCopyWith<$Res> {
       String? title,
       String? image,
       PlantActivityType? actionType,
+      DateTime? actionDate,
       DateTime? createdAt,
       String? notes});
 }
@@ -91,6 +95,7 @@ class _$PlantActivityCopyWithImpl<$Res>
     Object? title = freezed,
     Object? image = freezed,
     Object? actionType = freezed,
+    Object? actionDate = freezed,
     Object? createdAt = freezed,
     Object? notes = freezed,
   }) {
@@ -111,6 +116,10 @@ class _$PlantActivityCopyWithImpl<$Res>
           ? _self.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
               as PlantActivityType?,
+      actionDate: freezed == actionDate
+          ? _self.actionDate
+          : actionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -131,6 +140,7 @@ class _PlantActivity implements PlantActivity {
       this.title,
       this.image,
       this.actionType,
+      this.actionDate,
       this.createdAt,
       this.notes});
   factory _PlantActivity.fromJson(Map<String, dynamic> json) =>
@@ -144,6 +154,8 @@ class _PlantActivity implements PlantActivity {
   final String? image;
   @override
   final PlantActivityType? actionType;
+  @override
+  final DateTime? actionDate;
   @override
   final DateTime? createdAt;
   @override
@@ -174,6 +186,8 @@ class _PlantActivity implements PlantActivity {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.actionType, actionType) ||
                 other.actionType == actionType) &&
+            (identical(other.actionDate, actionDate) ||
+                other.actionDate == actionDate) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.notes, notes) || other.notes == notes));
@@ -181,12 +195,12 @@ class _PlantActivity implements PlantActivity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, image, actionType, createdAt, notes);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, image, actionType, actionDate, createdAt, notes);
 
   @override
   String toString() {
-    return 'PlantActivity(id: $id, title: $title, image: $image, actionType: $actionType, createdAt: $createdAt, notes: $notes)';
+    return 'PlantActivity(id: $id, title: $title, image: $image, actionType: $actionType, actionDate: $actionDate, createdAt: $createdAt, notes: $notes)';
   }
 }
 
@@ -203,6 +217,7 @@ abstract mixin class _$PlantActivityCopyWith<$Res>
       String? title,
       String? image,
       PlantActivityType? actionType,
+      DateTime? actionDate,
       DateTime? createdAt,
       String? notes});
 }
@@ -224,6 +239,7 @@ class __$PlantActivityCopyWithImpl<$Res>
     Object? title = freezed,
     Object? image = freezed,
     Object? actionType = freezed,
+    Object? actionDate = freezed,
     Object? createdAt = freezed,
     Object? notes = freezed,
   }) {
@@ -244,6 +260,10 @@ class __$PlantActivityCopyWithImpl<$Res>
           ? _self.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
               as PlantActivityType?,
+      actionDate: freezed == actionDate
+          ? _self.actionDate
+          : actionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

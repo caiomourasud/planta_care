@@ -13,6 +13,9 @@ _PlantActivity _$PlantActivityFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
       actionType:
           $enumDecodeNullable(_$PlantActivityTypeEnumMap, json['actionType']),
+      actionDate: json['actionDate'] == null
+          ? null
+          : DateTime.parse(json['actionDate'] as String),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,6 +28,7 @@ Map<String, dynamic> _$PlantActivityToJson(_PlantActivity instance) =>
       'title': instance.title,
       'image': instance.image,
       'actionType': _$PlantActivityTypeEnumMap[instance.actionType],
+      'actionDate': instance.actionDate?.toIso8601String(),
       'createdAt': instance.createdAt?.toIso8601String(),
       'notes': instance.notes,
     };

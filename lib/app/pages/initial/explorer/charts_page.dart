@@ -33,7 +33,7 @@ class _ChartsPageState extends State<ChartsPage> {
   List<DateTime> weekDates = [];
 
   DeviceModel? device;
-  String deviceId = '';
+  String? deviceId;
   DateTime? firstDay;
 
   MyPlantModel? plant;
@@ -90,7 +90,7 @@ class _ChartsPageState extends State<ChartsPage> {
     if (mounted) {
       setState(() {
         this.plant = plant;
-        deviceId = plant?.deviceId ?? '';
+        deviceId = plant?.deviceId;
         firstDay = plant?.deviceAddedAt ?? DateTime.now();
       });
     }
@@ -363,77 +363,85 @@ class _ChartsPageState extends State<ChartsPage> {
               ),
             ),
             const SizedBox(height: 12.0),
-            TableCalendar(
-              headerVisible: false,
-              firstDay: firstDay ?? DateTime(2025, 3, 16),
-              lastDay: DateTime.now(),
-              focusedDay: selectedDate,
-              selectedDayPredicate: (day) {
-                return isSameDay(selectedDate, day);
-              },
-              calendarFormat: CalendarFormat.week,
-              onDaySelected: (day, focusedDay) {
-                setState(() {
-                  _selectDate(day);
-                });
-              },
-              calendarBuilders: CalendarBuilders(
-                selectedBuilder: (context, day, focusedDay) {
-                  return Container(
-                    margin: const EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        DateFormat.d().format(day),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                  );
+            if (firstDay != null) ...[
+              TableCalendar(
+                headerVisible: false,
+                firstDay: firstDay ?? DateTime(2025, 3, 16),
+                lastDay: DateTime.now(),
+                focusedDay: selectedDate,
+                selectedDayPredicate: (day) {
+                  return isSameDay(selectedDate, day);
                 },
-                todayBuilder: (context, day, focusedDay) {
-                  return Container(
-                    margin: const EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      color:
-                          Theme.of(context).colorScheme.primary.withAlpha(120),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
+                calendarFormat: CalendarFormat.week,
+                onDaySelected: (day, focusedDay) {
+                  setState(() {
+                    _selectDate(day);
+                  });
+                },
+                calendarBuilders: CalendarBuilders(
+                  selectedBuilder: (context, day, focusedDay) {
+                    return Container(
+                      margin: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          DateFormat.d().format(day),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ),
+                    );
+                  },
+                  todayBuilder: (context, day, focusedDay) {
+                    return Container(
+                      margin: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withAlpha(120),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          DateFormat.d().format(day),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withAlpha(120),
+                                  ),
+                        ),
+                      ),
+                    );
+                  },
+                  dowBuilder: (context, day) {
+                    final text = DateFormat.E().format(day)[0];
+                    return Center(
                       child: Text(
-                        DateFormat.d().format(day),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        text,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurface
                                   .withAlpha(120),
                             ),
                       ),
-                    ),
-                  );
-                },
-                dowBuilder: (context, day) {
-                  final text = DateFormat.E().format(day)[0];
-                  return Center(
-                    child: Text(
-                      text,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withAlpha(120),
-                          ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+            ],
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -494,11 +502,11 @@ class _ChartsPageState extends State<ChartsPage> {
                       minValue: 0,
                       maxValue: filledReadings.isNotEmpty
                           ? filledReadings
-                              .map((e) => e.light ?? 0.0)
+                              .map((e) => e.light ?? 601)
                               .reduce((a, b) => a > b ? a : b)
                           : 0.0 > 601
                               ? filledReadings
-                                  .map((e) => e.light ?? 0.0)
+                                  .map((e) => e.light ?? 601)
                                   .reduce((a, b) => a > b ? a : b)
                               : 601,
                       unit: 'lux',

@@ -29,7 +29,7 @@ class _ActivityEndDrawerContentState extends State<ActivityEndDrawerContent> {
     super.initState();
     _activitySubscription?.cancel();
     _activitySubscription = PlantActivityCollection.listenToPlantActivities(
-      Auth.currentUser?.uid,
+      Auth.currentUser?.email,
       widget.plantId,
     ).listen((event) {
       setState(() {
@@ -85,8 +85,17 @@ class _ActivityEndDrawerContentState extends State<ActivityEndDrawerContent> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Column(
+              spacing: 12.0,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ..._activities.map((e) => Text(e.title ?? 'Title')),
+                ..._activities.map((e) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(e.actionDate?.toString() ?? 'Action Date'),
+                        Text(e.title ?? 'Title'),
+                        Text(e.actionType?.name ?? 'Action Type'),
+                      ],
+                    )),
               ],
             ),
           ),
