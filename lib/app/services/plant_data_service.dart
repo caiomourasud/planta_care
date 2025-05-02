@@ -6,9 +6,12 @@ class PlantDataService {
     if (moistureLevel < 100) {
       return moistureLevel;
     }
-    double umidade = ((moistureLevel - 3900) / (1000 - 3500)) * 100;
+    double umidade = ((moistureLevel - 3900) / (1000 - 3600)) * 100;
     if (umidade <= 0) {
       return 0;
+    }
+    if (umidade > 100) {
+      return 100;
     }
     return double.parse(umidade.toStringAsFixed(1));
   }

@@ -378,14 +378,18 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                                 ),
                                           ),
                                         ),
-                                        const SizedBox(width: 12.0),
-                                        IconButton(
-                                          onPressed: () {
-                                            _key.currentState?.openEndDrawer();
-                                          },
-                                          icon: const Icon(
-                                              Icons.edit_note_rounded),
-                                        ),
+                                        if (plant?.id != null &&
+                                            plant?.id != '') ...[
+                                          const SizedBox(width: 12.0),
+                                          IconButton(
+                                            onPressed: () {
+                                              _key.currentState
+                                                  ?.openEndDrawer();
+                                            },
+                                            icon: const Icon(
+                                                Icons.edit_note_rounded),
+                                          ),
+                                        ],
                                       ],
                                     ),
                                   ],
@@ -427,10 +431,13 @@ class _PlantDetailsPageState extends State<PlantDetailsPage> {
                                           myPlant: plant,
                                         ),
                                         const SizedBox(height: 20.0),
-                                        IrrigationCard(
-                                          plantId: plant?.id,
-                                        ),
-                                        const SizedBox(height: 20.0),
+                                        if (plant?.id != null &&
+                                            plant?.id != '') ...[
+                                          IrrigationCard(
+                                            plantId: plant?.id,
+                                          ),
+                                          const SizedBox(height: 20.0),
+                                        ],
                                         LocationSection(location: location),
                                         const SizedBox(height: 20.0),
                                         Skeleton.keep(

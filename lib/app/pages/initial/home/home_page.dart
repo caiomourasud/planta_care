@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
+import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/my_plant_square_card.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_vertical_list.dart';
+import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
 import 'package:planta_care/app/models/user_model.dart';
@@ -203,7 +205,46 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   const SizedBox(height: 20.0),
-                ],
+                ] else
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 20.0,
+                    ),
+                    child: PromotionalCard(
+                      title: 'No Plants Added',
+                      description: 'Begin nurturing your home \n'
+                          'by adding a plant today.',
+                      actionButton: PlantaFilledButton(
+                        context: context,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          child: Text(
+                            'Add plant',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                          ),
+                        ),
+                        onPressed: () {
+                          context.push('/add-plant');
+                        },
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      image: Image.asset(
+                        'assets/images/plants/11.png',
+                        height: 190,
+                      ),
+                    ),
+                  ),
                 MyPlantsVerticalList<PopularPlant>(
                   title: 'Popular Plants',
                   onViewAllPressed: () {
