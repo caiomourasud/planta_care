@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/models/device_model.dart';
 import 'package:planta_care/app/models/device_reading_model.dart';
 import 'package:planta_care/app/models/my_plant_model.dart';
+import 'package:planta_care/app/pages/initial/explorer/components/calendar_and_header.dart';
+import 'package:planta_care/app/pages/initial/explorer/components/daily_chart.dart';
 import 'package:planta_care/firebase/auth.dart';
 import 'package:planta_care/firebase/device_collection.dart';
 import 'package:planta_care/firebase/plant_collection.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ChartsPage extends StatefulWidget {
   const ChartsPage({
@@ -172,106 +172,6 @@ class _ChartsPageState extends State<ChartsPage> {
     return sortedReadings.map((e) => e.value).toList();
   }
 
-  Widget _chart({
-    required String title,
-    required double? Function(int index) values,
-    double? minValue,
-    double? maxValue,
-    Color? lowColor,
-    Color? highColor,
-    String? unit,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 10),
-        AspectRatio(
-          aspectRatio: 16 / 2.5,
-          child: LayoutBuilder(builder: (context, constraints) {
-            return Column(
-              children: [
-                Row(
-                  spacing: 2.0,
-                  children: List.generate(48, (index) {
-                    return Expanded(
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(20),
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                            height: constraints.maxHeight,
-                          ),
-                          Builder(builder: (context) {
-                            final hasItem = values(index) != null;
-                            final data = hasItem && values(index) != null
-                                ? values(index)?.toDouble() ?? 0.0
-                                : 0.0;
-                            return Tooltip(
-                              message: '${data.toInt()}${unit ?? '%'}',
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                decoration: BoxDecoration(
-                                  color: data > (minValue ?? 30)
-                                      ? highColor ?? Colors.blue.shade200
-                                      : lowColor ?? Colors.red.shade200,
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(2),
-                                    bottomRight: Radius.circular(2),
-                                  ),
-                                ),
-                                height: data *
-                                    constraints.maxHeight /
-                                    (maxValue ?? 100),
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            );
-          }),
-        ),
-        const SizedBox(height: 2.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('00:00',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(120),
-                    )),
-            Text(
-              '12:00',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(120),
-                  ),
-            ),
-            Text('23:30',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(120),
-                    )),
-          ],
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return PlantScaffold(
@@ -299,156 +199,20 @@ class _ChartsPageState extends State<ChartsPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Row(
-                children: [
-                  PlantaAppBarButton(
-                    context: context,
-                    icon: const Icon(Icons.chevron_left),
-                    padding: const EdgeInsets.all(10.0),
-                    onPressed: _canGoBackDate()
-                        ? () {
-                            _selectDate(selectedDate.subtract(
-                              const Duration(days: 1),
-                            ));
-                          }
-                        : null,
-                  ),
-                  const SizedBox(width: 56.0),
-                  Expanded(
-                    child: Text(
-                      DateFormat('EEEE, dd MMMM').format(selectedDate),
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Tooltip(
-                    message: 'Today',
-                    child: PlantaAppBarButton(
-                      context: context,
-                      icon: Icon(
-                        Icons.today,
-                        color: Theme.of(context).colorScheme.primary,
-                        size: 20.0,
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      onPressed: () {
-                        final today = DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                        );
-                        _selectDate(today);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8.0),
-                  PlantaAppBarButton(
-                    context: context,
-                    icon: const Icon(Icons.chevron_right),
-                    padding: const EdgeInsets.all(10.0),
-                    onPressed: _canGoForwardDate()
-                        ? () {
-                            _selectDate(selectedDate.add(
-                              const Duration(days: 1),
-                            ));
-                          }
-                        : null,
-                  ),
-                ],
-              ),
+            CalendarAndHeader(
+              selectedDate: selectedDate,
+              firstDay: firstDay,
+              canGoBackDate: _canGoBackDate(),
+              canGoForwardDate: _canGoForwardDate(),
+              onSelectDate: _selectDate,
             ),
-            const SizedBox(height: 12.0),
-            if (firstDay != null) ...[
-              TableCalendar(
-                headerVisible: false,
-                firstDay: firstDay ?? DateTime(2025, 3, 16),
-                lastDay: DateTime.now(),
-                focusedDay: selectedDate,
-                selectedDayPredicate: (day) {
-                  return isSameDay(selectedDate, day);
-                },
-                calendarFormat: CalendarFormat.week,
-                onDaySelected: (day, focusedDay) {
-                  setState(() {
-                    _selectDate(day);
-                  });
-                },
-                calendarBuilders: CalendarBuilders(
-                  selectedBuilder: (context, day, focusedDay) {
-                    return Container(
-                      margin: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          DateFormat.d().format(day),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
-                    );
-                  },
-                  todayBuilder: (context, day, focusedDay) {
-                    return Container(
-                      margin: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withAlpha(120),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          DateFormat.d().format(day),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withAlpha(120),
-                                  ),
-                        ),
-                      ),
-                    );
-                  },
-                  dowBuilder: (context, day) {
-                    final text = DateFormat.E().format(day)[0];
-                    return Center(
-                      child: Text(
-                        text,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withAlpha(120),
-                            ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 10.0),
-            ],
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _chart(
+                    DailyChart(
                       title: 'Moisture',
                       values: (index) {
                         if (index >= filledReadings.length) {
@@ -462,7 +226,7 @@ class _ChartsPageState extends State<ChartsPage> {
                       highColor: Colors.green.shade200,
                     ),
                     const SizedBox(height: 10.0),
-                    _chart(
+                    DailyChart(
                       title: 'Temperature',
                       values: (index) {
                         if (index >= filledReadings.length) {
@@ -477,7 +241,7 @@ class _ChartsPageState extends State<ChartsPage> {
                       unit: '°C',
                     ),
                     const SizedBox(height: 10.0),
-                    _chart(
+                    DailyChart(
                       title: 'Humidity',
                       values: (index) {
                         if (index >= filledReadings.length) {
@@ -491,7 +255,7 @@ class _ChartsPageState extends State<ChartsPage> {
                       highColor: Colors.blueGrey.shade300,
                     ),
                     const SizedBox(height: 10.0),
-                    _chart(
+                    DailyChart(
                       title: 'Light',
                       values: (index) {
                         if (index >= filledReadings.length) {

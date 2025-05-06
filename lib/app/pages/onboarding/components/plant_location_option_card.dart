@@ -14,7 +14,7 @@ class PlantOptionCard<T> extends StatelessWidget {
   final T option;
   final String Function(T option) buildTitle;
   final bool isSelected;
-  final Function(T option)? onSelected;
+  final void Function(T option)? onSelected;
   final IconData? Function(T option)? buildIcon;
   final EdgeInsets? contentPadding;
 

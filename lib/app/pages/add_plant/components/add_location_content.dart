@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/text_form_field/planta_text_form_field.dart';
@@ -55,7 +54,7 @@ class _AddLocationContentState extends State<AddLocationContent> {
               children: [
                 PlantaAppBarButton(
                   context: context,
-                  onPressed: () => context.pop(),
+                  onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.close),
                 ),
               ],
@@ -207,7 +206,7 @@ class _AddLocationContentState extends State<AddLocationContent> {
                       ),
                     );
                     if (result && context.mounted) {
-                      context.pop();
+                      Navigator.pop(context);
                     }
                     setState(() {
                       _isLoading = false;

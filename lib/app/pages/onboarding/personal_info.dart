@@ -244,8 +244,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               ),
             ],
           ),
-          const SizedBox(height: 24.0),
-          const SizedBox(height: 32.0),
+          const SizedBox(height: 56.0),
         ],
       ),
     );

@@ -3,15 +3,18 @@ import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/enums/category.dart';
+import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/pages/onboarding/components/plant_location_option_card.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   const SelectCategoryPage({
+    this.popularPlant,
     this.onNext,
     this.onGoBack,
     super.key,
   });
 
+  final PopularPlant? popularPlant;
   final void Function(Category? value)? onNext;
   final void Function()? onGoBack;
 
@@ -20,7 +23,15 @@ class SelectCategoryPage extends StatefulWidget {
 }
 
 class _SelectCategoryPageState extends State<SelectCategoryPage> {
-  Category selectedOption = Category.foliage;
+  Category? selectedOption;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.popularPlant != null) {
+      selectedOption = widget.popularPlant?.category ?? Category.foliage;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

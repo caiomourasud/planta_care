@@ -12,7 +12,7 @@ class PlantaSlidingSegmentedControl<T extends Object> extends StatelessWidget {
   });
 
   final T groupValue;
-  final Function(T?) onValueChanged;
+  final void Function(T?) onValueChanged;
   final List<T> children;
   final Widget Function(T, bool) itemBuilder;
   final Color? backgroundColor;

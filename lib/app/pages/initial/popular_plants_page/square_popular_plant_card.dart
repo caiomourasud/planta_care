@@ -46,9 +46,7 @@ class _SquarePopularPlantCardState extends State<SquarePopularPlantCard> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    widget.plant.localUrl,
-                  ),
+                  child: Image.asset(widget.plant.localUrl),
                 ),
               ),
             ),

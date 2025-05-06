@@ -3,15 +3,18 @@ import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
 import 'package:planta_care/app/components/plant_scaffold.dart';
 import 'package:planta_care/app/enums/last_watered.dart';
+import 'package:planta_care/app/enums/popular_plant.dart';
 import 'package:planta_care/app/pages/onboarding/components/plant_location_option_card.dart';
 
 class WhenDidYouLastWaterYourPlantPage extends StatefulWidget {
   const WhenDidYouLastWaterYourPlantPage({
+    this.popularPlant,
     this.onNext,
     this.onGoBack,
     super.key,
   });
 
+  final PopularPlant? popularPlant;
   final void Function(LastWatered? value)? onNext;
   final void Function()? onGoBack;
 
@@ -35,7 +38,8 @@ class _WhenDidYouLastWaterYourPlantPageState
         ),
       ),
       overlayItem: Image.asset(
-        'assets/images/where_are_your_plants.png',
+        widget.popularPlant?.localUrl ??
+            'assets/images/where_are_your_plants.png',
         height: MediaQuery.sizeOf(context).height * 0.30,
       ),
       bottomSheet: SizedBox(

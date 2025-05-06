@@ -80,6 +80,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
           switch (settings.name) {
             case '/when-did-you-last-water-your-plant':
               builder = (context) => WhenDidYouLastWaterYourPlantPage(
+                    popularPlant: _popularPlant,
                     onNext: (value) {
                       _lastWatered = value;
                       Navigator.pushNamed(
@@ -92,6 +93,7 @@ class _AddPlantPageState extends State<AddPlantPage> {
               break;
             case '/select-category':
               builder = (context) => SelectCategoryPage(
+                    popularPlant: _popularPlant,
                     onNext: (value) {
                       _category = value;
                       Navigator.pushNamed(

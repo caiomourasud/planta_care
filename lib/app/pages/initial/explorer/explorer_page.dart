@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:planta_care/app/api/plant_api.dart';
 import 'package:planta_care/app/components/buttons/planta_app_bar_button.dart';
 import 'package:planta_care/app/components/buttons/planta_filled_button.dart';
+import 'package:planta_care/app/components/category_squared_card.dart';
 import 'package:planta_care/app/components/plants_list.dart/my_plants_horizontal_list.dart';
 import 'package:planta_care/app/components/promotional_card.dart';
 import 'package:planta_care/app/enums/category.dart';
@@ -182,67 +183,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
                       },
                       items: Category.values,
                       itemBuilder: (item, height) {
-                        return GestureDetector(
+                        return CategorySquaredCard(
+                          item: item,
                           onTap: () {},
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 32.0),
-                                      child: Card(
-                                        margin: EdgeInsets.zero,
-                                        elevation: 0,
-                                        child: ListTile(
-                                          onTap: () {},
-                                          contentPadding: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          title: const SizedBox(
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    IgnorePointer(
-                                      ignoring: true,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 4.0,
-                                        ),
-                                        child: Image.asset(
-                                          item.localUrl,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 2.0),
-                              Container(
-                                constraints: const BoxConstraints(
-                                  minHeight: 38.0,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    item.title,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(height: 0.0),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         );
                       },
                     ),

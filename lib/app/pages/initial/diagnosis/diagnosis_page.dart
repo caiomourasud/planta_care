@@ -12,32 +12,11 @@ class DiagnosisPage extends StatefulWidget {
 }
 
 class _DiagnosisPageState extends State<DiagnosisPage> {
-  // String? _selectedSegment;
-
   @override
   Widget build(BuildContext context) {
     return PrimaryScrollController(
       controller: ScrollControllers.getController('/diagnosis'),
       child: PlantScaffold(
-        // appBar: PlantAppBar(
-        //   title: PlantaSlidingSegmentedControl<String>(
-        //     groupValue: _selectedSegment ?? 'Dr Planta',
-        //     onValueChanged: (value) {
-        //       setState(() {
-        //         _selectedSegment = value;
-        //       });
-        //     },
-        //     children: const ['Dr Planta', 'Explore'],
-        //     itemBuilder: (item, selected) => Text(
-        //       item,
-        //       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-        //           color: selected
-        //               ? Theme.of(context).colorScheme.onPrimary
-        //               : Theme.of(context).colorScheme.onSurface,
-        //           fontWeight: selected ? FontWeight.bold : FontWeight.normal),
-        //     ),
-        //   ),
-        // ),
         parentHasBottomBavigationBar: true,
         overlayItem: Padding(
           padding: const EdgeInsets.only(top: 120.0),

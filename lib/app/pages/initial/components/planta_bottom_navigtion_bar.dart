@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:planta_care/app/routes/app_router.dart';
+import 'package:planta_care/app/pages/initial/components/navigation_bar_button.dart';
 
 class PlantaBottomNavigationBar extends StatelessWidget {
   const PlantaBottomNavigationBar({
@@ -12,64 +11,6 @@ class PlantaBottomNavigationBar extends StatelessWidget {
 
   final void Function(int) onPressed;
   final int currentIndex;
-
-  Widget _buildButton(
-    BuildContext context,
-    int index, {
-    String? tooltip,
-    Widget? Function(bool isSelected)? icon,
-  }) {
-    final isSelected = currentIndex == index;
-    return Expanded(
-      flex: isSelected ? 1 : 0,
-      child: Tooltip(
-        message: tooltip ?? '',
-        child: SizedBox(
-          width: 58.0,
-          height: 58.0,
-          child: IconButton(
-            style: IconButton.styleFrom(
-              backgroundColor: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).hoverColor,
-            ),
-            onPressed: () {
-              final String route = GoRouterState.of(context).uri.path;
-              final basePath = route.split('/').take(3).join('/');
-              final controller = ScrollControllers.getController(basePath);
-              if (controller.hasClients && isSelected) {
-                if (controller.position.pixels > 0.0) {
-                  controller.animateTo(
-                    0.0,
-                    duration: const Duration(milliseconds: 260),
-                    curve: Curves.ease,
-                  );
-                  return;
-                }
-              }
-
-              if (isSelected) {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  onPressed(index);
-                }
-              } else {
-                onPressed(index);
-              }
-            },
-            icon: icon?.call(isSelected) ??
-                Icon(
-                  Icons.home,
-                  color: isSelected
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : Theme.of(context).colorScheme.onSurface.withAlpha(130),
-                ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +37,15 @@ class PlantaBottomNavigationBar extends StatelessWidget {
         child: Row(
           spacing: 8.0,
           children: [
-            _buildButton(
-              context,
-              0,
+            NavigationBarButton(
+              isSelected: currentIndex == 0,
+              index: 0,
               tooltip: 'Home',
+              onPressed: (index) {
+                if (index != null) {
+                  onPressed(index);
+                }
+              },
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/home.svg',
                 width: 18.0,
@@ -112,10 +58,15 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 ),
               ),
             ),
-            _buildButton(
-              context,
-              1,
+            NavigationBarButton(
+              isSelected: currentIndex == 1,
+              index: 1,
               tooltip: 'My Place',
+              onPressed: (index) {
+                if (index != null) {
+                  onPressed(index);
+                }
+              },
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/my_place.svg',
                 width: 18.0,
@@ -128,10 +79,15 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 ),
               ),
             ),
-            _buildButton(
-              context,
-              2,
+            NavigationBarButton(
+              isSelected: currentIndex == 2,
+              index: 2,
               tooltip: 'Explorer',
+              onPressed: (index) {
+                if (index != null) {
+                  onPressed(index);
+                }
+              },
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/search.svg',
                 width: 22.0,
@@ -144,10 +100,15 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 ),
               ),
             ),
-            _buildButton(
-              context,
-              3,
+            NavigationBarButton(
+              isSelected: currentIndex == 3,
+              index: 3,
               tooltip: 'Diagnosis',
+              onPressed: (index) {
+                if (index != null) {
+                  onPressed(index);
+                }
+              },
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/diagnose.svg',
                 width: 22.0,
@@ -160,10 +121,15 @@ class PlantaBottomNavigationBar extends StatelessWidget {
                 ),
               ),
             ),
-            _buildButton(
-              context,
-              4,
+            NavigationBarButton(
+              isSelected: currentIndex == 4,
+              index: 4,
               tooltip: 'Premium',
+              onPressed: (index) {
+                if (index != null) {
+                  onPressed(index);
+                }
+              },
               icon: (isSelected) => SvgPicture.asset(
                 'assets/svg/icons/premium.svg',
                 width: 18.0,
